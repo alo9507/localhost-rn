@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import Amplfiy, { API, graphqlOperation } from "aws-amplify";
-import { createTodo } from "./src/graphql/mutations";
-import { listTodos } from "./src/graphql/queries";
-import config from "./aws-exports";
-
+import { createTodo } from "./graphql/mutations";
+import { listTodos } from "./graphql/queries";
+import config from "../aws-exports";
+import { registerRootComponent } from "expo";
 const initialState = { name: "", description: "" };
 
 Amplfiy.configure(config);
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   todoName: { fontSize: 18 },
 });
 
-export default App;
+registerRootComponent(App);
