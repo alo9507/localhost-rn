@@ -12,11 +12,37 @@ Amplfiy.configure(config);
 
 const App = () => {
   const [formState, setFormState] = useState(initialState);
+  const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     fetchTodos();
   }, []);
+
+  useEffect(() => {
+    let geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 60 * 60 * 24,
+    };
+    navigator.geolocation.getCurrentPosition(
+      geoSuccess,
+      geoFailure,
+      geoOptions
+    );
+  }, []);
+
+  const geoSuccess = (location) => {
+    console.log(location);
+    setLocation({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
+  };
+
+  const geoFailure = (error) => {
+    console.log(error);
+  };
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -64,6 +90,7 @@ const App = () => {
           <Text>{todo.description}</Text>
         </View>
       ))}
+      <Text>{JSON.stringify(location)}</Text>
     </View>
   );
 };
