@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/cli-debugger-ui": "^4.9.0",
     "@react-native-community/netinfo": "^5.9.6",
     "aws-amplify": "^3.3.1",
     "aws-amplify-react-native": "^4.2.6",
@@ -22,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@types/react": "~16.9.41",
-    "@types/react-native": "~0.62.13",
+    "@types/react-native": "~0.63.13",
     "typescript": "~3.9.5"
   },
   "private": true

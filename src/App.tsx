@@ -23,7 +23,7 @@ const App = () => {
     let geoOptions = {
       enableHighAccuracy: true,
       timeout: 20000,
-      maximumAge: 60 * 60 * 24,
+      maximumAge: 2000,
     };
     navigator.geolocation.getCurrentPosition(
       geoSuccess,
