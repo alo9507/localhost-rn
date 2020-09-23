@@ -2,18 +2,24 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTodoInput = {
+export type CreateUserInput = {
   id?: string | null,
-  name: string,
-  description?: string | null,
+  name?: string | null,
+  bio?: string | null,
+  whatAmIDoing?: string | null,
+  location?: string | null,
+  isVisible?: boolean | null,
 };
 
-export type ModelTodoConditionInput = {
+export type ModelUserConditionInput = {
   name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelTodoConditionInput | null > | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
-  not?: ModelTodoConditionInput | null,
+  bio?: ModelStringInput | null,
+  whatAmIDoing?: ModelStringInput | null,
+  location?: ModelStringInput | null,
+  isVisible?: ModelBooleanInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,23 +62,36 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type UpdateTodoInput = {
-  id: string,
-  name?: string | null,
-  description?: string | null,
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
-export type DeleteTodoInput = {
+export type UpdateUserInput = {
+  id: string,
+  name?: string | null,
+  bio?: string | null,
+  whatAmIDoing?: string | null,
+  location?: string | null,
+  isVisible?: boolean | null,
+};
+
+export type DeleteUserInput = {
   id?: string | null,
 };
 
-export type ModelTodoFilterInput = {
+export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+  bio?: ModelStringInput | null,
+  whatAmIDoing?: ModelStringInput | null,
+  location?: ModelStringInput | null,
+  isVisible?: ModelBooleanInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -91,83 +110,98 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type CreateTodoMutationVariables = {
-  input: CreateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type CreateTodoMutation = {
-  createTodo:  {
-    __typename: "Todo",
+export type CreateUserMutation = {
+  createUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateTodoMutationVariables = {
-  input: UpdateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type UpdateTodoMutation = {
-  updateTodo:  {
-    __typename: "Todo",
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteTodoMutationVariables = {
-  input: DeleteTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type DeleteTodoMutation = {
-  deleteTodo:  {
-    __typename: "Todo",
+export type DeleteUserMutation = {
+  deleteUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type GetTodoQueryVariables = {
+export type GetUserQueryVariables = {
   id: string,
 };
 
-export type GetTodoQuery = {
-  getTodo:  {
-    __typename: "Todo",
+export type GetUserQuery = {
+  getUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListTodosQueryVariables = {
-  filter?: ModelTodoFilterInput | null,
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTodosQuery = {
-  listTodos:  {
-    __typename: "ModelTodoConnection",
+export type ListUsersQuery = {
+  listUsers:  {
+    __typename: "ModelUserConnection",
     items:  Array< {
-      __typename: "Todo",
+      __typename: "User",
       id: string,
-      name: string,
-      description: string | null,
+      name: string | null,
+      bio: string | null,
+      whatAmIDoing: string | null,
+      location: string | null,
+      isVisible: boolean | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -175,34 +209,43 @@ export type ListTodosQuery = {
   } | null,
 };
 
-export type OnCreateTodoSubscription = {
-  onCreateTodo:  {
-    __typename: "Todo",
+export type OnCreateUserSubscription = {
+  onCreateUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo:  {
-    __typename: "Todo",
+export type OnUpdateUserSubscription = {
+  onUpdateUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo:  {
-    __typename: "Todo",
+export type OnDeleteUserSubscription = {
+  onDeleteUser:  {
+    __typename: "User",
     id: string,
-    name: string,
-    description: string | null,
+    name: string | null,
+    bio: string | null,
+    whatAmIDoing: string | null,
+    location: string | null,
+    isVisible: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,

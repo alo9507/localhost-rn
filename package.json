@@ -5,7 +5,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest",
+    "typegen": "ts-node src/utils/gql-to-ts.ts"
   },
   "dependencies": {
     "@react-native-community/cli-debugger-ui": "^4.9.0",
@@ -15,6 +17,8 @@
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
     "global": "^4.4.0",
+    "graphql-import": "^1.0.2",
+    "jest": "^26.4.2",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "^0.63.2",
@@ -24,6 +28,7 @@
     "@babel/core": "^7.8.6",
     "@types/react": "~16.9.41",
     "@types/react-native": "~0.63.13",
+    "ts-node": "^9.0.0",
     "typescript": "~3.9.5"
   },
   "private": true

@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import Amplfiy, { API, graphqlOperation } from "aws-amplify";
-import { createTodo } from "./graphql/mutations";
-import { listTodos } from "./graphql/queries";
+import { createUser } from "./graphql/mutations";
+import { listUsers } from "./graphql/queries";
 import config from "../aws-exports";
 import { registerRootComponent } from "expo";
-const initialState = { name: "", description: "" };
+import Login from "./screens/Login";
+
+const initialState = { id: "mynewid", name: "", location: "" };
 
 Amplfiy.configure(config);
 
 const App = () => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
-  const [todos, setTodos] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchTodos();
+    fetchUsers();
   }, []);
 
   useEffect(() => {
@@ -38,6 +40,10 @@ const App = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
+    setInput(
+      "location",
+      `${location.coords.latitude} : ${location.coords.longitude}`
+    );
   };
 
   const geoFailure = (error) => {
@@ -48,58 +54,61 @@ const App = () => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function fetchTodos() {
+  async function fetchUsers() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
-      const todos = todoData.data.listTodos.items;
-      setTodos(todos);
+      const usersData = await API.graphql(graphqlOperation(listUsers));
+      const users = usersData.data.listUsers.items;
+      setUsers(users);
     } catch (err) {
-      console.log("error fetching todos");
+      console.log("error fetching users");
     }
   }
 
-  async function addTodo() {
+  async function addUser() {
     try {
-      const todo = { ...formState };
-      setTodos([...todos, todo]);
+      const user = { ...formState };
+      setUsers([...users, user]);
       setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, { input: todo }));
+      console.log(user);
+      await API.graphql(graphqlOperation(createUser, { input: user }));
     } catch (err) {
-      console.log("error creating todo:", err);
+      console.log("error creating user:", err);
     }
   }
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        onChangeText={(val) => setInput("name", val)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <TextInput
-        onChangeText={(val) => setInput("description", val)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <Button title="Create Todo" onPress={addTodo} />
-      {todos.map((todo, index) => (
-        <View key={todo.id ? todo.id : index} style={styles.todo}>
-          <Text style={styles.todoName}>{todo.name}</Text>
-          <Text>{todo.description}</Text>
-        </View>
-      ))}
-      <Text>{JSON.stringify(location)}</Text>
-    </View>
-  );
+  // return (
+  //   <View style={styles.container}>
+  //     <TextInput
+  //       onChangeText={(val) => setInput("name", val)}
+  //       style={styles.input}
+  //       value={formState.name}
+  //       placeholder="Name"
+  //     />
+  //     <TextInput
+  //       onChangeText={(val) => setInput("location", val)}
+  //       style={styles.input}
+  //       value={formState.location}
+  //       placeholder="Location"
+  //     />
+  //     <Button title="Create User" onPress={addUser} />
+  //     {users.map((user, index) => (
+  //       <View key={user.id ? user.id : index} style={styles.user}>
+  //         <Text style={styles.userName}>{user.name}</Text>
+  //         <Text>{user.location}</Text>
+  //         <Text>{user.id}</Text>
+  //       </View>
+  //     ))}
+  //   </View>
+  // );
+
+  return <Login />;
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 20 },
-  todo: { marginBottom: 15 },
+  user: { marginBottom: 15 },
   input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
-  todoName: { fontSize: 18 },
+  userName: { fontSize: 18 },
 });
 
 registerRootComponent(App);

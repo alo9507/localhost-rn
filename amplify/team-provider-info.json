@@ -10,6 +10,11 @@
       "StackName": "amplify-localhostrn-dev-110959",
       "StackId": "arn:aws:cloudformation:us-east-2:273181460905:stack/amplify-localhostrn-dev-110959/dbe80d10-f8f7-11ea-869d-0a5dcace1782",
       "AmplifyAppId": "df7p592m3awoh"
+    },
+    "categories": {
+      "auth": {
+        "localhostrnfe02559d": {}
+      }
     }
   }
 }
