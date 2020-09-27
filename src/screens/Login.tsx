@@ -5,11 +5,13 @@ import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import { createUser } from "../graphql/mutations";
 import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
+import StoreContext from "../data/StoreContext";
 
-const Login = () => {
+const Login = (props) => {
   const initialState = { name: "", bio: "", email: "", password: "" };
 
   const [formState, setFormState] = useState(initialState);
+  const [state, setState] = React.useContext(StoreContext);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -32,7 +34,9 @@ const Login = () => {
         graphqlOperation(createUser, { input: { ...newUser } })
       );
 
-      // go to next page
+      setState({ ...state, user: newUser.id });
+
+      props.navigation.navigate("LocalUsers");
     } catch (error) {
       console.log("Error signing up:", error);
     }
