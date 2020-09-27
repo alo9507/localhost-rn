@@ -6,12 +6,15 @@ import { createUser } from "../graphql/mutations";
 import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../data/StoreContext";
+import ThemeContext from "../style/ThemeContext";
 
 const Login = (props) => {
   const initialState = { name: "", bio: "", email: "", password: "" };
 
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
+  const [theme, setTheme] = React.useContext(ThemeContext);
+  console.log(theme);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -62,13 +65,13 @@ const Login = (props) => {
         <TextInput
           onChangeText={(val) => setInput("email", val)}
           style={styles.input}
-          value={formState.location}
+          value={formState.email}
           placeholder="Email"
         />
         <TextInput
           onChangeText={(val) => setInput("password", val)}
           style={styles.input}
-          value={formState.location}
+          value={formState.password}
           placeholder="Password"
         />
         <Button title="Sign Up" onPress={signUp} />
@@ -78,13 +81,13 @@ const Login = (props) => {
         <TextInput
           onChangeText={(val) => setInput("email", val)}
           style={styles.input}
-          value={formState.location}
+          value={formState.email}
           placeholder="Email"
         />
         <TextInput
           onChangeText={(val) => setInput("password", val)}
           style={styles.input}
-          value={formState.location}
+          value={formState.password}
           placeholder="Password"
         />
         <Button title="Sign In" onPress={signIn} />

@@ -12,6 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LocalUsers from "./screens/LocalUsers";
 import StoreProvider from "./data/StoreProvider";
+import ThemeProvider from "./style/ThemeProvider";
 
 Amplfiy.configure(config);
 
@@ -20,20 +21,22 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <StoreProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Sign In/Sign Up" }}
-          />
-          <Stack.Screen
-            name="LocalUsers"
-            component={LocalUsers}
-            options={{ title: "Local Users" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Sign In/Sign Up" }}
+            />
+            <Stack.Screen
+              name="LocalUsers"
+              component={LocalUsers}
+              options={{ title: "Local Users" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
     </StoreProvider>
   );
 };
