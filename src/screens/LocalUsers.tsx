@@ -22,6 +22,7 @@ const LocalUsers = () => {
   const [state, setState] = React.useContext(StoreContext);
 
   useEffect(() => {
+    console.log(state.user);
     fetchUsers();
   }, []);
 
@@ -84,9 +85,14 @@ const LocalUsers = () => {
     <View style={styles.container}>
       {users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
-          <Text style={styles.userName}>{user.name}</Text>
-          <Text>{user.location}</Text>
-          <Text>{user.id}</Text>
+          <Text style={styles.userName}>Name: {user.name}</Text>
+          <Text>ID: {user.id}</Text>
+          <Text>bio: {user.bio}</Text>
+          <Text>whatAmIDoing: {user.whatAmIDoing}</Text>
+          <Text>isVisible: {user.isVisible}</Text>
+          <Text>sex: {user.sex}</Text>
+          <Text>age: {user.age}</Text>
+          <Text>location: {user.location}</Text>
         </View>
       ))}
     </View>

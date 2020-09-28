@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import { createUser } from "../graphql/mutations";
+import { getUser } from "../graphql/queries";
 import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
@@ -25,8 +26,6 @@ const Login = (props) => {
         password: formState.password,
       });
 
-      const userId = signUpResult.userSub;
-
       const newUser = {
         id: userId,
       };
@@ -35,7 +34,13 @@ const Login = (props) => {
         graphqlOperation(createUser, { input: { ...newUser } })
       );
 
-      setState({ ...state, userId: newUser.id });
+      const userId = signUpResult.userSub;
+
+      const user = await API.graphql(
+        graphqlOperation(getUser, { input: { id: userId } })
+      );
+
+      setState({ ...state, user });
 
       props.navigation.navigate("SignUp");
     } catch (error) {
@@ -45,12 +50,16 @@ const Login = (props) => {
 
   async function signIn() {
     try {
-      const user = await Auth.signIn({
+      const signInResult = await Auth.signIn({
         username: formState.email,
         password: formState.password,
       });
 
-      setState({ ...state, userId: user.attributes.sub });
+      const userId = signInResult.attributes.sub;
+
+      const user = await API.graphql(graphqlOperation(getUser, { id: userId }));
+
+      setState({ ...state, user });
 
       props.navigation.navigate("LocalUsers");
     } catch (error) {
