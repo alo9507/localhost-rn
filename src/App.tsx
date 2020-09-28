@@ -13,6 +13,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LocalUsers from "./screens/LocalUsers";
 import StoreProvider from "./store/StoreProvider";
 import ThemeProvider from "./style/ThemeProvider";
+import SignUp from "./screens/SignUp";
 
 Amplfiy.configure(config);
 
@@ -32,6 +33,11 @@ const App = () => {
             name="LocalUsers"
             component={LocalUsers}
             options={{ title: "Local Users" }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ title: "Become a Member" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

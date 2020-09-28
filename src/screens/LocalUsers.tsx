@@ -22,7 +22,6 @@ const LocalUsers = () => {
   const [state, setState] = React.useContext(StoreContext);
 
   useEffect(() => {
-    console.log(`User object: ${state.user}`);
     fetchUsers();
   }, []);
 
@@ -83,19 +82,6 @@ const LocalUsers = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        onChangeText={(val) => setInput("name", val)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <TextInput
-        onChangeText={(val) => setInput("location", val)}
-        style={styles.input}
-        value={formState.location}
-        placeholder="Location"
-      />
-      <Button title="Create User" onPress={addUser} />
       {users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>{user.name}</Text>

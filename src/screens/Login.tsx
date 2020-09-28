@@ -35,9 +35,9 @@ const Login = (props) => {
         graphqlOperation(createUser, { input: { ...newUser } })
       );
 
-      setState({ ...state, user: newUser.id });
+      setState({ ...state, userId: newUser.id });
 
-      props.navigation.navigate("LocalUsers");
+      props.navigation.navigate("SignUp");
     } catch (error) {
       console.log("Error signing up:", error);
     }
@@ -50,7 +50,7 @@ const Login = (props) => {
         password: formState.password,
       });
 
-      setState({ ...state, user: user.attributes.sub });
+      setState({ ...state, userId: user.attributes.sub });
 
       props.navigation.navigate("LocalUsers");
     } catch (error) {

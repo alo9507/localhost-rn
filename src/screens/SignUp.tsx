@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
-import { createUser } from "../graphql/mutations";
+import { updateUser } from "../graphql/mutations";
 import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
-const Login = (props) => {
-  const initialState = { email: "", password: "" };
+const SignUp = (props) => {
+  const initialState = { name: "", bio: "", location: "0" };
 
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
@@ -18,74 +18,32 @@ const Login = (props) => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function signUp() {
+  const join = async () => {
+    const user = { ...formState, id: state.userId };
     try {
-      const signUpResult = await Auth.signUp({
-        username: formState.email,
-        password: formState.password,
-      });
-
-      const userId = signUpResult.userSub;
-
-      const newUser = {
-        id: userId,
-      };
-
-      await API.graphql(
-        graphqlOperation(createUser, { input: { ...newUser } })
+      const updatedUser = await API.graphql(
+        graphqlOperation(updateUser, { input: user })
       );
-
-      setState({ ...state, user: newUser.id });
-
-      props.navigation.navigate("LocalUsers");
-    } catch (error) {
-      console.log("Error signing up:", error);
+      console.log(updatedUser);
+    } catch (e) {
+      console.log(`Error signing up new user:`, e);
     }
-  }
-
-  async function signIn() {
-    try {
-      const user = await Auth.signIn({
-        username: formState.email,
-        password: formState.password,
-      });
-
-      setState({ ...state, user: user.attributes.sub });
-
-      props.navigation.navigate("LocalUsers");
-    } catch (error) {
-      console.log("Error signing in:", error);
-    }
-  }
+  };
 
   return (
     <>
       <Container>
         <Input
-          onChangeText={(val) => setInput("email", val)}
-          value={formState.email}
-          placeholder="Email"
+          onChangeText={(val) => setInput("name", val)}
+          value={formState.name}
+          placeholder="Name"
         />
         <Input
-          onChangeText={(val) => setInput("password", val)}
-          value={formState.password}
-          placeholder="Password"
+          onChangeText={(val) => setInput("bio", val)}
+          value={formState.bio}
+          placeholder="bio"
         />
-        <Button title="Sign Up" onPress={signUp} />
-      </Container>
-
-      <Container>
-        <Input
-          onChangeText={(val) => setInput("email", val)}
-          value={formState.email}
-          placeholder="Email"
-        />
-        <Input
-          onChangeText={(val) => setInput("password", val)}
-          value={formState.password}
-          placeholder="Password"
-        />
-        <Button title="Sign In" onPress={signIn} />
+        <Button title="Sign Up" onPress={join} />
       </Container>
     </>
   );
@@ -104,4 +62,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default Login;
+export default SignUp;
