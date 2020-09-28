@@ -8,32 +8,31 @@ import config from "../aws-exports";
 import { registerRootComponent } from "expo";
 import Login from "./screens/Login";
 
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import StoreContext from "../store/StoreContext";
 import AsyncStorage from "@react-native-community/async-storage";
 
+import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
+
 const initialState = { id: "mynewid", name: "", location: "" };
 
-const LocalUsers = () => {
+const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
   const [users, setUsers] = useState([]);
 
   const [state, setState] = React.useContext(StoreContext);
-
-  const getUser = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("@user");
-      const user = jsonValue != null ? JSON.parse(jsonValue) : null;
-      console.log("Found user: ", user);
-    } catch (e) {
-      console.log("Error retrieving user from async storage: ", e);
-    }
-  };
+  const authManager = new EZAuthManager();
 
   useEffect(() => {
-    getUser();
+    authManager.checkForAuthSession(
+      (authSession) => {
+        console.log(authSession.userId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     fetchUsers();
   }, []);
 
@@ -92,8 +91,29 @@ const LocalUsers = () => {
     }
   }
 
+  async function signOut() {
+    authManager.signOut(
+      (success) => {
+        console.log(success);
+        authManager.checkForAuthSession(
+          (authSession) => {
+            console.log(authSession);
+            props.navigation.navigate("Login");
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   return (
     <View style={styles.container}>
+      <Button title="Sign Out" onPress={signOut} />
       {users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>Name: {user.name}</Text>

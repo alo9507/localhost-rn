@@ -6,8 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest",
-    "typegen": "ts-node src/utils/gql-to-ts.ts"
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-community/async-storage": "~1.11.0",

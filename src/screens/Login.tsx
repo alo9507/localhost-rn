@@ -8,13 +8,28 @@ import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
-import AsyncStorage from "@react-native-community/async-storage";
+
+import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 
 const Login = (props) => {
   const initialState = { email: "", password: "" };
-
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
+
+  const authManager = new EZAuthManager();
+
+  useEffect(() => {
+    authManager.checkForAuthSession(
+      (authSession) => {
+        if (authSession != null) {
+          props.navigation.navigate("LocalUsers");
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -42,7 +57,6 @@ const Login = (props) => {
       );
 
       setState({ ...state, user });
-      storeUser(user);
 
       props.navigation.navigate("SignUp");
     } catch (error) {
@@ -50,33 +64,26 @@ const Login = (props) => {
     }
   }
 
-  const storeUser = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@user", jsonValue);
-    } catch (e) {
-      console.log("Error saving object: ", e);
-    }
-  };
-
   async function signIn() {
     try {
-      const signInResult = await Auth.signIn({
-        username: formState.email,
-        password: formState.password,
-      });
+      authManager.signIn(
+        formState.email,
+        formState.password,
+        async (authSession) => {
+          const result = await API.graphql(
+            graphqlOperation(getUser, { id: authSession.userId })
+          );
 
-      const userId = signInResult.attributes.sub;
+          const user = result.data.getUser;
 
-      const result = await API.graphql(
-        graphqlOperation(getUser, { id: userId })
+          setState({ ...state, user });
+
+          props.navigation.navigate("LocalUsers");
+        },
+        async (error) => {
+          console.log(error);
+        }
       );
-      const user = result.data.getUser;
-
-      setState({ ...state, user });
-      storeUser(user);
-
-      props.navigation.navigate("LocalUsers");
     } catch (error) {
       console.log("Error signing in:", error);
     }
