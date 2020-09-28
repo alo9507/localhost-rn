@@ -9,7 +9,15 @@ import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
 const SignUp = (props) => {
-  const initialState = { name: "", bio: "", location: "0" };
+  const initialState = {
+    name: "",
+    bio: "",
+    whatAmIDoing: "",
+    sex: "",
+    age: 25,
+    location: "0",
+    isVisible: true,
+  };
 
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
@@ -30,6 +38,31 @@ const SignUp = (props) => {
     }
   };
 
+  useEffect(() => {
+    let geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 2000,
+    };
+    navigator.geolocation.getCurrentPosition(
+      geoSuccess,
+      geoFailure,
+      geoOptions
+    );
+  }, []);
+
+  const geoSuccess = (location) => {
+    console.log(location);
+    setInput(
+      "location",
+      `${location.coords.latitude} : ${location.coords.longitude}`
+    );
+  };
+
+  const geoFailure = (error) => {
+    console.log(error);
+  };
+
   return (
     <>
       <Container>
@@ -39,9 +72,29 @@ const SignUp = (props) => {
           placeholder="Name"
         />
         <Input
+          onChangeText={(val) => setInput("sex", val)}
+          value={formState.sex}
+          placeholder="Sex"
+        />
+        <Input
+          onChangeText={(val) => setInput("age", val)}
+          value={formState.age}
+          placeholder="Age"
+        />
+        <Input
+          onChangeText={(val) => setInput("whatAmIDoing", val)}
+          value={formState.whatAmIDoing}
+          placeholder="What Am I doing"
+        />
+        <Input
           onChangeText={(val) => setInput("bio", val)}
           value={formState.bio}
           placeholder="bio"
+        />
+        <Input
+          onChangeText={(val) => setInput("location", val)}
+          value={formState.location}
+          placeholder="Fetching Location..."
         />
         <Button title="Sign Up" onPress={join} />
       </Container>

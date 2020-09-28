@@ -9,6 +9,8 @@ export type CreateUserInput = {
   whatAmIDoing?: string | null,
   location?: string | null,
   isVisible?: boolean | null,
+  age?: number | null,
+  sex?: string | null,
 };
 
 export type ModelUserConditionInput = {
@@ -17,6 +19,8 @@ export type ModelUserConditionInput = {
   whatAmIDoing?: ModelStringInput | null,
   location?: ModelStringInput | null,
   isVisible?: ModelBooleanInput | null,
+  age?: ModelIntInput | null,
+  sex?: ModelStringInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
   not?: ModelUserConditionInput | null,
@@ -69,6 +73,18 @@ export type ModelBooleanInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type UpdateUserInput = {
   id: string,
   name?: string | null,
@@ -76,6 +92,8 @@ export type UpdateUserInput = {
   whatAmIDoing?: string | null,
   location?: string | null,
   isVisible?: boolean | null,
+  age?: number | null,
+  sex?: string | null,
 };
 
 export type DeleteUserInput = {
@@ -89,6 +107,8 @@ export type ModelUserFilterInput = {
   whatAmIDoing?: ModelStringInput | null,
   location?: ModelStringInput | null,
   isVisible?: ModelBooleanInput | null,
+  age?: ModelIntInput | null,
+  sex?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -124,6 +144,8 @@ export type CreateUserMutation = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -143,6 +165,8 @@ export type UpdateUserMutation = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -162,6 +186,8 @@ export type DeleteUserMutation = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -180,6 +206,8 @@ export type GetUserQuery = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -202,6 +230,8 @@ export type ListUsersQuery = {
       whatAmIDoing: string | null,
       location: string | null,
       isVisible: boolean | null,
+      age: number | null,
+      sex: string | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -218,6 +248,8 @@ export type OnCreateUserSubscription = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -232,6 +264,8 @@ export type OnUpdateUserSubscription = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -246,6 +280,8 @@ export type OnDeleteUserSubscription = {
     whatAmIDoing: string | null,
     location: string | null,
     isVisible: boolean | null,
+    age: number | null,
+    sex: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,

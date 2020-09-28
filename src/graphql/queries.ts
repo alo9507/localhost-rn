@@ -11,6 +11,8 @@ export const getUser = /* GraphQL */ `
       whatAmIDoing
       location
       isVisible
+      age
+      sex
       createdAt
       updatedAt
     }
@@ -30,6 +32,8 @@ export const listUsers = /* GraphQL */ `
         whatAmIDoing
         location
         isVisible
+        age
+        sex
         createdAt
         updatedAt
       }

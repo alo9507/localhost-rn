@@ -11,6 +11,8 @@ export const onCreateUser = /* GraphQL */ `
       whatAmIDoing
       location
       isVisible
+      age
+      sex
       createdAt
       updatedAt
     }
@@ -25,6 +27,8 @@ export const onUpdateUser = /* GraphQL */ `
       whatAmIDoing
       location
       isVisible
+      age
+      sex
       createdAt
       updatedAt
     }
@@ -39,6 +43,8 @@ export const onDeleteUser = /* GraphQL */ `
       whatAmIDoing
       location
       isVisible
+      age
+      sex
       createdAt
       updatedAt
     }
