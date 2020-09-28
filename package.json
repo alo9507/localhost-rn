@@ -10,6 +10,7 @@
     "typegen": "ts-node src/utils/gql-to-ts.ts"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "~1.11.0",
     "@react-native-community/cli-debugger-ui": "^4.9.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "^5.9.6",

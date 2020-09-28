@@ -8,6 +8,7 @@ import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Login = (props) => {
   const initialState = { email: "", password: "" };
@@ -41,12 +42,22 @@ const Login = (props) => {
       );
 
       setState({ ...state, user });
+      storeUser(user);
 
       props.navigation.navigate("SignUp");
     } catch (error) {
       console.log("Error signing up:", error);
     }
   }
+
+  const storeUser = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@user", jsonValue);
+    } catch (e) {
+      console.log("Error saving object: ", e);
+    }
+  };
 
   async function signIn() {
     try {
@@ -57,9 +68,13 @@ const Login = (props) => {
 
       const userId = signInResult.attributes.sub;
 
-      const user = await API.graphql(graphqlOperation(getUser, { id: userId }));
+      const result = await API.graphql(
+        graphqlOperation(getUser, { id: userId })
+      );
+      const user = result.data.getUser;
 
       setState({ ...state, user });
+      storeUser(user);
 
       props.navigation.navigate("LocalUsers");
     } catch (error) {

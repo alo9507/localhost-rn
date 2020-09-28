@@ -11,6 +11,7 @@ import Login from "./screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import StoreContext from "../store/StoreContext";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
@@ -21,8 +22,18 @@ const LocalUsers = () => {
 
   const [state, setState] = React.useContext(StoreContext);
 
+  const getUser = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@user");
+      const user = jsonValue != null ? JSON.parse(jsonValue) : null;
+      console.log("Found user: ", user);
+    } catch (e) {
+      console.log("Error retrieving user from async storage: ", e);
+    }
+  };
+
   useEffect(() => {
-    console.log(state.user);
+    getUser();
     fetchUsers();
   }, []);
 
