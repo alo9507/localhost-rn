@@ -21,22 +21,20 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <StoreProvider>
-      <ThemeProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ title: "Sign In/Sign Up" }}
-            />
-            <Stack.Screen
-              name="LocalUsers"
-              component={LocalUsers}
-              options={{ title: "Local Users" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Sign In/Sign Up" }}
+          />
+          <Stack.Screen
+            name="LocalUsers"
+            component={LocalUsers}
+            options={{ title: "Local Users" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </StoreProvider>
   );
 };

@@ -6,15 +6,13 @@ import { createUser } from "../graphql/mutations";
 import { User } from "../models/types";
 import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../data/StoreContext";
-import ThemeContext from "../style/ThemeContext";
+import styled from "styled-components/native";
 
 const Login = (props) => {
-  const initialState = { name: "", bio: "", email: "", password: "" };
+  const initialState = { email: "", password: "" };
 
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
-  const [theme, setTheme] = React.useContext(ThemeContext);
-  console.log(theme);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -61,46 +59,48 @@ const Login = (props) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <TextInput
+      <Container>
+        <Input
           onChangeText={(val) => setInput("email", val)}
-          style={styles.input}
           value={formState.email}
           placeholder="Email"
         />
-        <TextInput
+        <Input
           onChangeText={(val) => setInput("password", val)}
-          style={styles.input}
           value={formState.password}
           placeholder="Password"
         />
         <Button title="Sign Up" onPress={signUp} />
-      </View>
+      </Container>
 
-      <View style={styles.container}>
-        <TextInput
+      <Container>
+        <Input
           onChangeText={(val) => setInput("email", val)}
-          style={styles.input}
           value={formState.email}
           placeholder="Email"
         />
-        <TextInput
+        <Input
           onChangeText={(val) => setInput("password", val)}
-          style={styles.input}
           value={formState.password}
           placeholder="Password"
         />
         <Button title="Sign In" onPress={signIn} />
-      </View>
+      </Container>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  user: { marginBottom: 15 },
-  input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
-  userName: { fontSize: 18 },
-});
+const Input = styled.TextInput`
+  height: 50px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+  padding: 8px;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+`;
 
 export default Login;
