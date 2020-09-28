@@ -10,7 +10,7 @@ import Login from "./screens/Login";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import StoreContext from "../data/StoreContext";
+import StoreContext from "../store/StoreContext";
 
 const initialState = { id: "mynewid", name: "", location: "" };
 

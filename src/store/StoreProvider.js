@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import StoreContext from "./StoreContext";
 
-type StoreProviderProps = {
-  children: any,
-};
-
-const StoreProvider = ({ children }: StoreProviderProps) => {
-  // const store = useLocalStore(() => ({}));
+const StoreProvider = ({ children }) => {
   const [state, setState] = useState({});
 
   return (

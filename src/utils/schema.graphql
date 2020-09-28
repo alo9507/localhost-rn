@@ -1,8 +1,0 @@
-type User @model {
-  id: ID!
-  name: String!
-  bio: String!
-  whatAmIDoing: String!
-  location: String!
-  isVisible: Boolean!
-}

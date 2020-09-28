@@ -11,7 +11,7 @@ import Login from "./screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LocalUsers from "./screens/LocalUsers";
-import StoreProvider from "./data/StoreProvider";
+import StoreProvider from "./store/StoreProvider";
 import ThemeProvider from "./style/ThemeProvider";
 
 Amplfiy.configure(config);
