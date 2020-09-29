@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-
+import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import { updateUser } from "../graphql/mutations";
 import { User } from "../models/types";
@@ -8,7 +8,18 @@ import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
+const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $name: String, $whatAmIDoing: String) {
+    UpdateUser(id: $id, name: $name, whatAmIDoing: $whatAmIDoing) {
+      name
+      whatAmIDoing
+    }
+  }
+`;
+
 const SignUp = (props) => {
+  const [updateUser] = useMutation(UPDATE_USER);
+
   const initialState = {
     name: "",
     bio: "",
@@ -27,11 +38,20 @@ const SignUp = (props) => {
   }
 
   const join = async () => {
-    const user = { ...formState, id: state.userId };
+    const user = { ...formState, id: state.user.id };
+
     try {
-      const updatedUser = await API.graphql(
-        graphqlOperation(updateUser, { input: user })
-      );
+      console.log(user);
+
+      const result = await updateUser({
+        variables: { ...user },
+      });
+
+      const error = result.errors;
+      console.log(error);
+
+      const updatedUser = result.data.UpdateUser;
+
       console.log(updatedUser);
     } catch (e) {
       console.log(`Error signing up new user:`, e);
@@ -78,7 +98,7 @@ const SignUp = (props) => {
         />
         <Input
           onChangeText={(val) => setInput("age", val)}
-          value={formState.age}
+          value={formState.age.toString()}
           placeholder="Age"
         />
         <Input

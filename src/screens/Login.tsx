@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import { createUser } from "../graphql/mutations";
 import { getUser } from "../graphql/queries";
@@ -16,8 +16,8 @@ const Login = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
 
-  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
-  const [createUser, { data }] = useMutation(CREATE_USER);
+  const { loading, error, data } = useLazyQuery(GET_USER);
+  const [createUser] = useMutation(CREATE_USER);
 
   const authManager = new EZAuthManager();
 
@@ -45,17 +45,13 @@ const Login = (props) => {
         password: formState.password,
       });
 
-      const newUser = {
-        id: userId,
-      };
-
-      createUser({ variables: { id: newUser.id, name: formState.name } })
-
       const userId = signUpResult.userSub;
 
-      const user = await API.graphql(
-        graphqlOperation(getUser, { input: { id: userId } })
-      );
+      const result = await createUser({
+        variables: { id: userId },
+      });
+
+      const user = result.data.CreateUser;
 
       setState({ ...state, user });
 
@@ -71,9 +67,11 @@ const Login = (props) => {
         formState.email,
         formState.password,
         async (authSession) => {
-          getUser({ variables: { id: authSession.userId } })}
+          const result = await getUser({
+            variables: { id: authSession.userId },
+          });
 
-          const user = props.data.getUser;
+          const user = result.data.GetUser;
 
           setState({ ...state, user });
 
@@ -143,19 +141,9 @@ const GET_USER = gql`
 `;
 
 const CREATE_USER = gql`
-  mutation {
-    CreateUser(
-      id: "newId"
-      name: "Andrew"
-      bio: "a lil about me"
-      whatAmIDoing: "fdsfsd"
-      location: "fsdf"
-      isVisible: true
-      age: 24
-      sex: "male"
-    ) {
+  mutation CreateUser($id: ID!) {
+    CreateUser(id: $id) {
       id
-      name
     }
   }
 `;
