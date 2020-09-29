@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-
+import { useQuery, useMutation, gql } from "@apollo/client";
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import { createUser } from "../graphql/mutations";
 import { getUser } from "../graphql/queries";
@@ -15,6 +15,9 @@ const Login = (props) => {
   const initialState = { email: "", password: "" };
   const [formState, setFormState] = useState(initialState);
   const [state, setState] = React.useContext(StoreContext);
+
+  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
+  const [createUser, { data }] = useMutation(CREATE_USER);
 
   const authManager = new EZAuthManager();
 
@@ -46,9 +49,7 @@ const Login = (props) => {
         id: userId,
       };
 
-      await API.graphql(
-        graphqlOperation(createUser, { input: { ...newUser } })
-      );
+      createUser({ variables: { id: newUser.id, name: formState.name } })
 
       const userId = signUpResult.userSub;
 
@@ -70,11 +71,9 @@ const Login = (props) => {
         formState.email,
         formState.password,
         async (authSession) => {
-          const result = await API.graphql(
-            graphqlOperation(getUser, { id: authSession.userId })
-          );
+          getUser({ variables: { id: authSession.userId } })}
 
-          const user = result.data.getUser;
+          const user = props.data.getUser;
 
           setState({ ...state, user });
 
@@ -133,6 +132,32 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: 20px;
+`;
+
+const GET_USER = gql`
+  query GetUser($id: ID!) {
+    User(id: $id) {
+      id
+    }
+  }
+`;
+
+const CREATE_USER = gql`
+  mutation {
+    CreateUser(
+      id: "newId"
+      name: "Andrew"
+      bio: "a lil about me"
+      whatAmIDoing: "fdsfsd"
+      location: "fsdf"
+      isVisible: true
+      age: 24
+      sex: "male"
+    ) {
+      id
+      name
+    }
+  }
 `;
 
 export default Login;

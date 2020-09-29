@@ -14,34 +14,42 @@ import LocalUsers from "./screens/LocalUsers";
 import StoreProvider from "./store/StoreProvider";
 import ThemeProvider from "./style/ThemeProvider";
 import SignUp from "./screens/SignUp";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 Amplfiy.configure(config);
 
 const Stack = createStackNavigator();
 
+const client = new ApolloClient({
+  uri: "https://silly-bell-fb236d.netlify.app/.netlify/functions/graphql",
+  cache: new InMemoryCache(),
+});
+
 const App = () => {
   return (
-    <StoreProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Sign In/Sign Up" }}
-          />
-          <Stack.Screen
-            name="LocalUsers"
-            component={LocalUsers}
-            options={{ title: "Local Users" }}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{ title: "Become a Member" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </StoreProvider>
+    <ApolloProvider client={client}>
+      <StoreProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Sign In/Sign Up" }}
+            />
+            <Stack.Screen
+              name="LocalUsers"
+              component={LocalUsers}
+              options={{ title: "Local Users" }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ title: "Become a Member" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StoreProvider>
+    </ApolloProvider>
   );
 };
 

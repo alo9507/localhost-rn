@@ -1,0 +1,3 @@
+interface UserRepository {
+  createUser(): User;
+}
