@@ -134,7 +134,7 @@ const Container = styled.View`
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
-    User(id: $id) {
+    user(id: $id) {
       id
     }
   }
@@ -142,7 +142,7 @@ const GET_USER = gql`
 
 const CREATE_USER = gql`
   mutation CreateUser($id: ID!) {
-    CreateUser(id: $id) {
+    createUser(input: { id: $id }) {
       id
     }
   }

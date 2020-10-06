@@ -13,8 +13,24 @@ import StoreContext from "../store/StoreContext";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
+import { useQuery, gql } from "@apollo/client";
 
 const initialState = { id: "mynewid", name: "", location: "" };
+
+const GET_USERS = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      name
+      whatAmIDoing
+      bio
+      whatAmIDoing
+      sex
+      age
+      location
+      isVisible
+    }
+  }
+`;
 
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
@@ -23,6 +39,8 @@ const LocalUsers = (props) => {
 
   const [state, setState] = React.useContext(StoreContext);
   const authManager = new EZAuthManager();
+
+  const [getUsers,] = useQuery(GET_USERS);
 
   useEffect(() => {
     authManager.checkForAuthSession(
@@ -72,6 +90,7 @@ const LocalUsers = (props) => {
   async function fetchUsers() {
     try {
       const usersData = await API.graphql(graphqlOperation(listUsers));
+      
       const users = usersData.data.listUsers.items;
       setUsers(users);
     } catch (err) {

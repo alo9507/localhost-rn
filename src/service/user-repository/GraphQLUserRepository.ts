@@ -18,7 +18,7 @@ class GraphQLUserRepository implements UserRepository {
   createUser() {
     CREATE_USER = gql`
       mutation {
-        CreateUser(
+        createUser(
           id: "newId"
           name: "Andrew"
           bio: "a lil about me"

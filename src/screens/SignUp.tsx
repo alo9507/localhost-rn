@@ -8,25 +8,16 @@ import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
-const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $name: String, $whatAmIDoing: String) {
-    UpdateUser(id: $id, name: $name, whatAmIDoing: $whatAmIDoing) {
-      name
-      whatAmIDoing
-    }
-  }
-`;
-
 const SignUp = (props) => {
   const [updateUser] = useMutation(UPDATE_USER);
 
   const initialState = {
+    id: "5737ea85-35a4-4759-9f3e-0f7421d37f9e",
     name: "",
     bio: "",
     whatAmIDoing: "",
     sex: "",
     age: 25,
-    location: "0",
     isVisible: true,
   };
 
@@ -38,13 +29,12 @@ const SignUp = (props) => {
   }
 
   const join = async () => {
-    const user = { ...formState, id: state.user.id };
+    const user = { ...formState, id: "fdsf" };
 
     try {
-      console.log(user);
-
+      console.log(user)
       const result = await updateUser({
-        variables: { ...user },
+        variables: { input: user },
       });
 
       const error = result.errors;
@@ -52,7 +42,7 @@ const SignUp = (props) => {
 
       const updatedUser = result.data.UpdateUser;
 
-      console.log(updatedUser);
+      console.log("UPDATE USER", updatedUser);
     } catch (e) {
       console.log(`Error signing up new user:`, e);
     }
@@ -73,10 +63,6 @@ const SignUp = (props) => {
 
   const geoSuccess = (location) => {
     console.log(location);
-    setInput(
-      "location",
-      `${location.coords.latitude} : ${location.coords.longitude}`
-    );
   };
 
   const geoFailure = (error) => {
@@ -111,11 +97,6 @@ const SignUp = (props) => {
           value={formState.bio}
           placeholder="bio"
         />
-        <Input
-          onChangeText={(val) => setInput("location", val)}
-          value={formState.location}
-          placeholder="Fetching Location..."
-        />
         <Button title="Sign Up" onPress={join} />
       </Container>
     </>
@@ -133,6 +114,20 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: 20px;
+`;
+
+const UPDATE_USER = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      name
+      whatAmIDoing
+      bio
+      whatAmIDoing
+      sex
+      age
+      isVisible
+    }
+  }
 `;
 
 export default SignUp;

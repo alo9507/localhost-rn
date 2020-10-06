@@ -21,8 +21,10 @@ Amplfiy.configure(config);
 const Stack = createStackNavigator();
 
 const client = new ApolloClient({
-  uri: "https://silly-bell-fb236d.netlify.app/.netlify/functions/graphql",
-  cache: new InMemoryCache(),
+  uri: "http://0.0.0.0:4000/graphql",
+  cache: new InMemoryCache({
+    addTypename: false
+  }),
 });
 
 const App = () => {
@@ -30,7 +32,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="SignUp">
             <Stack.Screen
               name="Login"
               component={Login}
