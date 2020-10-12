@@ -18,28 +18,28 @@
     "@react-navigation/stack": "^5.9.1",
     "aws-amplify": "^3.3.1",
     "aws-amplify-react-native": "^4.2.6",
-    "expo": "~39.0.3",
-    "expo-status-bar": "^1.0.2",
+    "expo": "^39.0.0",
+    "expo-status-bar": "~1.0.2",
     "global": "^4.4.0",
     "graphql": "^15.3.0",
     "graphql-import": "^1.0.2",
     "jest": "^26.4.2",
-    "react": "~16.11.0",
-    "react-dom": "~16.11.0",
-    "react-native": "^0.63.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
-    "react-native-web": "~0.11.7",
+    "react-native-web": "~0.13.7",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "@types/react": "~16.9.41",
-    "@types/react-native": "~0.63.13",
+    "@types/react": "~16.9.35",
+    "@types/react-native": "~0.63.2",
     "ts-node": "^9.0.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.2"
   },
   "private": true
 }

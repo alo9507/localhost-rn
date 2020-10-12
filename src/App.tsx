@@ -32,7 +32,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="SignUp">
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
               name="Login"
               component={Login}

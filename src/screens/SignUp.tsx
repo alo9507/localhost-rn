@@ -12,12 +12,12 @@ const SignUp = (props) => {
   const [updateUser] = useMutation(UPDATE_USER);
 
   const initialState = {
-    id: "5737ea85-35a4-4759-9f3e-0f7421d37f9e",
+    id: "",
     name: "",
     bio: "",
     whatAmIDoing: "",
     sex: "",
-    age: 25,
+    age: 0,
     isVisible: true,
   };
 

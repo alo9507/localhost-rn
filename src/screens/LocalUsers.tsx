@@ -18,41 +18,40 @@ import { useQuery, gql } from "@apollo/client";
 const initialState = { id: "mynewid", name: "", location: "" };
 
 const GET_USERS = gql`
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
+  query GetUsers {
+    users {
+      id
       name
-      whatAmIDoing
-      bio
-      whatAmIDoing
       sex
       age
-      location
       isVisible
+      location
     }
   }
-`;
+`
 
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
   const [users, setUsers] = useState([]);
 
+  const { loading, error, data } = useQuery(GET_USERS);
+
   const [state, setState] = React.useContext(StoreContext);
   const authManager = new EZAuthManager();
 
   const [getUsers,] = useQuery(GET_USERS);
 
-  useEffect(() => {
-    authManager.checkForAuthSession(
-      (authSession) => {
-        console.log(authSession.userId);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   authManager.checkForAuthSession(
+  //     (authSession) => {
+  //       console.log(authSession.userId);
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }, []);
 
   useEffect(() => {
     let geoOptions = {
@@ -87,17 +86,6 @@ const LocalUsers = (props) => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function fetchUsers() {
-    try {
-      const usersData = await API.graphql(graphqlOperation(listUsers));
-      
-      const users = usersData.data.listUsers.items;
-      setUsers(users);
-    } catch (err) {
-      console.log("error fetching users");
-    }
-  }
-
   async function addUser() {
     try {
       const user = { ...formState };
@@ -130,10 +118,14 @@ const LocalUsers = (props) => {
     );
   }
 
+  console.log(data)
+  if (loading) { return <div>"Loading..."</div> }
+  if (error) return `Error! ${error}`;
+
   return (
     <View style={styles.container}>
       <Button title="Sign Out" onPress={signOut} />
-      {users.map((user, index) => (
+      {data.users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>Name: {user.name}</Text>
           <Text>ID: {user.id}</Text>
