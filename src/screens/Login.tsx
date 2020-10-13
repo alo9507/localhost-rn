@@ -1,64 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
-import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
-import { createUser } from "../graphql/mutations";
-import { getUser } from "../graphql/queries";
+import Amplfiy, { Auth } from "aws-amplify";
 import { User } from "../models/types";
-import { CreateUserInput } from "../graphql/API";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 
 const Login = (props) => {
-  const initialState = { email: "", password: "" };
-  const [formState, setFormState] = useState(initialState);
-  const [state, setState] = React.useContext(StoreContext);
+  const [store, setStore] = React.useContext(StoreContext);
+  const [formState, setFormState] = useState({});
 
-  const { loading, error, data } = useLazyQuery(GET_USER);
+  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [createUser] = useMutation(CREATE_USER);
 
   const authManager = new EZAuthManager();
-
-  useEffect(() => {
-    authManager.checkForAuthSession(
-      (authSession) => {
-        if (authSession != null) {
-          props.navigation.navigate("LocalUsers");
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }, []);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   async function signUp() {
-    try {
-      const signUpResult = await Auth.signUp({
-        username: formState.email,
-        password: formState.password,
-      });
-
-      const userId = signUpResult.userSub;
-
-      const result = await createUser({
-        variables: { id: userId },
-      });
-
-      const user = result.data.CreateUser;
-
-      setState({ ...state, user });
-
-      props.navigation.navigate("SignUp");
-    } catch (error) {
-      console.log("Error signing up:", error);
-    }
+    console.log("signing up")
+    authManager.signUp(
+      formState.email,
+      formState.password,
+      async (authSession) => {
+        const result = await createUser({
+          variables: { id: authSession.userId },
+        });
+        console.log("result", result)
+        const user = result.data.createUser;
+        setStore({ ...store, user });
+        console.log("user", user)
+        console.log("store", store)
+        props.navigation.navigate("SignUp");
+      },
+      async (error) => {
+        console.log("Error signing up:", error);
+      })
   }
 
   async function signIn() {
@@ -73,7 +54,7 @@ const Login = (props) => {
 
           const user = result.data.GetUser;
 
-          setState({ ...state, user });
+          setStore({ ...store, user });
 
           props.navigation.navigate("LocalUsers");
         },
@@ -82,7 +63,7 @@ const Login = (props) => {
         }
       );
     } catch (error) {
-      console.log("Error signing in:", error);
+      console.log("Error Signing In:", error);
     }
   }
 

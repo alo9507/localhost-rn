@@ -1,5 +1,10 @@
 enum AuthError {
-    userNotFound: string
+    userNotFound = "UserNotFound",
+    emailAlreadyExists = "EmailAlreadyExists",
+    PasswordNotAllowed = "PasswordNotAllowed",
+    passwordTooShort = "PasswordTooShort",
+    usernameInvalid = "UsernameInvalid",
+    unknownError = "UnknownError"
 }
 
 export default AuthError

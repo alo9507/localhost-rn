@@ -12,7 +12,6 @@ const SignUp = (props) => {
   const [updateUser] = useMutation(UPDATE_USER);
 
   const initialState = {
-    id: "",
     name: "",
     bio: "",
     whatAmIDoing: "",
@@ -29,7 +28,8 @@ const SignUp = (props) => {
   }
 
   const join = async () => {
-    const user = { ...formState, id: "fdsf" };
+    console.log(JSON.stringify(state))
+    const user = { ...formState, id: state.user.id };
 
     try {
       console.log(user)

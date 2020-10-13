@@ -12,6 +12,34 @@ class EZAuthManager implements AuthManager {
     this.authSession = null;
   }
 
+  async signUp(
+    email: string,
+    password: string,
+    onSuccess: (authSession: AuthSession) => void,
+    onFailure: (error: string) => void
+  ) {
+    this.remoteAuthProvider.signUp(
+      email,
+      password,
+      (authSession) => {
+        this.authDataStore.save(
+          authSession,
+          async (authSession) => {
+            console.log("about to set auth session");
+            this.authSession = authSession;
+            onSuccess(authSession);
+          },
+          async (error) => {
+            onFailure(error);
+          }
+        );
+      },
+      (error) => {
+        onFailure(error);
+      }
+    );
+  }
+
   async signIn(
     email: string,
     password: string,
@@ -29,7 +57,6 @@ class EZAuthManager implements AuthManager {
             this.authSession = authSession;
             onSuccess(authSession);
           },
-
           async (error) => {
             onFailure(error);
           }
@@ -68,6 +95,7 @@ class EZAuthManager implements AuthManager {
   ) {
     const authSession = this.authDataStore.readAuthSession(
       (authSession) => {
+        // null or present
         onSuccess(authSession);
       },
       (error) => {

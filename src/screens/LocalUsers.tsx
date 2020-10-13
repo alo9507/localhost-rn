@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
-import Amplfiy, { API, graphqlOperation } from "aws-amplify";
-import { createUser } from "../graphql/mutations";
-import { listUsers } from "../graphql/queries";
 import config from "../aws-exports";
 import { registerRootComponent } from "expo";
 import Login from "./screens/Login";
@@ -42,16 +39,16 @@ const LocalUsers = (props) => {
 
   const [getUsers,] = useQuery(GET_USERS);
 
-  // useEffect(() => {
-  //   authManager.checkForAuthSession(
-  //     (authSession) => {
-  //       console.log(authSession.userId);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }, []);
+  useEffect(() => {
+    authManager.checkForAuthSession(
+      (authSession) => {
+        console.log(authSession.userId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
 
   useEffect(() => {
     let geoOptions = {

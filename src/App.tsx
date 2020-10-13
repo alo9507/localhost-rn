@@ -14,6 +14,8 @@ import LocalUsers from "./screens/LocalUsers";
 import StoreProvider from "./store/StoreProvider";
 import ThemeProvider from "./style/ThemeProvider";
 import SignUp from "./screens/SignUp";
+import LaunchScreen from "./screens/LaunchScreen";
+
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 Amplfiy.configure(config);
@@ -32,7 +34,12 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="LaunchScreen">
+          <Stack.Screen
+              name="LaunchScreen"
+              component={LaunchScreen}
+              options={{ title: "LaunchScreen" }}
+            />
             <Stack.Screen
               name="Login"
               component={Login}
