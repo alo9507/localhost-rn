@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery, useApolloClient, gql } from "@apollo/client";
 import Amplfiy, { Auth } from "aws-amplify";
 import { User } from "../models/types";
 import StoreContext from "../store/StoreContext";
@@ -9,11 +9,12 @@ import styled from "styled-components/native";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 
 const Login = (props) => {
-  const [store, setStore] = React.useContext(StoreContext);
+  const [state, setState] = React.useContext(StoreContext);
   const [formState, setFormState] = useState({});
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [createUser] = useMutation(CREATE_USER);
+  const client = useApolloClient();
 
   const authManager = new EZAuthManager();
 
@@ -22,19 +23,16 @@ const Login = (props) => {
   }
 
   async function signUp() {
-    console.log("signing up")
     authManager.signUp(
       formState.email,
       formState.password,
       async (authSession) => {
         const result = await createUser({
-          variables: { id: authSession.userId },
+          variables: { id: authSession.userId, email: formState.email },
         });
-        console.log("result", result)
+
         const user = result.data.createUser;
-        setStore({ ...store, user });
-        console.log("user", user)
-        console.log("store", store)
+        setState({ ...state, user });
         props.navigation.navigate("SignUp");
       },
       async (error) => {
@@ -48,14 +46,14 @@ const Login = (props) => {
         formState.email,
         formState.password,
         async (authSession) => {
-          const result = await getUser({
-            variables: { id: authSession.userId },
+
+          const result = await client.query({
+            query: GET_USER,
+            variables: { id: authSession.userId }
           });
 
-          const user = result.data.GetUser;
-
-          setStore({ ...store, user });
-
+          const user = result.data.user;
+          setState({ ...state, user });
           props.navigation.navigate("LocalUsers");
         },
         async (error) => {
@@ -117,14 +115,17 @@ const GET_USER = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
       id
+      email
+      name
     }
   }
 `;
 
 const CREATE_USER = gql`
-  mutation CreateUser($id: ID!) {
-    createUser(input: { id: $id }) {
+  mutation CreateUser($id: ID!, $email: String!) {
+    createUser(input: { id: $id, email: $email }) {
       id
+      email
     }
   }
 `;

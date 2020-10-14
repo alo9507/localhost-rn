@@ -1,6 +1,6 @@
 {
     "identityPoolName": "localhostrnfe02559d_identitypool_fe02559d",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "localhfe02559d",
     "userPoolName": "localhostrnfe02559d_userpool_fe02559d",
     "autoVerifiedAttributes": [
@@ -21,7 +21,7 @@
         "email"
     ],
     "userpoolClientGenerateSecret": true,
-    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientRefreshTokenValidity": "500",
     "userpoolClientWriteAttributes": [
         "email"
     ],
@@ -45,11 +45,23 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "usernameAttributes": [
         "email, phone_number"
     ],
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+        "localhostusers"
+    ],
     "serviceName": "Cognito",
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": true,
+    "authProviders": [],
+    "userPoolGroups": true,
+    "adminQueries": true,
+    "triggers": "{}",
+    "hostedUI": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": []
 }

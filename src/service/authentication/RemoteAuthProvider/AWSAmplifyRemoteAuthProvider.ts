@@ -24,6 +24,12 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
           onFailure(`${AuthError.usernameInvalid}:  ${e.message}`);
         case "Password did not conform with policy: Password not long enough":
           onFailure(`${AuthError.passwordTooShort}:  ${e.message}`);
+        case "User is not confirmed.":
+          onFailure(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
+        case "Incorrect username or password.":
+          onFailure(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
+        default:
+          onFailure(`${AuthError.unknownError}:  ${e.message}`);
       }
     }
   }

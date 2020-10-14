@@ -22,7 +22,7 @@ const GET_USERS = gql`
       sex
       age
       isVisible
-      location
+      email
     }
   }
 `
@@ -32,23 +32,10 @@ const LocalUsers = (props) => {
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
   const [users, setUsers] = useState([]);
 
-  const { loading, error, data } = useQuery(GET_USERS);
-
-  const [state, setState] = React.useContext(StoreContext);
+  const [store, setStore] = React.useContext(StoreContext);
   const authManager = new EZAuthManager();
 
-  const [getUsers,] = useQuery(GET_USERS);
-
-  useEffect(() => {
-    authManager.checkForAuthSession(
-      (authSession) => {
-        console.log(authSession.userId);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }, []);
+  const { loading, error, data } = useQuery(GET_USERS);
 
   useEffect(() => {
     let geoOptions = {
@@ -62,6 +49,11 @@ const LocalUsers = (props) => {
       geoOptions
     );
   }, []);
+
+  useEffect(() => {
+    console.log(store.user)
+    props.navigation.setOptions({ title: store.user?.name ? store.user.name : "No Name" });
+  }, [])
 
   const geoSuccess = (location) => {
     console.log(location);
@@ -81,18 +73,6 @@ const LocalUsers = (props) => {
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
-  }
-
-  async function addUser() {
-    try {
-      const user = { ...formState };
-      setUsers([...users, user]);
-      setFormState(initialState);
-      console.log(user);
-      await API.graphql(graphqlOperation(createUser, { input: user }));
-    } catch (err) {
-      console.log("error creating user:", err);
-    }
   }
 
   async function signOut() {
@@ -115,8 +95,7 @@ const LocalUsers = (props) => {
     );
   }
 
-  console.log(data)
-  if (loading) { return <div>"Loading..."</div> }
+  if (loading) return <div>"Loading..."</div>
   if (error) return `Error! ${error}`;
 
   return (
@@ -132,6 +111,7 @@ const LocalUsers = (props) => {
           <Text>sex: {user.sex}</Text>
           <Text>age: {user.age}</Text>
           <Text>location: {user.location}</Text>
+          <Text>email: {user.email}</Text>
         </View>
       ))}
     </View>

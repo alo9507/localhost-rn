@@ -35,7 +35,7 @@ const App = () => {
       <StoreProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="LaunchScreen">
-          <Stack.Screen
+            <Stack.Screen
               name="LaunchScreen"
               component={LaunchScreen}
               options={{ title: "LaunchScreen" }}
@@ -48,7 +48,6 @@ const App = () => {
             <Stack.Screen
               name="LocalUsers"
               component={LocalUsers}
-              options={{ title: "Local Users" }}
             />
             <Stack.Screen
               name="SignUp"

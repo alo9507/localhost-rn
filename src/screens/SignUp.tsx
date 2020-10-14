@@ -84,7 +84,7 @@ const SignUp = (props) => {
         />
         <Input
           onChangeText={(val) => setInput("age", val)}
-          value={formState.age.toString()}
+          value={formState.age.toString?.()}
           placeholder="Age"
         />
         <Input
