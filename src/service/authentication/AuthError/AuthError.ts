@@ -5,7 +5,7 @@ enum AuthError {
     passwordTooShort = "PasswordTooShort",
     usernameInvalid = "UsernameInvalid",
     unknownError = "UnknownError",
-    userIsNotConfirmed = "UserIsNotConfirmed"
+    userIsNotConfirmed = "UserIsNotConfirmed",
     incorrectUsernameOrPassword = "IncorrectUsernameOrPassword"
 }
 

@@ -9,7 +9,6 @@ import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 
 const LaunchScreen = (props) => {
   const [store, setStore] = React.useContext(StoreContext);
-  const [formState, setFormState] = useState({});
   const client = useApolloClient()
 
   const authManager = new EZAuthManager();

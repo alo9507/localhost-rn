@@ -101,7 +101,7 @@ const LocalUsers = (props) => {
   return (
     <View style={styles.container}>
       <Button title="Sign Out" onPress={signOut} />
-      {data.users.map((user, index) => (
+      {/* {data.users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>Name: {user.name}</Text>
           <Text>ID: {user.id}</Text>
@@ -113,7 +113,7 @@ const LocalUsers = (props) => {
           <Text>location: {user.location}</Text>
           <Text>email: {user.email}</Text>
         </View>
-      ))}
+      ))} */}
     </View>
   );
 };
