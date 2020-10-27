@@ -43,8 +43,8 @@ const LaunchScreen = (props) => {
 
   return (
     <>
-      <div>LAUNCH SCREEN</div>
-      <div>Auth Session: {authSession}</div>
+      <Text>LAUNCH SCREEN</Text>
+      <Text>Auth Session: {authSession}</Text>
     </>
   );
 };
