@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 
-import Amplfiy, { API, graphqlOperation } from "aws-amplify";
-import { createUser } from "./graphql/mutations";
-import { listUsers } from "./graphql/queries";
 import config from "../aws-exports";
 import { registerRootComponent } from "expo";
-import Login from "./screens/Login";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import LocalUsers from "./screens/LocalUsers";
 import StoreProvider from "./store/StoreProvider";
-import ThemeProvider from "./style/ThemeProvider";
-import SignUp from "./screens/SignUp";
-import LaunchScreen from "./screens/LaunchScreen";
 
+import Amplfiy from "aws-amplify";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+// screens
+import Launch from "./screens/Launch";
+import FirstLaunch from "./screens/FirstLaunch";
+import SignUp from "./screens/SignUp";
+import Login from "./screens/Login";
+import LocalUsers from "./screens/LocalUsers";
 
 Amplfiy.configure(config);
 
@@ -34,11 +34,11 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="LaunchScreen">
+          <Stack.Navigator initialRouteName="Launch">
             <Stack.Screen
-              name="LaunchScreen"
-              component={LaunchScreen}
-              options={{ title: "LaunchScreen" }}
+              name="Launch"
+              component={Launch}
+              options={{ title: "Launch" }}
             />
             <Stack.Screen
               name="Login"
@@ -53,6 +53,11 @@ const App = () => {
               name="SignUp"
               component={SignUp}
               options={{ title: "Become a Member" }}
+            />
+            <Stack.Screen
+              name="FirstLaunch"
+              component={FirstLaunch}
+              options={{ title: "First Launch Screen" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

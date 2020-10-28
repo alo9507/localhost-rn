@@ -6,6 +6,7 @@ import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
+import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService"
 
 const LaunchScreen = (props) => {
   const [store, setStore] = React.useContext(StoreContext);
@@ -16,6 +17,16 @@ const LaunchScreen = (props) => {
   const [authSession, setAuthSession] = useState("No auth session")
 
   useEffect(() => {
+
+    (async function anyNameFunction() {
+      const fls = new AsyncStorageFirstLaunchService()
+      const isFirstLaunch = await fls.isFirstLaunch()
+      if (isFirstLaunch) {
+        props.navigation.navigate("FirstLaunch");
+      }
+      console.log("IS FIRST LAUNCH RETURNED: ", isFirstLaunch)
+    })();
+
     authManager.checkForAuthSession(
       async (authSession) => {
         if (authSession != null) {
