@@ -7,12 +7,8 @@ class AsyncStorageFirstLaunchService implements AuthDataStore {
             try {
                 const firstLaunchToken = await AsyncStorage.getItem("@firstLaunchToken");
                 if (firstLaunchToken != null) { resolve(false) }
-                try {
-                    await AsyncStorage.setItem("@firstLaunchToken", JSON.stringify({ isFirstLaunch: false }));
-                    resolve(true)
-                } catch (e) {
-                    reject(e)
-                }
+                await AsyncStorage.setItem("@firstLaunchToken", JSON.stringify({ isFirstLaunch: false }));
+                resolve(true)
             } catch (e) {
                 reject(e)
             }

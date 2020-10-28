@@ -3,86 +3,78 @@ import AuthError from "../AuthError/AuthError";
 import AuthSession from "../AuthSession/AuthSession";
 
 class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
-  async signIn(
-    email: string,
-    password: string,
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ) {
-    try {
-      const signInResult = await Auth.signIn({
-        username: email,
-        password: password,
-      });
+  async signIn(email: string, password: string) {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        const signInResult = await Auth.signIn({
+          username: email,
+          password: password,
+        });
 
-      const userId = signInResult.attributes.sub;
+        const userId = signInResult.attributes.sub;
 
-      onSuccess(new AuthSession(userId, "fakeToken"));
-    } catch (e) {
-      switch (e.message) {
-        case "Username should be either an email or a phone number.":
-          onFailure(`${AuthError.usernameInvalid}:  ${e.message}`);
-        case "Password did not conform with policy: Password not long enough":
-          onFailure(`${AuthError.passwordTooShort}:  ${e.message}`);
-        case "User is not confirmed.":
-          onFailure(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
-        case "Incorrect username or password.":
-          onFailure(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
-        default:
-          onFailure(`${AuthError.unknownError}:  ${e.message}`);
+        resolve(new AuthSession(userId, "fakeToken"));
+      } catch (e) {
+        switch (e.message) {
+          case "Username should be either an email or a phone number.":
+            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+          case "Password did not conform with policy: Password not long enough":
+            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+          case "User is not confirmed.":
+            reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
+          case "Incorrect username or password.":
+            reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
+          case "User does not exist.":
+            reject(`${AuthError.userDoesNotExist}:  ${e.message}`);
+          default:
+            reject(`${AuthError.unknownError}:  ${e.message}`);
+        }
       }
-    }
+    })
+    return promise
   }
 
-  async signOut(
-    onSuccess: (success: boolean) => void,
-    onFailure: (error: string) => void
-  ) {
-    try {
-      await Auth.signOut();
-      onSuccess(true);
-    } catch (error) {
-      onFailure(`Error signing out: ${error}`);
-    }
+  async signOut() {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        await Auth.signOut();
+        resolve(true);
+      } catch (error) {
+        reject(`Error signing out: ${error}`);
+      }
+    })
+    return promise
   }
 
-  async signUp(
-    email: string,
-    password: string,
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ) {
-    try {
-      const signUpResult = await Auth.signUp({
-        username: email,
-        password: password,
-      });
+  async signUp(email: string, password: string) {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        const signUpResult = await Auth.signUp({
+          username: email,
+          password: password,
+        });
 
-      const userId = signUpResult.userSub;
+        const userId = signUpResult.userSub;
 
-      onSuccess(new AuthSession(userId, "fakeToken"));
-    } catch (e) {
-      switch (e.message) {
-        case "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6":
-          onFailure(`${AuthError.passwordTooShort}:  ${e.message}`);
-          break;
-        case "User does not exist.":
-          onFailure(`${AuthError.userNotFound}:  ${e.message}`);
-          break;
-        case "Username should be either an email or a phone number.":
-          onFailure(`${AuthError.usernameInvalid}:  ${e.message}`);
-          break;
-        case "Password did not conform with policy: Password not long enough":
-          onFailure(`${AuthError.passwordTooShort}:  ${e.message}`);
-          break;
-        case "An account with the given email already exists.":
-          onFailure(`${AuthError.emailAlreadyExists}:  ${e.message}`);
-          break;
-        default:
-          onFailure(`${AuthError.unknownError}:  ${e.message}`);
-          break;
+        resolve(new AuthSession(userId, "fakeToken"));
+      } catch (e) {
+        switch (e.message) {
+          case "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6":
+            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+          case "User does not exist.":
+            reject(`${AuthError.userNotFound}:  ${e.message}`);
+          case "Username should be either an email or a phone number.":
+            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+          case "Password did not conform with policy: Password not long enough":
+            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+          case "An account with the given email already exists.":
+            reject(`${AuthError.emailAlreadyExists}:  ${e.message}`);
+          default:
+            reject(`${AuthError.unknownError}:  ${e.message}`);
+        }
       }
-    }
+    })
+    return promise
   }
 }
 

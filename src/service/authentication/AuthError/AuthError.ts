@@ -6,7 +6,8 @@ enum AuthError {
     usernameInvalid = "UsernameInvalid",
     unknownError = "UnknownError",
     userIsNotConfirmed = "UserIsNotConfirmed",
-    incorrectUsernameOrPassword = "IncorrectUsernameOrPassword"
+    incorrectUsernameOrPassword = "IncorrectUsernameOrPassword",
+    userDoesNotExist = "UserDoesNotExist"
 }
 
 export default AuthError
