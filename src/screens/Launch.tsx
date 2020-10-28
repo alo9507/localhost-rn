@@ -17,8 +17,7 @@ const LaunchScreen = (props) => {
   const [authSession, setAuthSession] = useState("No auth session")
 
   useEffect(() => {
-
-    (async function anyNameFunction() {
+    (async function checkForFirstLaunch() {
       const fls = new AsyncStorageFirstLaunchService()
       const isFirstLaunch = await fls.isFirstLaunch()
       if (isFirstLaunch) {
@@ -27,8 +26,9 @@ const LaunchScreen = (props) => {
       console.log("IS FIRST LAUNCH RETURNED: ", isFirstLaunch)
     })();
 
-    authManager.checkForAuthSession(
-      async (authSession) => {
+    (async function checkForAuthSession() {
+      try {
+        const authSession = await authManager.checkForAuthSession()
         if (authSession != null) {
           console.log(`Auth Session found: ${JSON.stringify(authSession)}. Fetching user...`)
           setAuthSession(JSON.stringify(authSession))
@@ -45,11 +45,10 @@ const LaunchScreen = (props) => {
           console.log(`No auth session stored in cache`)
           props.navigation.navigate("Login");
         }
-      },
-      (error) => {
-        console.log(`An error occured while checking for auth session: ${error}`);
+      } catch (e) {
+        console.log(`An error occured while checking for auth session: ${e}`);
       }
-    );
+    })();
   }, []);
 
   return (

@@ -12,96 +12,53 @@ class EZAuthManager implements AuthManager {
     this.authSession = null;
   }
 
-  async signUp(
-    email: string,
-    password: string,
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ) {
-    this.remoteAuthProvider.signUp(
-      email,
-      password,
-      (authSession) => {
-        this.authDataStore.save(
-          authSession,
-          async (authSession) => {
-            console.log("about to set auth session");
-            this.authSession = authSession;
-            onSuccess(authSession);
-          },
-          async (error) => {
-            onFailure(error);
-          }
-        );
-      },
-      (error) => {
-        onFailure(error);
+  async signUp(email: string, password: string): Promise<AuthSession> {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        const authSession = await this.remoteAuthProvider.signUp(email, password)
+        const authDataStoreResult = await this.authDataStore.save(authSession)
+        this.authSession = authSession;
+        resolve(authSession);
+      } catch (e) {
+        reject(e)
       }
-    );
+    })
+    return promise
   }
 
-  async signIn(
-    email: string,
-    password: string,
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ) {
-    this.remoteAuthProvider.signIn(
-      email,
-      password,
-      (authSession) => {
-        this.authDataStore.save(
-          authSession,
-          async (authSession) => {
-            console.log("about to set auth session");
-            this.authSession = authSession;
-            onSuccess(authSession);
-          },
-          async (error) => {
-            onFailure(error);
-          }
-        );
-      },
-      (error) => {
-        onFailure(error);
-      }
-    );
+  async signIn(email: string, password: string): Promise<AuthSession> {
+    try {
+      const authSession = await this.remoteAuthProvider.signIn(email, password)
+      const authDataStoreResult = await this.authDataStore.save(authSession)
+      this.authSession = authSession;
+    } catch (e) {
+      reject(e)
+    }
   }
 
-  async signOut(
-    onSuccess: (success: boolean) => void,
-    onFailure: (error: string) => void
-  ): void {
-    this.remoteAuthProvider.signOut(
-      (success) => {
-        this.authDataStore.delete(
-          (success) => {
-            onSuccess(success);
-          },
-          (error) => {
-            onFailure(error);
-          }
-        );
-      },
-      (error) => {
-        onFailure(`Error signing out: ${error}`);
+  async signOut(): Promise<boolean> {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.remoteAuthProvider.signOut()
+        const deleteResult = await this.authDataStore.delete()
+        this.authSession = null
+      } catch (e) {
+        reject(e)
       }
-    );
+    })
+    return promise
   }
 
-  async checkForAuthSession(
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: String) => void
-  ) {
-    const authSession = this.authDataStore.readAuthSession(
-      (authSession) => {
-        // null or present
-        onSuccess(authSession);
-      },
-      (error) => {
-        onFailure(error);
+  async checkForAuthSession() {
+    let promise = new Promise(async (resolve, reject) => {
+      try {
+        const authSession = await this.authDataStore.readAuthSession()
+        resolve(authSession)
+      } catch (e) {
+        reject(e)
       }
-    );
+    })
+    return promise
   }
 }
 

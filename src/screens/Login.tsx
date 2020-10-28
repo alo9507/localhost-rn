@@ -23,43 +23,34 @@ const Login = (props) => {
   }
 
   async function signUp() {
-    authManager.signUp(
-      formState.email,
-      formState.password,
-      async (authSession) => {
-        const result = await createUser({
-          variables: { id: authSession.userId, email: formState.email },
-        });
+    try {
+      const authSession = await authManager.signUp(formState.email, formState.password)
+      const result = await createUser({
+        variables: { id: authSession.userId, email: formState.email },
+      });
 
-        const user = result.data.createUser;
-        setState({ ...state, user });
-        props.navigation.navigate("SignUp");
-      },
-      async (error) => {
-        console.log("Error signing up:", error);
-      })
+      const user = result.data.createUser;
+      setState({ ...state, user });
+      props.navigation.navigate("SignUp");
+    } catch (e) {
+      console.log("Error signing up:", e);
+    }
   }
 
   async function signIn() {
     try {
-      authManager.signIn(
-        formState.email,
-        formState.password,
-        async (authSession) => {
+      const authSession = authManager.signIn(formState.email, formState.password)
+      const result = await client.query({
+        query: GET_USER,
+        variables: { id: authSession.userId }
+      });
 
-          const result = await client.query({
-            query: GET_USER,
-            variables: { id: authSession.userId }
-          });
-
-          const user = result.data.user;
-          setState({ ...state, user });
-          props.navigation.navigate("LocalUsers");
-        },
-        async (error) => {
-          console.log(error);
-        }
-      );
+      const user = result.data.user;
+      setState({ ...state, user });
+      props.navigation.navigate("LocalUsers");
+      async (error) => {
+        console.log(error);
+      }
     } catch (error) {
       console.log("Error Signing In:", error);
     }

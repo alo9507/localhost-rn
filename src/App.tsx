@@ -23,7 +23,7 @@ Amplfiy.configure(config);
 const Stack = createStackNavigator();
 
 const client = new ApolloClient({
-  uri: "http://0.0.0.0:4000/graphql",
+  uri: "http://localhost:80",
   cache: new InMemoryCache({
     addTypename: false
   }),
@@ -34,7 +34,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Launch">
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
               name="Launch"
               component={Launch}
