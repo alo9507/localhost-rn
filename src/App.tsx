@@ -34,7 +34,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <StoreProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Launch">
             <Stack.Screen
               name="Launch"
               component={Launch}

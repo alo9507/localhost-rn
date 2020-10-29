@@ -76,23 +76,9 @@ const LocalUsers = (props) => {
   }
 
   async function signOut() {
-    authManager.signOut(
-      (success) => {
-        console.log(success);
-        authManager.checkForAuthSession(
-          (authSession) => {
-            console.log(authSession);
-            props.navigation.navigate("Login");
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    let authResult = await authManager.signOut()
+    console.log(authResult)
+    props.navigation.navigate("Login");
   }
 
   if (loading) return <div>"Loading..."</div>

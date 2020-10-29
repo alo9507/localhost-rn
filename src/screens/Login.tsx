@@ -39,7 +39,8 @@ const Login = (props) => {
 
   async function signIn() {
     try {
-      const authSession = authManager.signIn(formState.email, formState.password)
+      const authSession = await authManager.signIn(formState.email, formState.password)
+      console.log(authSession.userId)
       const result = await client.query({
         query: GET_USER,
         variables: { id: authSession.userId }
@@ -52,6 +53,7 @@ const Login = (props) => {
         console.log(error);
       }
     } catch (error) {
+      console.log(error)
       console.log("Error Signing In:", error);
     }
   }
