@@ -1,12 +1,15 @@
 {
   "main": "src/App.tsx",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run env:dev && expo start",
+    "start:prod": "npm run env:prod && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "env:dev": "node scripts/set-environment.js development",
+    "env:prod": "node scripts/set-environment.js production"
   },
   "dependencies": {
     "@apollo/client": "^3.2.1",
@@ -18,16 +21,18 @@
     "@react-navigation/stack": "^5.9.1",
     "aws-amplify": "^3.3.1",
     "aws-amplify-react-native": "^4.2.6",
+    "aws-sdk": "^2.784.0",
+    "babel-plugin-dotenv-import": "^2.1.0",
     "expo": "^39.0.3",
     "expo-status-bar": "~1.0.2",
     "global": "^4.4.0",
     "graphql": "^15.3.0",
-    "aws-sdk": "^2.784.0",
     "graphql-import": "^1.0.2",
     "jest": "^26.4.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+    "react-native-dotenv": "^2.4.2",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",

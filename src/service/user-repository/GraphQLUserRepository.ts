@@ -4,12 +4,13 @@ import User from "../../models/User"
 import { GET_USER, GET_USERS } from "./graphql/query"
 import { CREATE_USER, UPDATE_USER } from "./graphql/mutation"
 import { UpdateUserInput } from "./graphql/input"
+const env = require("../../../env.json")
 
 class GraphQLUserRepository implements UserRepository {
   constructor () { }
 
   private client = new ApolloClient({
-    uri: "http://localhost:80",
+    uri: env.API_URL,
     cache: new InMemoryCache({
       addTypename: false
     }),
