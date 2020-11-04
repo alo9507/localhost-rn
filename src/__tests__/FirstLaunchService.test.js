@@ -1,5 +1,5 @@
 import React from "react";
-import AsyncStorageFirstLaunchService from "../src/service/first-launch-service/AsyncStorageFirstLaunchService"
+import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService"
 import AsyncStorage from "@react-native-community/async-storage";
 
 beforeEach(async () => {

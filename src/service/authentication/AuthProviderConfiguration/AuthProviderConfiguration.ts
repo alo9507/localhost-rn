@@ -1,11 +1,13 @@
 class AuthProviderConfiguration {
-    var remoteAuthProvider: RemoteAuthProvider {
-        switch self {
-        case .awsAmplify:
-          return new AWSAmplifyRemoteAuthProvider()
+    authProviderConfig = AuthProviderConfiguration.awsAmplify
+    static remoteAuthProvider = () => {
+        switch (this.authProviderConfig) {
+            case AuthProviderConfiguration.awsAmplify:
+                return new AWSAmplifyRemoteAuthProvider()
+        }
     }
 }
 
 enum AuthProviderConfiguration {
-    awsAmplify="awsAmplify"
+    awsAmplify = "awsAmplify"
 }

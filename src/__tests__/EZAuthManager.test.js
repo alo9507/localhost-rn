@@ -1,5 +1,5 @@
 import React from "react";
-import EZAuthManager from "../src/service/authentication/AuthManager/EZAuthManager"
+import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager"
 import AsyncStorage from "@react-native-community/async-storage";
 
 beforeEach(async () => {

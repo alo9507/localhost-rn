@@ -1,11 +1,11 @@
-class MockAuthManager: AuthManager {
-    authSession: AuthSession?
+class MockAuthManager implements AuthManager {
+    authSession: AuthSession | undefined
     authDataStore: AuthDataStore
     authProviderConfiguration: AuthProviderConfiguration
 
-    function configure(authProviderConfiguration: AuthProviderConfiguration): void
+    configure(authProviderConfiguration: AuthProviderConfiguration): void
 
-    function remoteAuthProvider(): RemoteAuthProvider {
+    remoteAuthProvider(): RemoteAuthProvider {
         return authProviderConfiguration.remoteAuthProvider
     }
 }

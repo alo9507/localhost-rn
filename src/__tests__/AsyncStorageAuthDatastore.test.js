@@ -1,5 +1,5 @@
 import React from "react";
-import AsyncStorageAuthDataStore from "../src/service/authentication/AuthDataStore/AsyncStorageAuthDataStore"
+import AsyncStorageAuthDataStore from "../service/authentication/AuthDataStore/AsyncStorageAuthDataStore"
 import AsyncStorage from "@react-native-community/async-storage";
 
 beforeEach(async () => {

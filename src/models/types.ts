@@ -1,4 +1,4 @@
-type User  {
+type User = {
   id: string!
   name: string!
   bio: string!
@@ -7,8 +7,8 @@ type User  {
   isVisible: boolean!
 }
 
-class User: User {
-  
+class User implements User {
+
 }
 
 export { User }
