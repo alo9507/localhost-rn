@@ -21,15 +21,13 @@ const Login = (props) => {
 
   const [formState, setFormState] = useState(initial);
 
-  const authManager = new EZAuthManager();
-
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   async function signUp() {
     try {
-      const authSession = await authManager.signUp(formState.email, formState.password)
+      const authSession = await appState.authManager.signUp(formState.email, formState.password)
       const user = await appState.userRepository.createUser(authSession.userId, formState.email)
       setAppState({ ...appState, user });
       props.navigation.navigate("SignUp");
@@ -40,7 +38,7 @@ const Login = (props) => {
 
   async function signIn() {
     try {
-      const authSession = await authManager.signIn(formState.email, formState.password)
+      const authSession = await appState.authManager.signIn(formState.email, formState.password)
       const user = await appState.userRepository.getUser(authSession.userId)
       setAppState({ ...appState, user });
       props.navigation.navigate("LocalUsers");

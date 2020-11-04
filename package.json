@@ -3,11 +3,13 @@
   "scripts": {
     "start": "npm run env:dev && expo start",
     "start:prod": "npm run env:prod && expo start",
+    "start:local": "npm run env:local && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watch",
+    "env:local": "node scripts/set-environment.js local",
     "env:dev": "node scripts/set-environment.js development",
     "env:prod": "node scripts/set-environment.js production"
   },

@@ -22,7 +22,7 @@ const SignUp = (props) => {
   }
 
   const join = async () => {
-    console.log(JSON.stringify(state))
+    console.log(state)
     const user = { ...formState, id: state.user.id };
 
     try {

@@ -41,5 +41,6 @@ class MockAuthManager implements AuthManager {
         })
         return promise
     }
-
 }
+
+export default MockAuthManager

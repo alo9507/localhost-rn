@@ -21,6 +21,7 @@ import LocalUsers from "./screens/LocalUsers";
 Amplfiy.configure(config);
 
 const Stack = createStackNavigator();
+
 const App = () => {
   return (
     <StoreProvider>
