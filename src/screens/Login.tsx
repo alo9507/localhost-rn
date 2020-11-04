@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { useQuery, useMutation, useLazyQuery, useApolloClient, gql } from "@apollo/client";
 import Amplfiy, { Auth } from "aws-amplify";
-import { User } from "../models/types";
+import User from "../models/User";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 
@@ -10,7 +10,18 @@ import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 
 const Login = (props) => {
   const [state, setState] = React.useContext(StoreContext);
-  const [formState, setFormState] = useState({});
+
+  type LoginInitialState = {
+    email: string,
+    password: string,
+  }
+
+  const initial: LoginInitialState = {
+    email: "",
+    password: ""
+  }
+
+  const [formState, setFormState] = useState(initial);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [createUser] = useMutation(CREATE_USER);

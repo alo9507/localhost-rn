@@ -1,13 +1,14 @@
 import AuthSession from "../AuthSession/AuthSession";
+import AuthDataStore from "../AuthDataStore/AuthDataStore"
 
 interface AuthManager {
-    readonly authSession: AuthSession | undefined
-    readonly authDataStore: AuthDataStore
-    readonly authProviderConfiguration: AuthProviderConfiguration
+    authSession: AuthSession | null
+    authDataStore: AuthDataStore
 
-    configure(authProviderConfiguration: AuthProviderConfiguration): void
-
-    async signIn(email: string, password: string, onSuccess: (authSession: AuthSession) => void, onFailure: (error: string) => void): void;
-    async signOut(onSuccess: (success: boolean) => void, onFailure: (error: string) => void): void;
-    async checkForAuthSession(onSuccess: (authSession: AuthSession?) => void, onFailure: (error: String) => void): void
+    signUp(email: string, password: string): Promise<AuthSession>
+    signIn(email: string, password: string): Promise<AuthSession>
+    signOut(): Promise<boolean>
+    checkForAuthSession(): Promise<AuthSession | null>
 }
+
+export default AuthManager

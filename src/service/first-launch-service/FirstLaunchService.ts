@@ -1,3 +1,5 @@
 interface FirstLaunchService {
-    static isFirstLaunc(): boolean
+    isFirstLaunch(): Promise<boolean>
 }
+
+export default FirstLaunchService;

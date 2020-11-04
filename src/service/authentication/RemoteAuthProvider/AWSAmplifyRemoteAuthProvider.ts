@@ -1,10 +1,11 @@
 import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
 import AuthError from "../AuthError/AuthError";
 import AuthSession from "../AuthSession/AuthSession";
+import RemoteAuthProvider from "../RemoteAuthProvider/RemoteAuthProvider"
 
 class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
-  async signIn(email: string, password: string) {
-    let promise = new Promise(async (resolve, reject) => {
+  signIn(email: string, password: string): Promise<AuthSession> {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const signInResult = await Auth.signIn({
           username: email,
@@ -34,8 +35,8 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  async signOut() {
-    let promise = new Promise(async (resolve, reject) => {
+  signOut(): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         await Auth.signOut();
         resolve(true);
@@ -46,8 +47,8 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  async signUp(email: string, password: string) {
-    let promise = new Promise(async (resolve, reject) => {
+  async signUp(email: string, password: string): Promise<AuthSession> {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const signUpResult = await Auth.signUp({
           username: email,

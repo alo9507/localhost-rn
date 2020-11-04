@@ -1,5 +1,9 @@
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import UserRepository from "../../service/user-repository/UserRepository"
+import User from "../../models/User"
+import { GET_USER } from "./graphql/query"
+import { CREATE_USER } from "./graphql/mutation"
 
 class GraphQLUserRepository implements UserRepository {
   client = new ApolloClient({
@@ -7,33 +11,33 @@ class GraphQLUserRepository implements UserRepository {
     cache: new InMemoryCache(),
   });
 
-  getUser(id: string) {
-    this.client
-      .query({
-        query: GET_USER,
-      })
-      .then((result) => console.log(result));
+  async getUser(id: string): Promise<User> {
+    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_USER,
+          variables: { id: id }
+        });
+        resolve(result.data)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
   }
 
-  createUser() {
-    CREATE_USER = gql`
-      mutation {
-        createUser(
-          id: "newId"
-          name: "Andrew"
-          bio: "a lil about me"
-          whatAmIDoing: "fdsfsd"
-          location: "fsdf"
-          isVisible: true
-          age: 24
-          sex: "male"
-        ) {
-          id
-          name
-        }
+  createUser(id: string, email: string): Promise<User> {
+    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_USER,
+          variables: { id: id, email: email },
+        });
+        resolve(result.data)
+      } catch (e) {
+        reject(e)
       }
-    `;
-
-    this.client.mutate();
+    })
+    return promise
   }
 }

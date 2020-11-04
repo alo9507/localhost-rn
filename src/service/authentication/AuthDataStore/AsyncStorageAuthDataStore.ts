@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import AuthDataStore from "./AuthDataStore";
+import AuthSession from "../AuthSession/AuthSession"
 
 class AsyncStorageAuthDataStore implements AuthDataStore {
-  constructor() { }
+  constructor () { }
 
-  async readAuthSession() {
-    let promise = new Promise(async (resolve, reject) => {
+  async readAuthSession(): Promise<AuthSession | null> {
+    let promise: Promise<AuthSession | null> = new Promise(async (resolve, reject) => {
       try {
         const jsonValue = await AsyncStorage.getItem("@authSession");
         const authSession = jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -17,8 +18,8 @@ class AsyncStorageAuthDataStore implements AuthDataStore {
     return promise
   }
 
-  async save(authSession: AuthSession) {
-    let promise = new Promise(async (resolve, reject) => {
+  async save(authSession: AuthSession): Promise<AuthSession> {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const jsonValue = JSON.stringify(authSession);
         await AsyncStorage.setItem("@authSession", jsonValue);
@@ -30,8 +31,8 @@ class AsyncStorageAuthDataStore implements AuthDataStore {
     return promise
   }
 
-  async delete() {
-    let promise = new Promise(async (resolve, reject) => {
+  async delete(): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         await AsyncStorage.removeItem("@authSession");
         resolve(true);

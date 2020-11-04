@@ -1,9 +1,10 @@
 import AsyncStorage from "@react-native-community/async-storage";
+import FirstLaunchService from "./FirstLaunchService";
 
-class AsyncStorageFirstLaunchService implements AuthDataStore {
-    constructor() { }
-    async isFirstLaunch(): Promise<boolean> {
-        let promise = new Promise(async (resolve, reject) => {
+class AsyncStorageFirstLaunchService implements FirstLaunchService {
+    constructor () { }
+    isFirstLaunch(): Promise<boolean> {
+        let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
             try {
                 const firstLaunchToken = await AsyncStorage.getItem("@firstLaunchToken");
                 if (firstLaunchToken != null) { resolve(false) }

@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noUnusedLocals": false
   },
   "compileOnSave": true,
   "include": [

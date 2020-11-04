@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-
-import config from "../aws-exports";
-import { registerRootComponent } from "expo";
-import Login from "./screens/Login";
-
-import { createStackNavigator } from "@react-navigation/stack";
 import StoreContext from "../store/StoreContext";
-import AsyncStorage from "@react-native-community/async-storage";
-
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import { useQuery, gql } from "@apollo/client";
 
@@ -30,7 +22,6 @@ const GET_USERS = gql`
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
-  const [users, setUsers] = useState([]);
 
   const [store, setStore] = React.useContext(StoreContext);
   const authManager = new EZAuthManager();

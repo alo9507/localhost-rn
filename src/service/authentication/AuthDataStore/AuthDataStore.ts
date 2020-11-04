@@ -1,17 +1,9 @@
+import AuthSession from "../AuthSession/AuthSession";
+
 interface AuthDataStore {
-  readAuthSession(
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ): void;
-
-  save(
-    authSession: AuthSession,
-    onSuccess: (authSession: AuthSession) => void,
-    onFailure: (error: string) => void
-  ): void;
-
-  delete(
-    onSuccess: (success: boolean) => void,
-    onFailure: (error: string) => void
-  ): void;
+  readAuthSession(): Promise<AuthSession | null>;
+  save(authSession: AuthSession): Promise<AuthSession | null>;
+  delete(): Promise<boolean>
 }
+
+export default AuthDataStore

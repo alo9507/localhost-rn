@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
-import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
-import { updateUser } from "../graphql/mutations";
-import { User } from "../models/types";
-import { CreateUserInput } from "../graphql/API";
+import { useMutation, gql } from "@apollo/client";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
+import { Button } from "react-native"
 
 const SignUp = (props) => {
   const [updateUser] = useMutation(UPDATE_USER);

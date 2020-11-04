@@ -4,7 +4,7 @@ import { useQuery, useMutation, useLazyQuery, gql, useApolloClient } from "@apol
 import Amplfiy, { Auth } from "aws-amplify";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
-
+import AuthSession from "../service/authentication/AuthSession/AuthSession"
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService"
 
@@ -24,7 +24,7 @@ const LaunchScreen = (props) => {
   }
 
   const determineIsLoggedIn = async () => {
-    const authSession = await authManager.checkForAuthSession()
+    const authSession: AuthSession | null = await authManager.checkForAuthSession()
     if (authSession != null) {
       console.log(`Auth Session found: ${JSON.stringify(authSession)}. Fetching user...`)
       setAuthSession(JSON.stringify(authSession))

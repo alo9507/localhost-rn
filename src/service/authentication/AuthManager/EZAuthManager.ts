@@ -1,20 +1,24 @@
 import AWSAmplifyRemoteAuthProvider from "../RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
 import AsyncStorageAuthDataStore from "../AuthDataStore/AsyncStorageAuthDataStore";
 import { resolvePlugin } from "@babel/core";
+import AuthSession from "../AuthSession/AuthSession"
+import AuthManager from "../AuthManager/AuthManager"
+import RemoteAuthProvider from "../RemoteAuthProvider/RemoteAuthProvider"
+import AuthDataStore from "../../authentication/AuthDataStore/AuthDataStore"
 
 class EZAuthManager implements AuthManager {
-  authSession: AuthSession;
+  authSession: AuthSession | null;
   authDataStore: AuthDataStore;
   remoteAuthProvider: RemoteAuthProvider;
 
-  constructor() {
+  constructor () {
     this.authDataStore = new AsyncStorageAuthDataStore();
     this.remoteAuthProvider = new AWSAmplifyRemoteAuthProvider();
     this.authSession = null;
   }
 
   async signUp(email: string, password: string): Promise<AuthSession> {
-    let promise = new Promise(async (resolve, reject) => {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const authSession = await this.remoteAuthProvider.signUp(email, password)
         const authDataStoreResult = await this.authDataStore.save(authSession)
@@ -28,7 +32,7 @@ class EZAuthManager implements AuthManager {
   }
 
   async signIn(email: string, password: string): Promise<AuthSession> {
-    let promise = new Promise(async (resolve, reject) => {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const authSession = await this.remoteAuthProvider.signIn(email, password)
         const authDataStoreResult = await this.authDataStore.save(authSession)
@@ -42,13 +46,13 @@ class EZAuthManager implements AuthManager {
     return promise
   }
 
-  async signOut(): Promise<string> {
-    let promise = new Promise(async (resolve, reject) => {
+  async signOut(): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.remoteAuthProvider.signOut()
         const deleteResult = await this.authDataStore.delete()
         this.authSession = null
-        resolve("successfully signed out")
+        resolve(true)
       } catch (e) {
         reject(e)
       }
@@ -56,8 +60,8 @@ class EZAuthManager implements AuthManager {
     return promise
   }
 
-  async checkForAuthSession() {
-    let promise = new Promise(async (resolve, reject) => {
+  async checkForAuthSession(): Promise<AuthSession | null> {
+    let promise: Promise<AuthSession | null> = new Promise(async (resolve, reject) => {
       try {
         const authSession = await this.authDataStore.readAuthSession()
         resolve(authSession)
