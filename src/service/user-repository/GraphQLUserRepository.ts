@@ -1,14 +1,18 @@
-import { gql } from "@apollo/client";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
-import { GET_USER } from "./graphql/query"
-import { CREATE_USER } from "./graphql/mutation"
+import { GET_USER, GET_USERS } from "./graphql/query"
+import { CREATE_USER, UPDATE_USER } from "./graphql/mutation"
+import { UpdateUserInput } from "./graphql/input"
 
 class GraphQLUserRepository implements UserRepository {
-  client = new ApolloClient({
-    uri: "https://silly-bell-fb236d.netlify.app/.netlify/functions/graphql",
-    cache: new InMemoryCache(),
+  constructor () { }
+
+  private client = new ApolloClient({
+    uri: "http://localhost:80",
+    cache: new InMemoryCache({
+      addTypename: false
+    }),
   });
 
   async getUser(id: string): Promise<User> {
@@ -18,7 +22,7 @@ class GraphQLUserRepository implements UserRepository {
           query: GET_USER,
           variables: { id: id }
         });
-        resolve(result.data)
+        resolve(result.data.user)
       } catch (e) {
         reject(e)
       }
@@ -33,7 +37,36 @@ class GraphQLUserRepository implements UserRepository {
           mutation: CREATE_USER,
           variables: { id: id, email: email },
         });
-        resolve(result.data)
+        resolve(result.data.user)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  updateUser(input: UpdateUserInput): Promise<User> {
+    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_USER,
+          variables: { input },
+        });
+        resolve(result.data.user)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  getUsers(): Promise<User[]> {
+    let promise: Promise<User[]> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_USERS,
+        });
+        resolve(result.data.users)
       } catch (e) {
         reject(e)
       }
@@ -41,3 +74,5 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 }
+
+export default GraphQLUserRepository

@@ -2,31 +2,44 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import StoreContext from "../store/StoreContext";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
-import { useQuery, gql } from "@apollo/client";
+import User from "../models/User"
 
 const initialState = { id: "mynewid", name: "", location: "" };
-
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-      sex
-      age
-      isVisible
-      email
-    }
-  }
-`
 
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
 
+  type LocalUsersInitialState = {
+    loading: boolean,
+    error: boolean,
+    users: User[],
+  }
+
+  const initial: LocalUsersInitialState = {
+    users: [],
+    loading: true,
+    error: false
+  }
+
+  const [state, setState] = useState(initial)
+
   const [store, setStore] = React.useContext(StoreContext);
   const authManager = new EZAuthManager();
 
-  const { loading, error, data } = useQuery(GET_USERS);
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const users = await store.userRepository.getUsers()
+        console.log(users)
+        setState({ ...state, users, loading: false })
+      } catch (e) {
+        setState({ ...state, loading: false, error: true })
+      }
+    }
+
+    getUsers()
+  }, [])
 
   useEffect(() => {
     let geoOptions = {
@@ -72,13 +85,13 @@ const LocalUsers = (props) => {
     props.navigation.navigate("Login");
   }
 
-  if (loading) return <div>"Loading..."</div>
-  if (error) return `Error! ${error}`;
+  if (state.loading) return <div>"Loading..."</div>
+  if (state.error) return `Error! ${state.error}`;
 
   return (
     <View style={styles.container}>
       <Button title="Sign Out" onPress={signOut} />
-      {data.users.map((user, index) => (
+      {state.users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>Name: {user.name}</Text>
           <Text>ID: {user.id}</Text>

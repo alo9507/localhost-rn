@@ -22,47 +22,38 @@ Amplfiy.configure(config);
 
 const Stack = createStackNavigator();
 
-const client = new ApolloClient({
-  uri: "http://localhost:80",
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-});
-
 const App = () => {
   return (
-    <ApolloProvider client={client}>
-      <StoreProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Launch">
-            <Stack.Screen
-              name="Launch"
-              component={Launch}
-              options={{ title: "Launch" }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ title: "Sign In/Sign Up" }}
-            />
-            <Stack.Screen
-              name="LocalUsers"
-              component={LocalUsers}
-            />
-            <Stack.Screen
-              name="SignUp"
-              component={SignUp}
-              options={{ title: "Become a Member" }}
-            />
-            <Stack.Screen
-              name="FirstLaunch"
-              component={FirstLaunch}
-              options={{ title: "First Launch Screen" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </StoreProvider>
-    </ApolloProvider>
+    <StoreProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Launch">
+          <Stack.Screen
+            name="Launch"
+            component={Launch}
+            options={{ title: "Launch" }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Sign In/Sign Up" }}
+          />
+          <Stack.Screen
+            name="LocalUsers"
+            component={LocalUsers}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ title: "Become a Member" }}
+          />
+          <Stack.Screen
+            name="FirstLaunch"
+            component={FirstLaunch}
+            options={{ title: "First Launch Screen" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StoreProvider>
   );
 };
 

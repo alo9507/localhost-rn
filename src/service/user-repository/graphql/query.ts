@@ -12,3 +12,16 @@ query GetUser($id: ID!) {
     }
 }
 `;
+
+export const GET_USERS = gql`
+query GetUsers {
+    users {
+        id
+        name
+        sex
+        age
+        isVisible
+        email
+    }
+}
+`;

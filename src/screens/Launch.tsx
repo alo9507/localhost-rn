@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { useQuery, useMutation, useLazyQuery, gql, useApolloClient } from "@apollo/client";
-import Amplfiy, { Auth } from "aws-amplify";
+import { Text } from "react-native";
 import StoreContext from "../store/StoreContext";
-import styled from "styled-components/native";
 import AuthSession from "../service/authentication/AuthSession/AuthSession"
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService"
 
 const LaunchScreen = (props) => {
   const [store, setStore] = React.useContext(StoreContext);
-  const client = useApolloClient()
 
   const authManager = new EZAuthManager();
 
@@ -28,13 +24,7 @@ const LaunchScreen = (props) => {
     if (authSession != null) {
       console.log(`Auth Session found: ${JSON.stringify(authSession)}. Fetching user...`)
       setAuthSession(JSON.stringify(authSession))
-
-      const result = await client.query({
-        query: GET_USER,
-        variables: { id: authSession.userId }
-      });
-
-      const user = result.data.user;
+      const user = await store.userRepository.getUser(authSession.userId)
       setStore({ ...store, user });
       return true
     } else {
@@ -71,18 +61,5 @@ const LaunchScreen = (props) => {
     </>
   );
 };
-
-const GET_USER = gql`
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      sex
-      age
-      isVisible
-      email
-    }
-  }
-`;
 
 export default LaunchScreen;

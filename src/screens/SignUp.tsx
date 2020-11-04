@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
 import { Button } from "react-native"
 
 const SignUp = (props) => {
-  const [updateUser] = useMutation(UPDATE_USER);
 
   const initialState = {
     name: "",
@@ -29,16 +27,9 @@ const SignUp = (props) => {
 
     try {
       console.log(user)
-      const result = await updateUser({
+      const updatedUser = await state.userRepository.updateUser({
         variables: { input: user },
       });
-
-      const error = result.errors;
-      console.log(error);
-
-      const updatedUser = result.data.UpdateUser;
-
-      console.log("UPDATE USER", updatedUser);
     } catch (e) {
       console.log(`Error signing up new user:`, e);
     }
@@ -110,20 +101,6 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: 20px;
-`;
-
-const UPDATE_USER = gql`
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      name
-      whatAmIDoing
-      bio
-      whatAmIDoing
-      sex
-      age
-      isVisible
-    }
-  }
 `;
 
 export default SignUp;
