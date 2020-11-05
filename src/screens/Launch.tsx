@@ -6,7 +6,7 @@ import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService"
 
 const LaunchScreen = (props) => {
-  const [store, setStore] = React.useContext(StoreContext);
+  const [appState, setAppState] = React.useContext(StoreContext);
 
   const authManager = new EZAuthManager();
 
@@ -15,7 +15,6 @@ const LaunchScreen = (props) => {
   const determineFirstLaunch = async () => {
     const fls = new AsyncStorageFirstLaunchService()
     const isFirstLaunch = await fls.isFirstLaunch()
-    console.log("IS FIRST LAUNCH RETURNED: ", isFirstLaunch)
     return isFirstLaunch
   }
 
@@ -24,8 +23,8 @@ const LaunchScreen = (props) => {
     if (authSession != null) {
       console.log(`Auth Session found: ${JSON.stringify(authSession)}. Fetching user...`)
       setAuthSession(JSON.stringify(authSession))
-      const user = await store.userRepository.getUser(authSession.userId)
-      setStore({ ...store, user });
+      const user = await appState.userRepository.getUser(authSession.userId)
+      setAppState({ ...appState, user });
       return true
     } else {
       console.log(`No auth session stored in cache`)

@@ -3,12 +3,14 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import StoreContext from "../store/StoreContext";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import User from "../models/User"
+import AppState from "../models/AppState"
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
+  const [appState, setAppState] = React.useContext(StoreContext);
 
   type LocalUsersInitialState = {
     loading: boolean,
@@ -24,13 +26,10 @@ const LocalUsers = (props) => {
 
   const [state, setState] = useState(initial)
 
-  const [store, setStore] = React.useContext(StoreContext);
-  const authManager = new EZAuthManager();
-
   useEffect(() => {
     async function getUsers() {
       try {
-        const users = await store.userRepository.getUsers()
+        const users = await appState.userRepository.getUsers()
         console.log(users)
         setState({ ...state, users, loading: false })
       } catch (e) {
@@ -55,8 +54,7 @@ const LocalUsers = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(store.user)
-    props.navigation.setOptions({ title: store.user?.name ? store.user.name : "No Name" });
+    props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
   }, [])
 
   const geoSuccess = (location) => {
@@ -80,7 +78,7 @@ const LocalUsers = (props) => {
   }
 
   async function signOut() {
-    let authResult = await authManager.signOut()
+    let authResult = await appState.authManager.signOut()
     console.log(authResult)
     props.navigation.navigate("Login");
   }
