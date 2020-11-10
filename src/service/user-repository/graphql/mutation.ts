@@ -11,15 +11,6 @@ mutation CreateUser($input: CreateUserInput!) {
         whatAmIDoing
         isVisible
         age
-        inbound {
-            id
-        }
-        outbound {
-            id
-        }
-        mutual {
-            id
-        }
     }
 }`
 

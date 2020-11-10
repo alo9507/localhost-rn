@@ -1,19 +1,34 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
+import { onError } from "apollo-link-error";
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
 import { GET_USER, GET_USERS } from "./graphql/query"
 import { CREATE_USER, UPDATE_USER } from "./graphql/mutation"
 import { UpdateUserInput } from "./graphql/input"
+import { HttpLink } from "apollo-link-http"
 const env = require("../../../env.json")
 
 class GraphQLUserRepository implements UserRepository {
   constructor () { }
+
+  errorLink = onError(({ graphQLErrors, networkError, response }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}, Response: ${JSON.stringify(response)}`
+        )
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
+
+  httpLink = new HttpLink({ uri: env.API_URL })
 
   private client = new ApolloClient({
     uri: env.API_URL,
     cache: new InMemoryCache({
       addTypename: false
     }),
+    link: ApolloLink.from([this.errorLink, this.httpLink])
   });
 
   async getUser(id: string): Promise<User> {
@@ -32,7 +47,7 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   createUser(id: string, email: string): Promise<User> {
-    console.log("fsdf", { id: id, email: email })
+    console.log(`${id}, ${email}`)
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
