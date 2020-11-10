@@ -15,21 +15,19 @@ const SignUp = (props) => {
   };
 
   const [formState, setFormState] = useState(initialState);
-  const [state, setState] = React.useContext(StoreContext);
+  const [appState, setAppState] = React.useContext(StoreContext);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   const join = async () => {
-    console.log(state)
-    const user = { ...formState, id: state.user.id };
-
+    console.log(appState)
+    const user = { ...formState, id: appState.user.id };
+    console.log("update input", user)
     try {
-      console.log(user)
-      const updatedUser = await state.userRepository.updateUser({
-        variables: { input: user },
-      });
+      const updatedUser = await appState.userRepository.updateUser(user)
+      return props.navigation.navigate("LocalUsers");
     } catch (e) {
       console.log(`Error signing up new user:`, e);
     }
@@ -70,8 +68,9 @@ const SignUp = (props) => {
           placeholder="Sex"
         />
         <Input
-          onChangeText={(val) => setInput("age", val)}
-          value={formState.age.toString?.()}
+          type="number"
+          onChangeText={(val) => setInput("age", parseInt(val))}
+          value={formState.age}
           placeholder="Age"
         />
         <Input

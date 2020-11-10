@@ -4,7 +4,7 @@ export const CREATE_USER = gql`
 mutation CreateUser($id: ID!, $email: String!){
     createUser(input: { id: $id, email: $email } ) {
         id
-        name
+        email
     }
 }
 `;
@@ -20,6 +20,7 @@ export const UPDATE_USER = gql`
       sex
       age
       isVisible
+      email
     }
   }
 `;

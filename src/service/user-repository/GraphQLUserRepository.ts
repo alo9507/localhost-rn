@@ -38,7 +38,7 @@ class GraphQLUserRepository implements UserRepository {
           mutation: CREATE_USER,
           variables: { id: id, email: email },
         });
-        resolve(result.data.user)
+        resolve(result.data.createUser)
       } catch (e) {
         reject(e)
       }
@@ -53,7 +53,7 @@ class GraphQLUserRepository implements UserRepository {
           mutation: UPDATE_USER,
           variables: { input },
         });
-        resolve(result.data.user)
+        resolve(result.data.updateUser)
       } catch (e) {
         reject(e)
       }

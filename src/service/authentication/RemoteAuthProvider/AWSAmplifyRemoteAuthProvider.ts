@@ -7,7 +7,6 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
   signIn(email: string, password: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
-        console.log(email, password)
         const signInResult = await Auth.signIn({
           username: email,
           password: password,
@@ -28,7 +27,6 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
             reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
             break;
           case "Incorrect username or password.":
-            console.log(e)
             reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
             break;
           case "User does not exist.":
