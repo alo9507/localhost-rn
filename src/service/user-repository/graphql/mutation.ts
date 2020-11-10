@@ -1,29 +1,50 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_USER = gql`
-mutation CreateUser($id: ID!, $email: String!){
-    createUser(input: { id: $id, email: $email } ) {
+mutation CreateUser($input: CreateUserInput!){
+    createUser(input: $input ) {
         id
+        sex
+        name
         email
+        bio
+        whatAmIDoing
+        isVisible
+        age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
-}
-`;
+}`
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      id
-      name
-      whatAmIDoing
-      bio
-      whatAmIDoing
-      sex
-      age
-      isVisible
-      email
+mutation UpdateUser($input: UpdateUserInput!){
+    updateUser(input: $input ) {
+        id
+        sex
+        name
+        email
+        bio
+        whatAmIDoing
+        isVisible
+        age
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
-  }
-`;
+}`
 
 export const SEND_NOD = gql`
 mutation SendNod($input: SendNodInput!){
@@ -44,3 +65,47 @@ mutation ReturnNod($input: SendNodInput!){
         message
     }
 }`
+
+const REPORT = gql`
+mutation ReportUser($input: ReportInput!) {
+    report(input: $input) {
+        from
+        to
+        reason
+        message
+    }
+}`
+
+const BLOCK = gql`
+mutation BlockUser($input: BlockInput!) {
+    block(input: $input) {
+        from
+        to
+        reason
+        message
+    }
+}`
+
+const BECOME_INVISIBLE_TO = gql`
+mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
+    becomeInvisibleTo(input: $input) {
+        from
+        to
+    }
+}`
+
+const BECOME_VISIBLE_TO = gql`
+mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
+    becomeVisibleTo(input: $input) {
+        from
+        to
+    }
+}`
+
+const UPDATE_SHOWME_CRITERIA = gql`
+mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
+    updateShowMeCriteria(input: $input) {
+        sex
+        age
+    }
+}`);

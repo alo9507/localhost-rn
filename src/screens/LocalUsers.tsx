@@ -30,7 +30,6 @@ const LocalUsers = (props) => {
     async function getUsers() {
       try {
         const users = await appState.userRepository.getUsers()
-        console.log(users)
         setState({ ...state, users, loading: false })
       } catch (e) {
         setState({ ...state, loading: false, error: true })
