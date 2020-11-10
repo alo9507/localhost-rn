@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Jest",
+            "type": "node",
+            "request": "launch",
+            "env": {
+                "CI": "true"
+            },
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/jest",
+            "args": [
+                "--runInBand",
+                "--no-cache",
+                "--setupTestFrameworkScriptFile=${workspaceRoot}/test-setup.js",
+                "--testPathPattern='AWSAmplifyRemoteAuthProvider'"
+            ],
+            "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        }
+    ]
+}

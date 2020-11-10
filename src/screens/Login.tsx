@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-native";
-import { useMutation, useLazyQuery, useApolloClient, gql } from "@apollo/client";
 import StoreContext from "../store/StoreContext";
 import styled from "styled-components/native";
-import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
-import { loadingBar } from "aws-amplify";
 
 const Login = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);

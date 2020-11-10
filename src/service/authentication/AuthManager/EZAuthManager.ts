@@ -39,7 +39,6 @@ class EZAuthManager implements AuthManager {
         this.authSession = authSession;
         resolve(authSession)
       } catch (e) {
-        console.log(e[0])
         reject(e)
       }
     })

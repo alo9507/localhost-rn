@@ -1,4 +1,4 @@
-import Amplfiy, { Auth, API, graphqlOperation } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import AuthError from "../AuthError/AuthError";
 import AuthSession from "../AuthSession/AuthSession";
 import RemoteAuthProvider from "../RemoteAuthProvider/RemoteAuthProvider"
@@ -7,6 +7,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
   signIn(email: string, password: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
+        console.log(email, password)
         const signInResult = await Auth.signIn({
           username: email,
           password: password,
@@ -19,14 +20,20 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
         switch (e.message) {
           case "Username should be either an email or a phone number.":
             reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+            break;
           case "Password did not conform with policy: Password not long enough":
             reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            break;
           case "User is not confirmed.":
             reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
+            break;
           case "Incorrect username or password.":
+            console.log(e)
             reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
+            break;
           case "User does not exist.":
             reject(`${AuthError.userDoesNotExist}:  ${e.message}`);
+            break;
           default:
             reject(`${AuthError.unknownError}:  ${e.message}`);
         }

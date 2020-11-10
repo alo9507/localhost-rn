@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import React from "react";
 
 import config from "../aws-exports";
 import { registerRootComponent } from "expo";
@@ -9,7 +8,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import StoreProvider from "./store/StoreProvider";
 
 import Amplfiy from "aws-amplify";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 // screens
 import Launch from "./screens/Launch";

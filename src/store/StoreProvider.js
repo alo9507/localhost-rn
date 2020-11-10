@@ -16,20 +16,20 @@ const StoreProvider = ({ children }) => {
   switch (env.environment) {
     case "development":
       initialState = {
-        userRepository = new GraphQLUserRepository();
-        authManager = new EZAuthManager();
+        userRepository: new GraphQLUserRepository(),
+        authManager: new EZAuthManager()
       };
       break;
     case "production":
       initialState = {
-        userRepository = new GraphQLUserRepository();
-        authManager = new EZAuthManager();
+        userRepository: new GraphQLUserRepository(),
+        authManager: new EZAuthManager()
       };
       break;
     case "local":
       initialState = {
-        userRepository = new MockUserRepository();
-        authManager = new MockAuthManager();
+        userRepository: new MockUserRepository(),
+        authManager: new MockAuthManager()
       };
       break;
     default:

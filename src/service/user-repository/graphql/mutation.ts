@@ -23,3 +23,23 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const SEND_NOD = gql`
+mutation SendNod($input: SendNodInput!){
+    sendNod(input: $input ) {
+        from
+        to
+        location
+        message
+    }
+}`
+
+export const RETURN_NOD = gql`
+mutation ReturnNod($input: SendNodInput!){
+    returnNod(input: $input ) {
+        from
+        to
+        location
+        message
+    }
+}`
