@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, Button } from "react-native";
 import StoreContext from "../store/StoreContext";
 import AuthSession from "../service/authentication/AuthSession/AuthSession"
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
@@ -53,10 +53,24 @@ const LaunchScreen = (props) => {
     })();
   }, []);
 
+  async function clearAuthCache() {
+    try {
+      const cleared = await appState.authManager.clearAuthSession()
+      if (cleared) {
+        console.log("Cleared auth session")
+      } else {
+        console.log("Failed to clear auth session")
+      }
+    } catch (e) {
+      console.log("Error Clearing Auth Cache:", e);
+    }
+  }
+
   return (
     <>
       <Text>LAUNCH SCREEN</Text>
       <Text>Auth Session: {authSession}</Text>
+      <Button title="Clear Auth Cache" onPress={clearAuthCache} />
     </>
   );
 };

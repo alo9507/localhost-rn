@@ -5,6 +5,7 @@ import { registerRootComponent } from "expo";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StoreProvider from "./store/StoreProvider";
 
 import Amplfiy from "aws-amplify";
@@ -18,38 +19,61 @@ import LocalUsers from "./screens/LocalUsers";
 
 Amplfiy.configure(config);
 
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator initialRouteName="Launch">
+      <HomeStack.Screen
+        name="Launch"
+        component={Launch}
+        options={{ title: "Launch" }}
+      />
+      <HomeStack.Screen
+        name="Login"
+        component={Login}
+        options={{ title: "Sign In/Sign Up" }}
+      />
+      <HomeStack.Screen
+        name="LocalUsers"
+        component={LocalUsers}
+      />
+      <HomeStack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ title: "Become a Member" }}
+      />
+      <HomeStack.Screen
+        name="FirstLaunch"
+        component={FirstLaunch}
+        options={{ title: "First Launch Screen" }}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+const SettingsStack = createStackNavigator();
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
+        name="UserSettings"
+        component={FirstLaunch}
+        options={{ title: "First Launch Screen" }}
+      />
+    </SettingsStack.Navigator>
+  )
+}
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <StoreProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Launch">
-          <Stack.Screen
-            name="Launch"
-            component={Launch}
-            options={{ title: "Launch" }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Sign In/Sign Up" }}
-          />
-          <Stack.Screen
-            name="LocalUsers"
-            component={LocalUsers}
-          />
-          <Stack.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{ title: "Become a Member" }}
-          />
-          <Stack.Screen
-            name="FirstLaunch"
-            component={FirstLaunch}
-            options={{ title: "First Launch Screen" }}
-          />
-        </Stack.Navigator>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeStackScreen} />
+          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+        </Tab.Navigator>
       </NavigationContainer>
     </StoreProvider>
   );

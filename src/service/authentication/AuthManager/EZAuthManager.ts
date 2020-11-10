@@ -70,6 +70,18 @@ class EZAuthManager implements AuthManager {
     })
     return promise
   }
+
+  async clearAuthSession(): Promise<boolean | null> {
+    let promise: Promise<boolean | null> = new Promise(async (resolve, reject) => {
+      try {
+        const authSession = await this.authDataStore.delete()
+        resolve(true)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
 }
 
 export default EZAuthManager;

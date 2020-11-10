@@ -32,6 +32,7 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   createUser(id: string, email: string): Promise<User> {
+    console.log("fsdf", { id: id, email: email })
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({

@@ -25,6 +25,8 @@ const Login = (props) => {
   async function signUp() {
     try {
       const authSession = await appState.authManager.signUp(formState.email, formState.password)
+      console.log(authSession)
+      console.log(formState.email)
       const user = await appState.userRepository.createUser(authSession.userId, formState.email)
       setAppState({ ...appState, user });
       props.navigation.navigate("SignUp");
@@ -45,6 +47,19 @@ const Login = (props) => {
     } catch (error) {
       console.log(error)
       console.log("Error Signing In:", error);
+    }
+  }
+
+  async function clearAuthCache() {
+    try {
+      const cleared = await appState.authManager.clearAuthSession()
+      if (cleared) {
+        console.log("Cleared auth session")
+      } else {
+        console.log("Failed to clear auth session")
+      }
+    } catch (e) {
+      console.log("Error Clearing Auth Cache:", e);
     }
   }
 
@@ -77,6 +92,8 @@ const Login = (props) => {
         />
         <Button title="Sign In" onPress={signIn} />
       </Container>
+
+      <Button title="Clear Auth Cache" onPress={clearAuthCache} />
     </>
   );
 };
