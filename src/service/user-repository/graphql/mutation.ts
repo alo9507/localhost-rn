@@ -15,7 +15,7 @@ mutation CreateUser($input: CreateUserInput!) {
 }`
 
 export const UPDATE_USER = gql`
-mutation UpdateUser($input: UpdateUserInput!){
+mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input ) {
         id
         sex
@@ -38,7 +38,7 @@ mutation UpdateUser($input: UpdateUserInput!){
 }`
 
 export const SEND_NOD = gql`
-mutation SendNod($input: SendNodInput!){
+mutation SendNod($input: SendNodInput!) {
     sendNod(input: $input ) {
         from
         to
@@ -48,7 +48,7 @@ mutation SendNod($input: SendNodInput!){
 }`
 
 export const RETURN_NOD = gql`
-mutation ReturnNod($input: SendNodInput!){
+mutation ReturnNod($input: SendNodInput!) {
     returnNod(input: $input ) {
         from
         to

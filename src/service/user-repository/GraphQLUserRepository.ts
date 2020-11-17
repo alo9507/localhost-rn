@@ -28,7 +28,7 @@ class GraphQLUserRepository implements UserRepository {
     cache: new InMemoryCache({
       addTypename: false
     }),
-    link: ApolloLink.from([this.errorLink, this.httpLink])
+    link: ApolloLink.from([this.httpLink, this.errorLink])
   });
 
   async getUser(id: string): Promise<User> {
@@ -52,7 +52,7 @@ class GraphQLUserRepository implements UserRepository {
       try {
         const result = await this.client.mutate({
           mutation: CREATE_USER,
-          variables: { id: id, email: email },
+          variables: { input: { id: id, email: email } },
         });
         resolve(result.data.createUser)
       } catch (e) {
