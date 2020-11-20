@@ -13,15 +13,21 @@ import FirstLaunch from "./screens/FirstLaunch";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import LocalUsers from "./screens/LocalUsers";
+import UploadImage from "./screens/UploadImage";
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator initialRouteName="Launch">
+    <HomeStack.Navigator initialRouteName="UploadImage">
       <HomeStack.Screen
         name="Launch"
         component={Launch}
         options={{ title: "Launch" }}
+      />
+      <HomeStack.Screen
+        name="UploadImage"
+        component={UploadImage}
+        options={{ title: "UploadImage" }}
       />
       <HomeStack.Screen
         name="Login"
