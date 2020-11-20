@@ -1,4 +1,4 @@
-import AWSAmplifyRemoteAuthProvider from "../RemoteAuthProvider/AWSAmplifyRemoteAuthProvider";
+import AWSAmplifyRemoteAuthProvider from "../RemoteAuthProvider/LocalhostRemoteAuthProvider";
 import AsyncStorageAuthDataStore from "../AuthDataStore/AsyncStorageAuthDataStore";
 import { resolvePlugin } from "@babel/core";
 import AuthSession from "../AuthSession/AuthSession"

@@ -1,11 +1,12 @@
 import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { onError } from "apollo-link-error";
+import { HttpLink } from "apollo-link-http"
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
 import { GET_USER, GET_USERS } from "./graphql/query"
 import { CREATE_USER, UPDATE_USER } from "./graphql/mutation"
 import { UpdateUserInput } from "./graphql/input"
-import { HttpLink } from "apollo-link-http"
+
 const env = require("../../../env.json")
 
 class GraphQLUserRepository implements UserRepository {
