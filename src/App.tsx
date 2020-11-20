@@ -1,6 +1,5 @@
 import React from "react";
 
-import config from "../aws-exports";
 import { registerRootComponent } from "expo";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,16 +7,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StoreProvider from "./store/StoreProvider";
 
-import Amplfiy from "aws-amplify";
-
 // screens
 import Launch from "./screens/Launch";
 import FirstLaunch from "./screens/FirstLaunch";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import LocalUsers from "./screens/LocalUsers";
-
-Amplfiy.configure(config);
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {

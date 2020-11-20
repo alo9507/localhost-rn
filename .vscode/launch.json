@@ -13,7 +13,6 @@
                 "--runInBand",
                 "--no-cache",
                 "--setupTestFrameworkScriptFile=${workspaceRoot}/test-setup.js",
-                "--testPathPattern='AWSAmplifyRemoteAuthProvider'"
             ],
             "cwd": "${workspaceRoot}",
             "protocol": "inspector",

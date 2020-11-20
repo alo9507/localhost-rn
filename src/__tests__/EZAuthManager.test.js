@@ -1,11 +1,7 @@
 import React from "react";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import AsyncStorage from "@react-native-community/async-storage";
-import config from "../../aws-exports";
-import Amplfiy from "aws-amplify";
 import deleteUsers from "../utils/cleanup/delete-users";
-
-Amplfiy.configure(config);
 
 describe("EZAuthManager", () => {
 
