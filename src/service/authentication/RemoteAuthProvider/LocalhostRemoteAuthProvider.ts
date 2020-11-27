@@ -43,7 +43,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
 
         const authSession = result.data.signIn
 
-        resolve(new AuthSession(result.data.userId, result.data.authToken));
+        resolve(new AuthSession(authSession.userId, authSession.authToken));
       } catch (e) {
         switch (e.message) {
           case "Username should be either an email or a phone number.":
@@ -92,8 +92,9 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
         });
 
         const authSession = result.data.signUp
+        console.log("in repo", authSession)
 
-        resolve(new AuthSession(result.data.userId, result.data.authToken));
+        resolve(new AuthSession(authSession.userId, authSession.authToken));
       } catch (e) {
         switch (e.message) {
           case "1 validation error detected: Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6":

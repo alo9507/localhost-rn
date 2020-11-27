@@ -18,7 +18,7 @@ import UploadImage from "./screens/UploadImage";
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator initialRouteName="UploadImage">
+    <HomeStack.Navigator initialRouteName="Launch">
       <HomeStack.Screen
         name="Launch"
         component={Launch}

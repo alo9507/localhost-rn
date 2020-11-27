@@ -25,6 +25,7 @@ const Login = (props) => {
   async function signUp() {
     try {
       const authSession = await appState.authManager.signUp(formState.email, formState.password)
+      console.log(authSession)
       const user = await appState.userRepository.createUser(authSession.userId, formState.email)
       setAppState({ ...appState, user });
       props.navigation.navigate("SignUp");
