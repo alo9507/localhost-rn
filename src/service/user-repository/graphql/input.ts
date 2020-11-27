@@ -10,3 +10,9 @@ export type UpdateUserInput = {
     latitude: number | null,
     longitude: number | null,
 }
+
+export type UpdateLocationGetUsers = {
+    id: String,
+    latitude: number
+    longitude: number
+}

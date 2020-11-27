@@ -11,6 +11,7 @@ const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
   const [appState, setAppState] = React.useContext(StoreContext);
+  const [visibilityControls, setVisibilityControls] = useState("")
 
   type LocalUsersInitialState = {
     loading: boolean,
@@ -29,7 +30,8 @@ const LocalUsers = (props) => {
   useEffect(() => {
     async function getUsers() {
       try {
-        const users = await appState.userRepository.getUsers()
+        console.log(appState.user.id)
+        const users = await appState.userRepository.updateLocationGetUsers({ id: appState.user.id, latitude: 24.22244098031902, longitude: 23.125367053780863 })
         setState({ ...state, users, loading: false })
       } catch (e) {
         setState({ ...state, loading: false, error: true })
@@ -38,6 +40,9 @@ const LocalUsers = (props) => {
 
     getUsers()
   }, [])
+
+  useEffect(() => {
+  }, [visibilityControls])
 
   useEffect(() => {
     let geoOptions = {
