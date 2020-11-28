@@ -9,9 +9,14 @@ const initialState = { id: "mynewid", name: "", location: "" };
 
 const LocalUsers = (props) => {
   const [formState, setFormState] = useState(initialState);
-  const [location, setLocation] = useState({ latitude: 0.0, longitude: 0.0 });
+  const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
   const [appState, setAppState] = React.useContext(StoreContext);
-  const [visibilityControls, setVisibilityControls] = useState("")
+
+  const [visibilityControls, setVisibilityControls] = useState({
+    id: appState.user.id,
+    sex: appState.user.showMeCriteria.sex,
+    age: appState.user.showMeCriteria.age
+  })
 
   type LocalUsersInitialState = {
     loading: boolean,
@@ -31,7 +36,7 @@ const LocalUsers = (props) => {
     async function getUsers() {
       try {
         console.log(appState.user.id)
-        const users = await appState.userRepository.updateLocationGetUsers({ id: appState.user.id, latitude: 24.22244098031902, longitude: 23.125367053780863 })
+        const users = await appState.userRepository.updateLocationGetUsers({ id: appState.user.id, ...location })
         setState({ ...state, users, loading: false })
       } catch (e) {
         setState({ ...state, loading: false, error: true })
@@ -45,37 +50,8 @@ const LocalUsers = (props) => {
   }, [visibilityControls])
 
   useEffect(() => {
-    let geoOptions = {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 2000,
-    };
-    navigator.geolocation.getCurrentPosition(
-      geoSuccess,
-      geoFailure,
-      geoOptions
-    );
-  }, []);
-
-  useEffect(() => {
     props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
   }, [])
-
-  const geoSuccess = (location) => {
-    console.log(location);
-    setLocation({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    });
-    setInput(
-      "location",
-      `${location.coords.latitude} : ${location.coords.longitude}`
-    );
-  };
-
-  const geoFailure = (error) => {
-    console.log(error);
-  };
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -104,6 +80,8 @@ const LocalUsers = (props) => {
           <Text>age: {user.age}</Text>
           <Text>location: {user.location}</Text>
           <Text>email: {user.email}</Text>
+          <Text>latitude: {user.latitude}</Text>
+          <Text>longitude: {user.longitude}</Text>
         </View>
       ))}
     </View>

@@ -8,7 +8,9 @@ class User {
     public bio: string,
     public whatAmIDoing: string,
     public location: string,
-    public isVisible: boolean
+    public isVisible: boolean,
+    public latitude: boolean,
+    public longitude: boolean
   ) { }
 }
 

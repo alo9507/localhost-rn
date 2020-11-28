@@ -21,8 +21,8 @@ mutation SignInUser($input: SignInInput!) {
 }`
 
 export const SIGN_OUT_USER = gql`
-mutation SignOutUser($input: SignOutInput!) {
-    signOut(input: $input) {
+mutation SignOutUser {
+    signOut {
         success
     }
 }`

@@ -37,7 +37,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: SIGN_UP_USER,
+          mutation: SIGN_IN_USER,
           variables: { input: { email: email, password: password } },
         });
 
