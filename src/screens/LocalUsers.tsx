@@ -33,6 +33,7 @@ const LocalUsers = (props) => {
   const [state, setState] = useState(initial)
 
   useEffect(() => {
+    console.log(JSON.stringify(appState.user))
     async function getUsers() {
       try {
         console.log(appState.user.id)
@@ -69,6 +70,9 @@ const LocalUsers = (props) => {
   return (
     <View style={styles.container}>
       <Button title="Sign Out" onPress={signOut} />
+      <View>
+        <Text>VISIBILITY CONTROLS: AGE: {visibilityControls.age[0]} / {visibilityControls.age[1]} SEX: {visibilityControls.sex}</Text>
+      </View>
       {state.users.map((user, index) => (
         <View key={user.id ? user.id : index} style={styles.user}>
           <Text style={styles.userName}>Name: {user.name}</Text>
