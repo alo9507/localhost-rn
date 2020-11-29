@@ -1,21 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import StoreContext from "../store/StoreContext";
-import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import User from "../models/User"
 import AppState from "../models/AppState"
 import { Switch } from "react-native"
+import SegmentedControl from '@react-native-community/segmented-control';
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
 const LocalUsers = (props) => {
+  const [appState, setAppState] = React.useContext(StoreContext);
+
+  const selectedSex = () => {
+    const sexcriteria = appState.user.showMeCriteria.sex
+    let selected = 0
+    console.log(sexcriteria)
+    if (sexcriteria.includes("male") && sexcriteria.includes("female")) {
+      selected = 0
+    } else if (sexcriteria.includes("male")) {
+      selected = 1
+    } else {
+      selected = 2
+    }
+    return selected
+  }
+
+  const [high, setHigh] = useState(0)
+  const [low, setLow] = useState(0)
   const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
-  const [appState, setAppState] = React.useContext(StoreContext);
+  const [sex, setSex] = useState(selectedSex())
   const [isVisible, setIsVisible] = useState(appState.user.isVisible)
+  const [ageRange, setAgeRange] = useState(appState.user.showMeCriteria.age)
 
   const toggleSwitch = async () => {
-    const users = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !isVisible })
+    const user = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !isVisible })
     setIsVisible(previousState => !previousState);
   }
 
@@ -50,10 +69,24 @@ const LocalUsers = (props) => {
     }
 
     getUsers()
-  }, [isVisible])
+  }, [isVisible, sex])
 
-  useEffect(() => {
-  }, [isVisible])
+  const changeSex = async (selectedIndex) => {
+    let sexArray = []
+    switch (selectedIndex) {
+      case 0:
+        sexArray = ['male', 'female']
+        break;
+      case 1:
+        sexArray = ['male']
+        break;
+      case 2:
+        sexArray = ['female']
+        break;
+    }
+    await appState.userRepository.updateShowMeCriteria({ id: appState.user.id, sex: sexArray })
+    setSex(selectedIndex)
+  }
 
   useEffect(() => {
     props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
@@ -69,12 +102,20 @@ const LocalUsers = (props) => {
     props.navigation.navigate("Login");
   }
 
-  if (state.loading) return <div>"Loading..."</div>
+  if (state.loading) return <Text>"Loading..."</Text>
   if (state.error) return `Error! ${state.error}`;
 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
+        <SegmentedControl
+          values={['all', 'male', 'female']}
+          selectedIndex={sex}
+          onChange={(event) => {
+            changeSex(event.nativeEvent.selectedSegmentIndex)
+          }}
+        />
+        <Text>{sex}</Text>
         <Text>isVisible: {isVisible}</Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}

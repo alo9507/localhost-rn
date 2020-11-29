@@ -4,7 +4,7 @@ import { HttpLink } from "apollo-link-http"
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
 import { GET_USER, GET_USERS } from "./graphql/query"
-import { CREATE_USER, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS } from "./graphql/mutation"
+import { CREATE_USER, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA } from "./graphql/mutation"
 import { UpdateUserInput, UpdateLocationGetUsers } from "./graphql/input"
 
 const env = require("../../../env.json")
@@ -86,6 +86,21 @@ class GraphQLUserRepository implements UserRepository {
           variables: { input },
         });
         resolve(result.data.updateLocationGetUsers)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  updateShowMeCriteria(input: UpdateUserInput): Promise<User> {
+    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_SHOWME_CRITERIA,
+          variables: { input },
+        });
+        resolve(result.data.updateShowMeCriteria)
       } catch (e) {
         reject(e)
       }

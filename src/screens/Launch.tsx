@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, Button } from "react-native";
+import { Text, Button, View } from "react-native";
 import StoreContext from "../store/StoreContext";
 import AuthSession from "../service/authentication/AuthSession/AuthSession"
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
@@ -67,11 +67,11 @@ const LaunchScreen = (props) => {
   }
 
   return (
-    <>
+    <View>
       <Text>LAUNCH SCREEN</Text>
       <Text>Auth Session: {authSession}</Text>
       <Button title="Clear Auth Cache" onPress={clearAuthCache} />
-    </>
+    </View>
   );
 };
 
