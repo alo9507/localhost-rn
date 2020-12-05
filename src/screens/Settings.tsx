@@ -8,7 +8,7 @@ const Settings = (props) => {
     async function signOut() {
         let authResult = await appState.authManager.signOut()
         console.log(authResult)
-        props.navigation.navigate("Login");
+        props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 
     return (

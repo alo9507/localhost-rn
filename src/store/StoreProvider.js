@@ -12,7 +12,7 @@ const env = require("../../env.json");
 
 const StoreProvider = ({ children }) => {
   let initialState: AppState;
-
+  console.log(env);
   switch (env.environment) {
     case "development":
       initialState = {

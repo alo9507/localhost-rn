@@ -1,3 +1,4 @@
+import React from "react";
 import FirstLaunch from "../FirstLaunch";
 import SignUp from "../SignUp";
 import LocalUsers from "../LocalUsers";
@@ -49,23 +50,24 @@ function HomeStackScreen() {
 }
 
 const SettingsStack = createStackNavigator();
-function SettingsStackScreen() {
+function SettingsStackScreen({ dispatch }) {
     return (
         <SettingsStack.Navigator>
             <SettingsStack.Screen
                 name="Settings"
                 component={Settings}
                 options={{ title: "Settings" }}
+                initialParams={{ dispatch }}
             />
         </SettingsStack.Navigator>
     )
 }
 
 const Tab = createBottomTabNavigator();
-function MainTabNavigatorStack() {
+function MainTabNavigatorStack({ dispatch }) {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Settings" component={SettingsStackScreen} />
+            <Tab.Screen name="Settings" children={() => <SettingsStackScreen dispatch={dispatch} />} />
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Matches" component={MatchesStackScreen} />
         </Tab.Navigator>
