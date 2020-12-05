@@ -26,7 +26,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
   httpLink = new HttpLink({ uri: `${env.API_URL}/account` })
 
   private client = new ApolloClient({
-    uri: env.API_URL,
+    uri: `${env.API_URL}/account`,
     cache: new InMemoryCache({
       addTypename: false
     }),

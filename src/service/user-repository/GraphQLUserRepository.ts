@@ -22,10 +22,10 @@ class GraphQLUserRepository implements UserRepository {
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
 
-  httpLink = new HttpLink({ uri: env.API_URL })
+  httpLink = new HttpLink({ uri: `${env.API_URL}/api` })
 
   private client = new ApolloClient({
-    uri: env.API_URL,
+    uri: `${env.API_URL}/api`,
     cache: new InMemoryCache({
       addTypename: false
     }),

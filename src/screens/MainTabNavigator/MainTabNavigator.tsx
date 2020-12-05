@@ -12,7 +12,7 @@ const MatchesStack = createStackNavigator();
 function MatchesStackScreen() {
     return (
         <MatchesStack.Navigator>
-            <SettingsStack.Screen
+            <MatchesStack.Screen
                 name="Matches"
                 component={Matches}
                 options={{ title: "Matches" }}
@@ -24,7 +24,7 @@ function MatchesStackScreen() {
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
-        <HomeStack.Navigator initialRouteName="LocalUsers">
+        <HomeStack.Navigator initialRouteName="UploadImage">
             <HomeStack.Screen
                 name="UploadImage"
                 component={UploadImage}
