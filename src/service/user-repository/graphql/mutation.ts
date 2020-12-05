@@ -11,6 +11,20 @@ mutation CreateUser($input: CreateUserInput!) {
         whatAmIDoing
         isVisible
         age
+        isVisible
+        showMeCriteria {
+            sex
+            age
+        }
+        inbound {
+            id
+        }
+        outbound {
+            id
+        }
+        mutual {
+            id
+        }
     }
 }`
 
@@ -33,6 +47,10 @@ mutation UpdateUser($input: UpdateUserInput!) {
         }
         mutual {
             id
+        }
+        showMeCriteria {
+            sex
+            age
         }
     }
 }`

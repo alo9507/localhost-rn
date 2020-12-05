@@ -22,11 +22,10 @@ const Onboarding = (props) => {
   }
 
   const join = async () => {
-    console.log(appState)
     const user = { ...formState, id: appState.user.id };
-    console.log("update input", user)
     try {
       const updatedUser = await appState.userRepository.updateUser(user)
+      setAppState({ ...appState, user: updatedUser });
       props.route.params.dispatch({ type: "IS_AUTHENTICATED" })
     } catch (e) {
       console.log(`Error signing up new user:`, e);
