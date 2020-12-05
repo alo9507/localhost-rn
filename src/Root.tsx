@@ -1,5 +1,5 @@
 // Foundation
-import React, { useEffect, useReducer, useContext } from "react";
+import React, { useEffect, useReducer, useContext, useRef } from "react";
 
 // State
 import StoreProvider from "./store/StoreProvider";
@@ -7,7 +7,6 @@ import StoreContext from "./store/StoreContext";
 
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 
 // Services
 import AuthSession from "./service/authentication/AuthSession/AuthSession"
@@ -61,13 +60,12 @@ const Root = () => {
     const determineIsLoggedIn = async () => {
         const authSession: AuthSession | null = await appState.authManager.checkForAuthSession()
         if (authSession != null) {
-            console.log(`Auth Session found: ${JSON.stringify(authSession)}. Fetching user...`)
             const user = await appState.userRepository.getUser(authSession.userId)
-            setAppState({ ...appState, user });
-            return true
+
+            return { user, isAuthenticated: true }
         } else {
             console.log(`No auth session stored in cache`)
-            return false
+            return { user: {}, isAuthenticated: false }
         }
     }
 
@@ -76,13 +74,14 @@ const Root = () => {
             try {
                 const isFirstLaunch = await determineFirstLaunch()
                 if (isFirstLaunch) {
-                    console.log("IS FIRST")
                     dispatch({ type: "IS_FIRST_LAUNCH" })
                     return
                 }
 
-                const isLoggedIn = await determineIsLoggedIn()
-                if (isLoggedIn) {
+                const { user, isAuthenticated } = await determineIsLoggedIn()
+                setAppState({ ...appState, user });
+                if (isAuthenticated) {
+                    console.log("fresh appstate", appState)
                     dispatch({ type: "IS_AUTHENTICATED" })
                 } else {
                     dispatch({ type: "IS_NOT_AUTHENTICATED" })
@@ -95,15 +94,22 @@ const Root = () => {
         determineFirstScreen()
     }, []);
 
-    const Stack = createStackNavigator()
+    const firstScreen = () => {
+        if (state?.isLoading) {
+            return <SplashStackScreens />
+        } else if (state?.isFirstLaunch) {
+            return <LaunchStackScreens />
+        } else if (state?.isAuthenticated) {
+            return <MainTabNavigatorStack dispatch={dispatch} />
+        } else {
+            return <LoginStackScreens dispatch={dispatch} />
+        }
+    }
 
     return (
         <StoreProvider>
             <NavigationContainer >
-                {state?.isLoading ? (<SplashStackScreens />)
-                    : state?.isFirstLaunch ? (<LaunchStackScreens />)
-                        : state?.isAuthenticated ? (<MainTabNavigatorStack dispatch={dispatch} />)
-                            : (<LoginStackScreens dispatch={dispatch} />)}
+                {firstScreen()}
             </NavigationContainer>
         </StoreProvider>
     )

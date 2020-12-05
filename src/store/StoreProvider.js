@@ -36,7 +36,11 @@ const StoreProvider = ({ children }) => {
       throw Error("ENVIRONMENT NOT CONFIGURED CORRECTLY");
   }
 
-  const [state, setState] = useState(initialState);
+  const [state, staleUpdateState] = useState(initialState);
+
+  const setState = (obj) => {
+    staleUpdateState(state => ({ ...obj }));
+  };
 
   return (
     <StoreContext.Provider value={[state, setState]}>

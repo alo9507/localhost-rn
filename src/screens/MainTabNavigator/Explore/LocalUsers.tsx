@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
@@ -9,11 +9,10 @@ const initialState = { id: "mynewid", name: "", location: "" };
 
 const LocalUsers = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);
-
+  console.log("LOCAL USER APP STATE: ", appState)
   const selectedSex = () => {
     const sexcriteria = appState.user.showMeCriteria.sex
     let selected = 0
-    console.log(sexcriteria)
     if (sexcriteria.includes("male") && sexcriteria.includes("female")) {
       selected = 0
     } else if (sexcriteria.includes("male")) {

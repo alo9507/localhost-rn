@@ -27,11 +27,7 @@ const Login = (props) => {
       const authSession = await appState.authManager.signIn(formState.email, formState.password)
       const user = await appState.userRepository.getUser(authSession.userId)
       setAppState({ ...appState, user });
-      console.log(props.route.params)
       props.route.params.dispatch({ type: "IS_AUTHENTICATED" });
-      async (error) => {
-        console.log(error);
-      }
     } catch (error) {
       console.log(error)
       console.log("Error Signing In:", error);
