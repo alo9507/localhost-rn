@@ -22,18 +22,6 @@ const Login = (props) => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function signUp() {
-    try {
-      const authSession = await appState.authManager.signUp(formState.email, formState.password)
-      console.log(authSession)
-      const user = await appState.userRepository.createUser(authSession.userId, formState.email)
-      setAppState({ ...appState, user });
-      props.navigation.navigate("SignUp");
-    } catch (e) {
-      console.log("Error signing up:", e);
-    }
-  }
-
   async function signIn() {
     try {
       const authSession = await appState.authManager.signIn(formState.email, formState.password)
@@ -63,21 +51,8 @@ const Login = (props) => {
           value={formState.password}
           placeholder="Password"
         />
-        <Button title="Sign Up" onPress={signUp} />
-      </Container>
-
-      <Container>
-        <Input
-          onChangeText={(val) => setInput("email", val)}
-          value={formState.email}
-          placeholder="Email"
-        />
-        <Input
-          onChangeText={(val) => setInput("password", val)}
-          value={formState.password}
-          placeholder="Password"
-        />
         <Button title="Sign In" onPress={signIn} />
+        <Button title="Sign Up" onPress={() => props.navigation.navigate("EmailPassword")} />
       </Container>
     </>
   );

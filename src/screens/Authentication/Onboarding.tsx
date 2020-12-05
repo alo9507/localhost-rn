@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import StoreContext from "../store/StoreContext";
+import StoreContext from "../../store/StoreContext";
 import styled from "styled-components/native";
 import { Button } from "react-native"
 
-const SignUp = (props) => {
+const Onboarding = (props) => {
 
   const initialState = {
     name: "",
@@ -27,31 +27,10 @@ const SignUp = (props) => {
     console.log("update input", user)
     try {
       const updatedUser = await appState.userRepository.updateUser(user)
-      return props.navigation.navigate("LocalUsers");
+      props.route.params.dispatch({ type: "IS_AUTHENTICATED" })
     } catch (e) {
       console.log(`Error signing up new user:`, e);
     }
-  };
-
-  useEffect(() => {
-    let geoOptions = {
-      enableHighAccuracy: true,
-      timeout: 20000,
-      maximumAge: 2000,
-    };
-    navigator.geolocation.getCurrentPosition(
-      geoSuccess,
-      geoFailure,
-      geoOptions
-    );
-  }, []);
-
-  const geoSuccess = (location) => {
-    console.log(location);
-  };
-
-  const geoFailure = (error) => {
-    console.log(error);
   };
 
   return (
@@ -102,4 +81,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default SignUp;
+export default Onboarding;
