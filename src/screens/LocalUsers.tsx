@@ -72,7 +72,7 @@ const LocalUsers = (props) => {
   }, [isVisible, sex])
 
   const changeSex = async (selectedIndex) => {
-    let sexArray = []
+    let sexArray: String[] = []
     switch (selectedIndex) {
       case 0:
         sexArray = ['male', 'female']
@@ -94,12 +94,6 @@ const LocalUsers = (props) => {
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
-  }
-
-  async function signOut() {
-    let authResult = await appState.authManager.signOut()
-    console.log(authResult)
-    props.navigation.navigate("Login");
   }
 
   if (state.loading) return <Text>"Loading..."</Text>
@@ -124,9 +118,6 @@ const LocalUsers = (props) => {
           onValueChange={toggleSwitch}
           value={isVisible}
         />
-      </View>
-      <Button title="Sign Out" onPress={signOut} />
-      <View>
         <Text>VISIBILITY CONTROLS: AGE: {showMeCriteria.age[0]} / {showMeCriteria.age[1]} SEX: {showMeCriteria.sex}</Text>
       </View>
       {state.users.map((user, index) => (
