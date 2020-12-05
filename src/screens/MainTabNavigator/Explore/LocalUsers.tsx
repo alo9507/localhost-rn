@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import StoreContext from "../store/StoreContext";
-import User from "../models/User"
-import AppState from "../models/AppState"
+import StoreContext from "../../../store/StoreContext";
+import User from "../../../models/User"
 import { Switch } from "react-native"
 import SegmentedControl from '@react-native-community/segmented-control';
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-native";
-import StoreContext from "../store/StoreContext";
+import StoreContext from "../../store/StoreContext";
 import styled from "styled-components/native";
 
 const Login = (props) => {

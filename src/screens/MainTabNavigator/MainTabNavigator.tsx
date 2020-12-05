@@ -1,10 +1,9 @@
 import React from "react";
-import FirstLaunch from "../FirstLaunch";
-import SignUp from "../SignUp";
-import LocalUsers from "../LocalUsers";
-import UploadImage from "../UploadImage";
-import Settings from "../Settings";
-import Matches from "../Matches";
+import FirstLaunch from "../FirstLaunch/FirstLaunch";
+import LocalUsers from "./Explore/LocalUsers";
+import UploadImage from "./UploadImage";
+import Settings from "./Settings/Settings";
+import Matches from "./Matches/Matches";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -36,11 +35,6 @@ function HomeStackScreen() {
                 component={LocalUsers}
             />
             <HomeStack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{ title: "Become a Member" }}
-            />
-            <HomeStack.Screen
                 name="FirstLaunch"
                 component={FirstLaunch}
                 options={{ title: "First Launch Screen" }}
@@ -66,7 +60,7 @@ function SettingsStackScreen({ dispatch }) {
 const Tab = createBottomTabNavigator();
 function MainTabNavigatorStack({ dispatch }) {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator initialRouteName="Home">
             <Tab.Screen name="Settings" children={() => <SettingsStackScreen dispatch={dispatch} />} />
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Matches" component={MatchesStackScreen} />

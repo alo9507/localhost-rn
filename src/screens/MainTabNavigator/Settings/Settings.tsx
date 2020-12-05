@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import StoreContext from "../store/StoreContext";
+import StoreContext from "../../../store/StoreContext";
 
 const Settings = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
