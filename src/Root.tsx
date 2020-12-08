@@ -71,6 +71,8 @@ const Root = () => {
 
     useEffect(() => {
         const determineFirstScreen = async () => {
+            if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+
             try {
                 const isFirstLaunch = await determineFirstLaunch()
                 if (isFirstLaunch) {
