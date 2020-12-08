@@ -1,6 +1,7 @@
 import React from "react";
 import FirstLaunch from "../FirstLaunch/FirstLaunch";
 import LocalUsers from "./Explore/LocalUsers";
+import UserProfile from "./Explore/UserProfile";
 import UploadImage from "./UploadImage";
 import Settings from "./Settings/Settings";
 import Matches from "./Matches/Matches";
@@ -24,7 +25,12 @@ function MatchesStackScreen() {
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
-        <HomeStack.Navigator initialRouteName="UploadImage">
+        <HomeStack.Navigator initialRouteName="LocalUsers">
+            <HomeStack.Screen
+                name="UserProfile"
+                component={UserProfile}
+                options={{ title: "UserProfile" }}
+            />
             <HomeStack.Screen
                 name="UploadImage"
                 component={UploadImage}

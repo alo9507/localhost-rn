@@ -13,11 +13,34 @@ const env = require("../../env.json");
 const StoreProvider = ({ children }) => {
   let initialState: AppState;
 
+  const user = {
+    id: "433b6860-51a1-411a-ad43-ad74035541a3",
+    name: "George",
+    bio: "George's bio",
+    whatAmIDoing: "What George is doing",
+    isVisible: true,
+    showMeCriteria: {
+      age: [
+        18,
+        100
+      ],
+      sex: [
+        "male",
+        "female"
+      ]
+    },
+    age: 25,
+    sex: "male",
+    latitude: 24.22244098031902,
+    longitude: 23.125367053780863
+  };
+
   switch (env.environment) {
     case "development":
       initialState = {
         userRepository: new GraphQLUserRepository(),
-        authManager: new EZAuthManager()
+        authManager: new EZAuthManager(),
+        user
       };
       break;
     case "production":

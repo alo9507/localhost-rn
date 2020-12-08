@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet, TextInput, Button, TouchableHighlight } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
 import { Switch } from "react-native"
 import SegmentedControl from '@react-native-community/segmented-control';
+import { Link } from '@react-navigation/native';
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
@@ -119,19 +120,21 @@ const LocalUsers = (props) => {
         <Text>VISIBILITY CONTROLS: AGE: {showMeCriteria.age[0]} / {showMeCriteria.age[1]} SEX: {showMeCriteria.sex}</Text>
       </View>
       {state.users.map((user, index) => (
-        <View key={user.id ? user.id : index} style={styles.user}>
-          <Text style={styles.userName}>Name: {user.name}</Text>
-          <Text>ID: {user.id}</Text>
-          <Text>bio: {user.bio}</Text>
-          <Text>whatAmIDoing: {user.whatAmIDoing}</Text>
-          <Text>isVisible: {user.isVisible}</Text>
-          <Text>sex: {user.sex}</Text>
-          <Text>age: {user.age}</Text>
-          <Text>location: {user.location}</Text>
-          <Text>email: {user.email}</Text>
-          <Text>latitude: {user.latitude}</Text>
-          <Text>longitude: {user.longitude}</Text>
-        </View>
+        <TouchableHighlight onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
+          <View key={user.id ? user.id : index} style={styles.user}>
+            <Text style={styles.userName}>Name: {user.name}</Text>
+            <Text>ID: {user.id}</Text>
+            <Text>bio: {user.bio}</Text>
+            <Text>whatAmIDoing: {user.whatAmIDoing}</Text>
+            <Text>isVisible: {user.isVisible}</Text>
+            <Text>sex: {user.sex}</Text>
+            <Text>age: {user.age}</Text>
+            <Text>location: {user.location}</Text>
+            <Text>email: {user.email}</Text>
+            <Text>latitude: {user.latitude}</Text>
+            <Text>longitude: {user.longitude}</Text>
+          </View>
+        </TouchableHighlight>
       ))}
     </View>
   );

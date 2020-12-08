@@ -24,15 +24,13 @@ export default function ImagePickerExample() {
             quality: 1,
         });
 
-        console.log(result);
-
         if (!result.cancelled) {
             setImage(result.uri);
         }
     };
 
     async function uploadImageAsync(uri) {
-        let apiUrl = 'http://localhost:80/media/upload';
+        let apiUrl = 'http://localhost:3000/media/upload';
 
         // Note:
         // Uncomment this if you want to experiment with local server
@@ -47,17 +45,16 @@ export default function ImagePickerExample() {
         let fileType = uriParts[uriParts.length - 1];
 
         let formData = new FormData();
-        formData.append('photo', {
-            uri,
-            name: `photo.${fileType}`,
-            type: `image/${fileType}`,
-        });
+        formData.append("file", uri)
+        formData.append("name", `photo.${fileType}`)
+        formData.append('type', `image/${fileType}`)
+        console.log(formData.get("name"))
+        console.log(formData.get("type"))
 
         let options = {
             method: 'POST',
             body: formData,
             headers: {
-                Accept: 'application/json',
                 'Content-Type': 'multipart/form-data',
             },
         };
