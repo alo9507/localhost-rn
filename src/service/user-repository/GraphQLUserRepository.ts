@@ -3,8 +3,8 @@ import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http"
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
-import { GET_USER, GET_USERS } from "./graphql/query"
-import { CREATE_USER, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD } from "./graphql/mutation"
+import { GET_USER, GET_INCOMING_NODS, GET_USERS } from "./graphql/query"
+import { CREATE_USER, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD } from "./graphql/mutation"
 import { UpdateUserInput, UpdateLocationGetUsers } from "./graphql/input"
 
 const env = require("../../../env.json")
@@ -78,6 +78,22 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 
+  report(input: Object): Promise<Object> {
+    console.log(input)
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: REPORT,
+          variables: { input },
+        });
+        resolve(result.data.report)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
   updateUser(input: UpdateUserInput): Promise<User> {
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
@@ -93,6 +109,7 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 
+
   updateLocationGetUsers(input: UpdateUserInput): Promise<User> {
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
@@ -101,6 +118,22 @@ class GraphQLUserRepository implements UserRepository {
           variables: { input },
         });
         resolve(result.data.updateLocationGetUsers)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  getIncomingNods(id: string): Promise<User> {
+    console.log(id)
+    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_INCOMING_NODS,
+          variables: { id: id },
+        });
+        resolve(result.data.getIncomingNods)
       } catch (e) {
         reject(e)
       }

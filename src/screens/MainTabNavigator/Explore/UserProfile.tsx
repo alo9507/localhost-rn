@@ -9,12 +9,34 @@ const UserProfile = (props) => {
 
     const [appState, setAppState] = React.useContext(StoreContext);
 
-    const sendNod = async (recipientId) => {
+    const sendNod = async () => {
         appState.userRepository.sendNod({
             from: appState.user.id,
-            to: recipientId,
+            to: user.id,
             message: "nice ass bitch",
             location: "Compton"
+        })
+    }
+
+    const report = async () => {
+        appState.userRepository.report({
+            from: appState.user.id,
+            to: user.id,
+            message: "nice ass bitch",
+            reason: "Compton",
+            latitude: 0,
+            longitude: 0
+        })
+    }
+
+    const becomeInvisibleTo = async () => {
+        appState.userRepository.report({
+            from: appState.user.id,
+            to: user.id,
+            message: "nice ass bitch",
+            reason: "Compton",
+            latitude: 0,
+            longitude: 0
         })
     }
 
@@ -32,6 +54,8 @@ const UserProfile = (props) => {
             <Text>latitude: {user.latitude}</Text>
             <Text>longitude: {user.longitude}</Text>
             <Button title="Send Nod" onPress={sendNod} />
+            <Button title="Report" onPress={report} />
+            <Button title="Become Invisible To" onPress={becomeInvisibleTo} />
         </View>
     );
 };

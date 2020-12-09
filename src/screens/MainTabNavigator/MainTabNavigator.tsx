@@ -5,9 +5,23 @@ import UserProfile from "./Explore/UserProfile";
 import UploadImage from "./UploadImage";
 import Settings from "./Settings/Settings";
 import Matches from "./Matches/Matches";
+import Nods from "./Nods/Nods";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const NodsStack = createStackNavigator();
+function NodsStackScreen() {
+    return (
+        <NodsStack.Navigator>
+            <NodsStack.Screen
+                name="Nods"
+                component={Nods}
+                options={{ title: "Nods" }}
+            />
+        </NodsStack.Navigator>
+    )
+}
 
 const MatchesStack = createStackNavigator();
 function MatchesStackScreen() {
@@ -25,7 +39,7 @@ function MatchesStackScreen() {
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
-        <HomeStack.Navigator initialRouteName="UploadImage">
+        <HomeStack.Navigator initialRouteName="LocalUsers">
             <HomeStack.Screen
                 name="UserProfile"
                 component={UserProfile}
@@ -67,9 +81,10 @@ const Tab = createBottomTabNavigator();
 function MainTabNavigatorStack({ dispatch }) {
     return (
         <Tab.Navigator initialRouteName="Home">
-            <Tab.Screen name="Settings" children={() => <SettingsStackScreen dispatch={dispatch} />} />
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Matches" component={MatchesStackScreen} />
+            <Tab.Screen name="Nods" component={NodsStackScreen} />
+            <Tab.Screen name="Chat" component={MatchesStackScreen} />
+            <Tab.Screen name="Settings" children={() => <SettingsStackScreen dispatch={dispatch} />} />
         </Tab.Navigator>
     )
 }

@@ -41,7 +41,7 @@ const StoreProvider = ({ children }) => {
         userRepository: new GraphQLUserRepository(),
         authManager: new EZAuthManager(),
         user,
-        goToMain: true
+        goToMain: false
       };
       break;
     case "production":

@@ -82,6 +82,8 @@ mutation ReportUser($input: ReportInput!) {
         to
         reason
         message
+        latitude
+        longitude
     }
 }`
 
