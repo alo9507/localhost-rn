@@ -14,7 +14,8 @@ const UserProfile = (props) => {
             from: appState.user.id,
             to: user.id,
             message: "nice ass bitch",
-            location: "Compton"
+            latitude: 21.3,
+            longitude: 21.3
         })
     }
 

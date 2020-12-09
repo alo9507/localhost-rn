@@ -60,7 +60,8 @@ mutation SendNod($input: SendNodInput!) {
     sendNod(input: $input ) {
         from
         to
-        location
+        latitude
+        longitude
         message
     }
 }`
@@ -70,7 +71,8 @@ mutation ReturnNod($input: SendNodInput!) {
     returnNod(input: $input ) {
         from
         to
-        location
+        latitude
+        longitude
         message
     }
 }`
