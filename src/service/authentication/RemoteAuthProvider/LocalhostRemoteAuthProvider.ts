@@ -30,7 +30,7 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     cache: new InMemoryCache({
       addTypename: false
     }),
-    link: ApolloLink.from([this.httpLink, this.errorLink])
+    link: ApolloLink.from([this.errorLink, this.httpLink])
   });
 
   signIn(email: string, password: string): Promise<AuthSession> {

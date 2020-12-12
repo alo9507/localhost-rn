@@ -17,6 +17,7 @@ import MainTabNavigatorStack from "./screens/MainTabNavigator/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
+import { Button } from "react-native";
 
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
@@ -65,36 +66,56 @@ const Root = () => {
             return { user, isAuthenticated: true }
         } else {
             console.log(`No auth session stored in cache`)
-            return { user: {}, isAuthenticated: false }
+            return { user: null, isAuthenticated: false }
         }
     }
 
-    useEffect(() => {
-        const determineFirstScreen = async () => {
-            if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+    const determineFirstScreen = async () => {
+        // if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
 
-            try {
-                const isFirstLaunch = await determineFirstLaunch()
-                if (isFirstLaunch) {
-                    dispatch({ type: "IS_FIRST_LAUNCH" })
-                    return
-                }
-
-                const { user, isAuthenticated } = await determineIsLoggedIn()
-                setAppState({ ...appState, user });
-                if (isAuthenticated) {
-                    console.log("fresh appstate", appState)
-                    dispatch({ type: "IS_AUTHENTICATED" })
-                } else {
-                    dispatch({ type: "IS_NOT_AUTHENTICATED" })
-                }
-            } catch (e) {
-                console.log(`An error occured while determining first screen: ${e}`);
+        try {
+            const isFirstLaunch = await determineFirstLaunch()
+            if (isFirstLaunch) {
+                dispatch({ type: "IS_FIRST_LAUNCH" })
+                return
             }
+        } catch (e) {
+            console.log(`An error occured while determining first launch: ${e}`);
         }
 
+        let user = null
+        let isAuthenticated = false
+        try {
+            const result = await determineIsLoggedIn()
+            user = result.user
+            isAuthenticated = result.isAuthenticated
+        } catch (e) {
+            console.log(`An error occured while determining first authentication: ${e}`);
+        }
+
+        setAppState({ type: "UPDATE_USER", payload: user })
+        // if (isAuthenticated) {
+        //     dispatch({ type: "IS_AUTHENTICATED" })
+        //     return
+        // } else {
+        //     dispatch({ type: "IS_NOT_AUTHENTICATED" })
+        //     return
+        // }
+    }
+
+    useEffect(() => {
         determineFirstScreen()
-    }, []);
+    }, [])
+
+    const isInitialMount = useRef(true);
+
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            dispatch({ type: "IS_AUTHENTICATED" })
+        }
+    }, [appState.user])
 
     const firstScreen = () => {
         if (state?.isLoading) {
@@ -111,6 +132,7 @@ const Root = () => {
     return (
         <StoreProvider>
             <NavigationContainer >
+                <Button title="Determine First Screen" onPress={determineFirstScreen} />
                 {firstScreen()}
             </NavigationContainer>
         </StoreProvider>

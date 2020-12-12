@@ -25,19 +25,29 @@ const UserProfile = (props) => {
             to: user.id,
             message: "nice ass bitch",
             reason: "Compton",
-            latitude: 0,
-            longitude: 0
+        })
+    }
+
+    const unmatch = async () => {
+        appState.userRepository.unmatch({
+            from: appState.user.id,
+            to: user.id,
+            message: "nice ass bitch",
+            reason: "Compton"
         })
     }
 
     const becomeInvisibleTo = async () => {
-        appState.userRepository.report({
+        appState.userRepository.becomeInvisibleTo({
             from: appState.user.id,
-            to: user.id,
-            message: "nice ass bitch",
-            reason: "Compton",
-            latitude: 0,
-            longitude: 0
+            to: user.id
+        })
+    }
+
+    const becomeVisibleTo = async () => {
+        appState.userRepository.becomeVisibleTo({
+            from: appState.user.id,
+            to: user.id
         })
     }
 
@@ -57,6 +67,8 @@ const UserProfile = (props) => {
             <Button title="Send Nod" onPress={sendNod} />
             <Button title="Report" onPress={report} />
             <Button title="Become Invisible To" onPress={becomeInvisibleTo} />
+            <Button title="Unmatch" onPress={unmatch} />
+            <Button title="Become Visible To" onPress={becomeVisibleTo} />
         </View>
     );
 };

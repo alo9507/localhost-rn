@@ -84,14 +84,12 @@ mutation ReportUser($input: ReportInput!) {
         to
         reason
         message
-        latitude
-        longitude
     }
 }`
 
-export const BLOCK = gql`
-mutation BlockUser($input: BlockInput!) {
-    block(input: $input) {
+export const UNMATCH = gql`
+mutation UnmatchUser($input: UnmatchInput!) {
+    unmatch(input: $input) {
         from
         to
         reason

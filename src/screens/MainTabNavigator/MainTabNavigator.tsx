@@ -39,7 +39,7 @@ function MatchesStackScreen() {
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
-        <HomeStack.Navigator initialRouteName="LocalUsers">
+        <HomeStack.Navigator initialRouteName="UploadImage">
             <HomeStack.Screen
                 name="UserProfile"
                 component={UserProfile}

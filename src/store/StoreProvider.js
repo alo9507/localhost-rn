@@ -1,5 +1,5 @@
 import { graphQLResultHasError } from "@apollo/client/utilities";
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import StoreContext from "./StoreContext";
 import UserRepository from "../service/user-repository/UserRepository";
 import GraphQLUserRepository from "../service/user-repository/GraphQLUserRepository";
@@ -40,34 +40,44 @@ const StoreProvider = ({ children }) => {
       initialState = {
         userRepository: new GraphQLUserRepository(),
         authManager: new EZAuthManager(),
-        user,
+        user: null,
         goToMain: false
       };
       break;
     case "production":
       initialState = {
         userRepository: new GraphQLUserRepository(),
-        authManager: new EZAuthManager()
+        authManager: new EZAuthManager(),
+        user: null
       };
       break;
     case "local":
       initialState = {
         userRepository: new MockUserRepository(),
-        authManager: new MockAuthManager()
+        authManager: new MockAuthManager(),
+        user: null
       };
       break;
     default:
       throw Error("ENVIRONMENT NOT CONFIGURED CORRECTLY");
   }
 
-  const [state, staleUpdateState] = useState(initialState);
-
-  const setState = (obj) => {
-    staleUpdateState(state => ({ ...obj }));
-  };
+  const value = useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'UPDATE_USER':
+          return {
+            ...prevState, user: action.payload
+          };
+        default:
+          throw new Error('Unsupported action type: ', action.type);
+      }
+    },
+    initialState
+  );
 
   return (
-    <StoreContext.Provider value={[state, setState]}>
+    <StoreContext.Provider value={value}>
       {children}
     </StoreContext.Provider>
   );

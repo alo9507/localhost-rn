@@ -4,7 +4,7 @@ import { HttpLink } from "apollo-link-http"
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
 import { GET_USER, GET_INCOMING_NODS, GET_USERS } from "./graphql/query"
-import { CREATE_USER, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD } from "./graphql/mutation"
+import { CREATE_USER, UNMATCH, BECOME_INVISIBLE_TO, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD, BECOME_VISIBLE_TO } from "./graphql/mutation"
 import { UpdateUserInput, UpdateLocationGetUsers } from "./graphql/input"
 
 const env = require("../../../env.json")
@@ -29,7 +29,7 @@ class GraphQLUserRepository implements UserRepository {
     cache: new InMemoryCache({
       addTypename: false
     }),
-    link: ApolloLink.from([this.httpLink, this.errorLink])
+    link: ApolloLink.from([this.errorLink, this.httpLink])
   });
 
   async getUser(id: string): Promise<User> {
@@ -84,6 +84,54 @@ class GraphQLUserRepository implements UserRepository {
       try {
         const result = await this.client.mutate({
           mutation: REPORT,
+          variables: { input },
+        });
+        resolve(result.data.report)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  unmatch(input: Object): Promise<Object> {
+    console.log(input)
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UNMATCH,
+          variables: { input },
+        });
+        resolve(result.data.report)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  becomeInvisibleTo(input: Object): Promise<Object> {
+    console.log(input)
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: BECOME_INVISIBLE_TO,
+          variables: { input },
+        });
+        resolve(result.data.report)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  becomeVisibleTo(input: Object): Promise<Object> {
+    console.log(input)
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: BECOME_VISIBLE_TO,
           variables: { input },
         });
         resolve(result.data.report)
