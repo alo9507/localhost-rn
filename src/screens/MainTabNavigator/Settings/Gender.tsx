@@ -2,26 +2,21 @@ import React from "react";
 import { View, Text, Button } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 
-const EditProfile = (props) => {
+const Gender = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
 
     function close() {
         props.navigation.pop()
     }
 
-    function gender() {
-        props.navigation.navigate("Gender")
-    }
-
     return (
         <>
-            <Text>Settings</Text>
+            <Text>Gender</Text>
             <View>
                 <Button title="Close" onPress={close} />
-                <Button title="Gender" onPress={gender} />
             </View>
         </>
     );
 };
 
-export default EditProfile;
+export default Gender;

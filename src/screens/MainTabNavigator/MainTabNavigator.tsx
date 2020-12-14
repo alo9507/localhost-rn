@@ -5,6 +5,7 @@ import UserProfile from "./Explore/UserProfile";
 import UploadImage from "./UploadImage";
 import Settings from "./Settings/Settings";
 import EditProfile from "./Settings/EditProfile";
+import Gender from "./Settings/Gender";
 import Matches from "./Matches/Matches";
 import Nods from "./Nods/Nods";
 
@@ -64,6 +65,24 @@ function HomeStackScreen() {
     );
 }
 
+const EditProfileStack = createStackNavigator()
+function EditProfileStackScreen() {
+    return (
+        <EditProfileStack.Navigator initialRouteName="EditProfile">
+            <EditProfileStack.Screen
+                name="EditProfile"
+                component={EditProfile}
+                options={{ headerShown: false }}
+            />
+            <EditProfileStack.Screen
+                name="Gender"
+                component={Gender}
+                options={{ title: "Gender" }}
+            />
+        </EditProfileStack.Navigator>
+    )
+}
+
 const SettingsStack = createStackNavigator();
 function SettingsStackScreen({ dispatch }) {
     return (
@@ -79,8 +98,8 @@ function SettingsStackScreen({ dispatch }) {
             />
             <SettingsStack.Screen
                 name="EditProfile"
-                component={EditProfile}
-                options={{ title: "EditProfile", animationEnabled: true }}
+                component={EditProfileStackScreen}
+                options={{ animationEnabled: true, headerShown: false }}
             />
         </SettingsStack.Navigator>
     )
@@ -89,7 +108,7 @@ function SettingsStackScreen({ dispatch }) {
 const Tab = createBottomTabNavigator();
 function MainTabNavigatorStack({ dispatch }) {
     return (
-        <Tab.Navigator initialRouteName="Home">
+        <Tab.Navigator initialRouteName="Settings">
             <Tab.Screen name="Home" component={HomeStackScreen} />
             <Tab.Screen name="Nods" component={NodsStackScreen} />
             <Tab.Screen name="Chat" component={MatchesStackScreen} />

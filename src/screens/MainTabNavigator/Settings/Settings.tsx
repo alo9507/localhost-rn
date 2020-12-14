@@ -17,10 +17,9 @@ const Settings = (props) => {
 
     return (
         <>
-            <Text>Settings</Text>
             <View>
-                <Button title="Sign Out" onPress={signOut} />
                 <Button title="Edit Profile" onPress={editProfile} />
+                <Button title="Sign Out" onPress={signOut} />
             </View>
         </>
     );
