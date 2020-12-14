@@ -17,12 +17,10 @@ import MainTabNavigatorStack from "./screens/MainTabNavigator/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
-import { Button } from "react-native";
 
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
 
-    console.log("Root App State", appState)
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
@@ -72,7 +70,7 @@ const Root = () => {
     }
 
     const determineFirstScreen = async () => {
-        // if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+        if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
 
         try {
             const isFirstLaunch = await determineFirstLaunch()
@@ -95,8 +93,7 @@ const Root = () => {
         }
 
         setAppState({ type: "UPDATE_USER", payload: user })
-
-        // If setAppState is synchronous, why can't I do this??
+        console.log("root App state: ", appState)
 
         if (isAuthenticated) {
             dispatch({ type: "IS_AUTHENTICATED" })
@@ -110,8 +107,6 @@ const Root = () => {
     useEffect(() => {
         determineFirstScreen()
     }, [])
-
-    const isInitialMount = useRef(true);
 
     const firstScreen = () => {
         if (state?.isLoading) {

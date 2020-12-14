@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import React from "react";
+import { View, Text, Button, TouchableHighlight } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 
 const Settings = (props) => {
@@ -11,11 +11,16 @@ const Settings = (props) => {
         props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 
+    function editProfile() {
+        props.navigation.navigate("EditProfile")
+    }
+
     return (
         <>
             <Text>Settings</Text>
             <View>
                 <Button title="Sign Out" onPress={signOut} />
+                <Button title="Edit Profile" onPress={editProfile} />
             </View>
         </>
     );

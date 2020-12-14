@@ -4,6 +4,7 @@ import LocalUsers from "./Explore/LocalUsers";
 import UserProfile from "./Explore/UserProfile";
 import UploadImage from "./UploadImage";
 import Settings from "./Settings/Settings";
+import EditProfile from "./Settings/EditProfile";
 import Matches from "./Matches/Matches";
 import Nods from "./Nods/Nods";
 
@@ -66,12 +67,20 @@ function HomeStackScreen() {
 const SettingsStack = createStackNavigator();
 function SettingsStackScreen({ dispatch }) {
     return (
-        <SettingsStack.Navigator>
+        <SettingsStack.Navigator
+            screenOptions={{ animationEnabled: false }}
+            mode="modal"
+        >
             <SettingsStack.Screen
                 name="Settings"
                 component={Settings}
                 options={{ title: "Settings" }}
                 initialParams={{ dispatch }}
+            />
+            <SettingsStack.Screen
+                name="EditProfile"
+                component={EditProfile}
+                options={{ title: "EditProfile", animationEnabled: true }}
             />
         </SettingsStack.Navigator>
     )

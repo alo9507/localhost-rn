@@ -120,8 +120,8 @@ const LocalUsers = (props) => {
         <Text>VISIBILITY CONTROLS: AGE: {showMeCriteria.age[0]} / {showMeCriteria.age[1]} SEX: {showMeCriteria.sex}</Text>
       </View>
       {state.users.map((user, index) => (
-        <TouchableHighlight onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
-          <View key={user.id ? user.id : index} style={styles.user}>
+        <TouchableHighlight key={user.id ? user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
+          <View style={styles.user}>
             <Text style={styles.userName}>Name: {user.name}</Text>
             <Text>ID: {user.id}</Text>
             <Text>bio: {user.bio}</Text>
