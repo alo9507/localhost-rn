@@ -22,6 +22,7 @@ import { Button } from "react-native";
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
 
+    console.log("Root App State", appState)
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
@@ -94,13 +95,16 @@ const Root = () => {
         }
 
         setAppState({ type: "UPDATE_USER", payload: user })
-        // if (isAuthenticated) {
-        //     dispatch({ type: "IS_AUTHENTICATED" })
-        //     return
-        // } else {
-        //     dispatch({ type: "IS_NOT_AUTHENTICATED" })
-        //     return
-        // }
+
+        // If setAppState is synchronous, why can't I do this??
+
+        if (isAuthenticated) {
+            dispatch({ type: "IS_AUTHENTICATED" })
+            return
+        } else {
+            dispatch({ type: "IS_NOT_AUTHENTICATED" })
+            return
+        }
     }
 
     useEffect(() => {
@@ -108,14 +112,6 @@ const Root = () => {
     }, [])
 
     const isInitialMount = useRef(true);
-
-    useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-        } else {
-            dispatch({ type: "IS_AUTHENTICATED" })
-        }
-    }, [appState.user])
 
     const firstScreen = () => {
         if (state?.isLoading) {
@@ -130,12 +126,9 @@ const Root = () => {
     }
 
     return (
-        <StoreProvider>
-            <NavigationContainer >
-                <Button title="Determine First Screen" onPress={determineFirstScreen} />
-                {firstScreen()}
-            </NavigationContainer>
-        </StoreProvider>
+        <NavigationContainer >
+            {firstScreen()}
+        </NavigationContainer>
     )
 };
 

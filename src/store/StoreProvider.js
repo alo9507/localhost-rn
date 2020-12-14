@@ -1,5 +1,5 @@
 import { graphQLResultHasError } from "@apollo/client/utilities";
-import React, { useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import StoreContext from "./StoreContext";
 import UserRepository from "../service/user-repository/UserRepository";
 import GraphQLUserRepository from "../service/user-repository/GraphQLUserRepository";
@@ -8,10 +8,11 @@ import AuthManager from "../service/authentication/AuthManager/AuthManager";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import MockAuthManager from "../service/authentication/AuthManager/MockAuthManager";
 import AppState from "../models/AppState";
+import { Text } from "react-native";
 const env = require("../../env.json");
+import { initialState } from "./Reducer";
 
 const StoreProvider = ({ children }) => {
-  let initialState: AppState;
 
   const user = {
     id: "433b6860-51a1-411a-ad43-ad74035541a3",
@@ -35,49 +36,27 @@ const StoreProvider = ({ children }) => {
     longitude: 23.125367053780863
   };
 
-  switch (env.environment) {
-    case "development":
-      initialState = {
-        userRepository: new GraphQLUserRepository(),
-        authManager: new EZAuthManager(),
-        user: null,
-        goToMain: false
-      };
-      break;
-    case "production":
-      initialState = {
-        userRepository: new GraphQLUserRepository(),
-        authManager: new EZAuthManager(),
-        user: null
-      };
-      break;
-    case "local":
-      initialState = {
-        userRepository: new MockUserRepository(),
-        authManager: new MockAuthManager(),
-        user: null
-      };
-      break;
-    default:
-      throw Error("ENVIRONMENT NOT CONFIGURED CORRECTLY");
-  }
-
-  const value = useReducer(
+  const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
         case 'UPDATE_USER':
+          console.log("UPDATE_USER reducer called with: ", action.payload);
           return {
             ...prevState, user: action.payload
           };
         default:
-          throw new Error('Unsupported action type: ', action.type);
+          return prevState;
+        // throw new Error('Unsupported action type: ', action.type);
       }
     },
     initialState
   );
 
+  console.log("App State is: ", state);
+
+  const loading = <Text>Loading...</Text>;
   return (
-    <StoreContext.Provider value={value}>
+    <StoreContext.Provider value={[state, dispatch]}>
       {children}
     </StoreContext.Provider>
   );
