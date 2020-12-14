@@ -17,10 +17,12 @@ import MainTabNavigatorStack from "./screens/MainTabNavigator/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
+import { Button } from "react-native";
 
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
 
+    console.log("Root App State", appState)
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
@@ -65,36 +67,51 @@ const Root = () => {
             return { user, isAuthenticated: true }
         } else {
             console.log(`No auth session stored in cache`)
-            return { user: {}, isAuthenticated: false }
+            return { user: null, isAuthenticated: false }
+        }
+    }
+
+    const determineFirstScreen = async () => {
+        // if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+
+        try {
+            const isFirstLaunch = await determineFirstLaunch()
+            if (isFirstLaunch) {
+                dispatch({ type: "IS_FIRST_LAUNCH" })
+                return
+            }
+        } catch (e) {
+            console.log(`An error occured while determining first launch: ${e}`);
+        }
+
+        let user = null
+        let isAuthenticated = false
+        try {
+            const result = await determineIsLoggedIn()
+            user = result.user
+            isAuthenticated = result.isAuthenticated
+        } catch (e) {
+            console.log(`An error occured while determining first authentication: ${e}`);
+        }
+
+        setAppState({ type: "UPDATE_USER", payload: user })
+
+        // If setAppState is synchronous, why can't I do this??
+
+        if (isAuthenticated) {
+            dispatch({ type: "IS_AUTHENTICATED" })
+            return
+        } else {
+            dispatch({ type: "IS_NOT_AUTHENTICATED" })
+            return
         }
     }
 
     useEffect(() => {
-        const determineFirstScreen = async () => {
-            if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
-
-            try {
-                const isFirstLaunch = await determineFirstLaunch()
-                if (isFirstLaunch) {
-                    dispatch({ type: "IS_FIRST_LAUNCH" })
-                    return
-                }
-
-                const { user, isAuthenticated } = await determineIsLoggedIn()
-                setAppState({ ...appState, user });
-                if (isAuthenticated) {
-                    console.log("fresh appstate", appState)
-                    dispatch({ type: "IS_AUTHENTICATED" })
-                } else {
-                    dispatch({ type: "IS_NOT_AUTHENTICATED" })
-                }
-            } catch (e) {
-                console.log(`An error occured while determining first screen: ${e}`);
-            }
-        }
-
         determineFirstScreen()
-    }, []);
+    }, [])
+
+    const isInitialMount = useRef(true);
 
     const firstScreen = () => {
         if (state?.isLoading) {
@@ -109,11 +126,9 @@ const Root = () => {
     }
 
     return (
-        <StoreProvider>
-            <NavigationContainer >
-                {firstScreen()}
-            </NavigationContainer>
-        </StoreProvider>
+        <NavigationContainer >
+            {firstScreen()}
+        </NavigationContainer>
     )
 };
 

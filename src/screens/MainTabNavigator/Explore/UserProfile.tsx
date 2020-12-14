@@ -9,12 +9,45 @@ const UserProfile = (props) => {
 
     const [appState, setAppState] = React.useContext(StoreContext);
 
-    const sendNod = async (recipientId) => {
+    const sendNod = async () => {
         appState.userRepository.sendNod({
             from: appState.user.id,
-            to: recipientId,
+            to: user.id,
             message: "nice ass bitch",
-            location: "Compton"
+            latitude: 21.3,
+            longitude: 21.3
+        })
+    }
+
+    const report = async () => {
+        appState.userRepository.report({
+            from: appState.user.id,
+            to: user.id,
+            message: "nice ass bitch",
+            reason: "Compton",
+        })
+    }
+
+    const unmatch = async () => {
+        appState.userRepository.unmatch({
+            from: appState.user.id,
+            to: user.id,
+            message: "nice ass bitch",
+            reason: "Compton"
+        })
+    }
+
+    const becomeInvisibleTo = async () => {
+        appState.userRepository.becomeInvisibleTo({
+            from: appState.user.id,
+            to: user.id
+        })
+    }
+
+    const becomeVisibleTo = async () => {
+        appState.userRepository.becomeVisibleTo({
+            from: appState.user.id,
+            to: user.id
         })
     }
 
@@ -32,6 +65,10 @@ const UserProfile = (props) => {
             <Text>latitude: {user.latitude}</Text>
             <Text>longitude: {user.longitude}</Text>
             <Button title="Send Nod" onPress={sendNod} />
+            <Button title="Report" onPress={report} />
+            <Button title="Become Invisible To" onPress={becomeInvisibleTo} />
+            <Button title="Unmatch" onPress={unmatch} />
+            <Button title="Become Visible To" onPress={becomeVisibleTo} />
         </View>
     );
 };

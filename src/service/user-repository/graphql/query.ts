@@ -40,3 +40,26 @@ query GetUsers {
     }
 }
 `;
+
+export const GET_INCOMING_NODS = gql`
+query GetIncomingNods($id: ID!) {
+    getIncomingNods(id: $id) {
+        user {
+          id
+          sex
+          name
+          email
+          bio
+          whatAmIDoing
+          isVisible
+          age
+          latitude
+          longitude
+        }
+        nod {
+          message
+          seen
+        }
+    }
+}
+`;

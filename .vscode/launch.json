@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach to the React Native iOS - Experimental",
+            "cwd": "${workspaceFolder}",
+            "type": "reactnativedirect",
+            "request": "attach",
+            "platform": "ios",
+            "port": 9221
+        },
+        {
             "name": "Jest",
             "type": "node",
             "request": "launch",

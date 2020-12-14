@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, TextInput, Button, TouchableHighlight } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
 import { Switch } from "react-native"
 import SegmentedControl from '@react-native-community/segmented-control';
-import { Link } from '@react-navigation/native';
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
 const LocalUsers = (props) => {
-  const [appState, setAppState] = React.useContext(StoreContext);
-  console.log("LOCAL USER APP STATE: ", appState)
+  const [appState, setAppState] = useContext(StoreContext);
+
+  console.log("Local Users App State: ", appState)
   const selectedSex = () => {
     const sexcriteria = appState.user.showMeCriteria.sex
     let selected = 0

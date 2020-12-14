@@ -60,7 +60,8 @@ mutation SendNod($input: SendNodInput!) {
     sendNod(input: $input ) {
         from
         to
-        location
+        latitude
+        longitude
         message
     }
 }`
@@ -70,7 +71,8 @@ mutation ReturnNod($input: SendNodInput!) {
     returnNod(input: $input ) {
         from
         to
-        location
+        latitude
+        longitude
         message
     }
 }`
@@ -85,9 +87,9 @@ mutation ReportUser($input: ReportInput!) {
     }
 }`
 
-export const BLOCK = gql`
-mutation BlockUser($input: BlockInput!) {
-    block(input: $input) {
+export const UNMATCH = gql`
+mutation UnmatchUser($input: UnmatchInput!) {
+    unmatch(input: $input) {
         from
         to
         reason

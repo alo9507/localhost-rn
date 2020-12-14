@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { Button, Image, View, Platform, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ImagePickerExample() {
     const [image, setImage] = useState(null);
+    const [uploaded, setUploaded] = useState(true);
+    const [uploadedImgUrl, setUploadedImgUrl] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -17,7 +19,7 @@ export default function ImagePickerExample() {
     }, []);
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let result: any = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
@@ -30,7 +32,8 @@ export default function ImagePickerExample() {
     };
 
     async function uploadImageAsync(uri) {
-        let apiUrl = 'http://localhost:3000/media/upload';
+        setUploaded(false);
+        let apiUrl = 'http://localhost:80/media/upload';
 
         // Note:
         // Uncomment this if you want to experiment with local server
@@ -45,21 +48,31 @@ export default function ImagePickerExample() {
         let fileType = uriParts[uriParts.length - 1];
 
         let formData = new FormData();
-        formData.append("file", uri)
-        formData.append("name", `photo.${fileType}`)
-        formData.append('type', `image/${fileType}`)
-        console.log(formData.get("name"))
-        console.log(formData.get("type"))
-
+        const uploadUri = Platform.OS === "android" ? uri : uri.replace("file://", "");
+        const fileObject: any = {
+            uri: uploadUri,
+            "name": `photo.${fileType}`,
+            'type': `image/${fileType}`,
+        }
+        formData.append("file", fileObject);
         let options = {
             method: 'POST',
             body: formData,
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'multipart/form-data',
             },
         };
 
-        return fetch(apiUrl, options);
+        fetch(apiUrl, options)
+            .then(res => res.json())
+            .then(res => {
+                setUploadedImgUrl(res.location);
+                setUploaded(true);
+            })
+            .catch(err => {
+                console.log('err', err);
+            });
     }
 
     return (
@@ -67,6 +80,10 @@ export default function ImagePickerExample() {
             <Button title="Pick an image from camera roll" onPress={pickImage} />
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             <Button title="Upload Image" onPress={() => uploadImageAsync(image)} />
+            {uploaded
+                ? <Image source={{ uri: uploadedImgUrl }} style={{ width: 200, height: 200 }} />
+                : <ActivityIndicator size="small" color="#0000ff" />
+            }
         </View>
     );
 }
