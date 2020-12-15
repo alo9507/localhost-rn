@@ -5,15 +5,11 @@ import StoreContext from "../../../store/StoreContext";
 const Gender = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
 
-    function close() {
-        props.navigation.pop()
-    }
-
     return (
         <>
             <Text>Gender</Text>
             <View>
-                <Button title="Close" onPress={close} />
+                <Button title="Submit" onPress={close} />
             </View>
         </>
     );

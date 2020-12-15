@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, Image, Button, StyleSheet } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 
 const UserProfile = (props) => {
@@ -53,6 +53,9 @@ const UserProfile = (props) => {
 
     return (
         <View style={styles.user}>
+            <View style={styles.profileImgContainer}>
+                <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
+            </View>
             <Text style={styles.userName}>Name: {user.name}</Text>
             <Text>ID: {user.id}</Text>
             <Text>bio: {user.bio}</Text>
@@ -78,6 +81,14 @@ const styles = StyleSheet.create({
     user: { marginBottom: 15 },
     input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
     userName: { fontSize: 18 },
+    profileImgContainer: {
+        margin: "auto",
+    },
+    profileImg: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
+    },
 });
 
 export default UserProfile;

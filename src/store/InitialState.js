@@ -31,7 +31,8 @@ const user = {
     age: 25,
     sex: "male",
     latitude: 24.22244098031902,
-    longitude: 23.125367053780863
+    longitude: 23.125367053780863,
+    profileImageUrl: "https://randomuser.me/portraits/men/55.jpg"
 };
 
 switch (env.environment) {

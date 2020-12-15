@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, StyleSheet, TextInput, Button, TouchableHighlight } from "react-native";
+import { View, Text, Image, StyleSheet, TextInput, Button, TouchableHighlight } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
 import { Switch } from "react-native"
@@ -122,6 +122,7 @@ const LocalUsers = (props) => {
       {state.users.map((user, index) => (
         <TouchableHighlight key={user.id ? user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
           <View style={styles.user}>
+            <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
             <Text style={styles.userName}>Name: {user.name}</Text>
             <Text>ID: {user.id}</Text>
             <Text>bio: {user.bio}</Text>
@@ -145,6 +146,14 @@ const styles = StyleSheet.create({
   user: { marginBottom: 15 },
   input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
   userName: { fontSize: 18 },
+  profileImgContainer: {
+    margin: "auto",
+  },
+  profileImg: {
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+  },
 });
 
 export default LocalUsers;

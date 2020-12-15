@@ -11,6 +11,7 @@ query GetUser($id: ID!) {
       whatAmIDoing
       isVisible
       age
+      profileImageUrl
       inbound {
         id
       }
@@ -37,6 +38,7 @@ query GetUsers {
         age
         isVisible
         email
+        profileImageUrl
     }
 }
 `;
@@ -55,6 +57,7 @@ query GetIncomingNods($id: ID!) {
           age
           latitude
           longitude
+          profileImageUrl
         }
         nod {
           message

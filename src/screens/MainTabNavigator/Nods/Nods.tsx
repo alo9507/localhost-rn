@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, TouchableHighlight, StyleSheet, View } from "react-native";
+import { Text, TouchableHighlight, Image, StyleSheet, View } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
 
@@ -53,8 +53,9 @@ const Nods = (props) => {
     return (
         <>
             {state.userWithNods.map((userWithNod, index) => (
-                <TouchableHighlight onPress={(e) => props.navigation.navigate("UserProfile", { user: userWithNod.user })}>
-                    <View key={userWithNod.user.id ? userWithNod.user.id : index} style={styles.user}>
+                <TouchableHighlight key={userWithNod.user.id ? userWithNod.user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user: userWithNod.user })}>
+                    <View style={styles.user}>
+                        <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
                         <Text>{userWithNod.nod.message}</Text>
                         <Text style={styles.userName}>Name: {userWithNod.user.name}</Text>
                         <Text>ID: {userWithNod.user.id}</Text>
@@ -78,6 +79,14 @@ const styles = StyleSheet.create({
     user: { marginBottom: 15 },
     input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
     userName: { fontSize: 18 },
+    profileImgContainer: {
+        margin: "auto",
+    },
+    profileImg: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
+    },
 });
 
 export default Nods;

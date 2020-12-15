@@ -12,6 +12,7 @@ mutation CreateUser($input: CreateUserInput!) {
         isVisible
         age
         isVisible
+        profileImageUrl
         showMeCriteria {
             sex
             age
@@ -39,6 +40,7 @@ mutation UpdateUser($input: UpdateUserInput!) {
         whatAmIDoing
         isVisible
         age
+        profileImageUrl
         inbound {
             id
         }
@@ -132,5 +134,6 @@ mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
         age
         latitude
         longitude
+        profileImageUrl
     }
 }`;

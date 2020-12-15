@@ -15,7 +15,6 @@ const EditProfile = (props) => {
 
     return (
         <>
-            <Text>Settings</Text>
             <View>
                 <Button title="Close" onPress={close} />
                 <Button title="Gender" onPress={gender} />
