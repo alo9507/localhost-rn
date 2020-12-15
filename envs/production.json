@@ -1,4 +1,4 @@
 {
     "environment": "production",
-    "API_URL": "http://localhost:80/api"
+    "API_URL": "http://localhost:80"
 }

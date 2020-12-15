@@ -10,7 +10,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // Services
 import AuthSession from "./service/authentication/AuthSession/AuthSession"
-import AsyncStorageFirstLaunchService from "./service/first-launch-service/AsyncStorageFirstLaunchService"
 
 // Screens
 import MainTabNavigator from "./screens/Main/MainTabNavigator"
@@ -52,8 +51,7 @@ const Root = () => {
     );
 
     const determineFirstLaunch = async () => {
-        const fls = new AsyncStorageFirstLaunchService()
-        const isFirstLaunch = await fls.isFirstLaunch()
+        const isFirstLaunch = await appState.firstLaunchService.isFirstLaunch()
         return isFirstLaunch
     }
 

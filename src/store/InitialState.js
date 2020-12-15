@@ -1,13 +1,20 @@
 import React, { useEffect, useState, useReducer } from "react";
 const env = require("../../env.json");
+
 import { graphQLResultHasError } from "@apollo/client/utilities";
 import StoreContext from "./StoreContext";
 import UserRepository from "../service/user-repository/UserRepository";
 import GraphQLUserRepository from "../service/user-repository/GraphQLUserRepository";
 import MockUserRepository from "../service/user-repository/MockUserRepository";
+
 import AuthManager from "../service/authentication/AuthManager/AuthManager";
 import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
 import MockAuthManager from "../service/authentication/AuthManager/MockAuthManager";
+
+import FirstLaunchService from "../service/first-launch-service/FirstLaunchService";
+import MockFirstLaunchService from "../service/first-launch-service/MockFirstLauncService";
+import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService";
+
 import AppState from "../models/AppState";
 
 let initialState;
@@ -40,6 +47,7 @@ switch (env.environment) {
         initialState = {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),
+            firstLaunchService: new AsyncStorageFirstLaunchService(),
             user: user,
             goToMain: true
         };
@@ -48,6 +56,7 @@ switch (env.environment) {
         initialState = {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),
+            firstLaunchService: new AsyncStorageFirstLaunchService(),
             user: null
         };
         break;
@@ -55,6 +64,7 @@ switch (env.environment) {
         initialState = {
             userRepository: new MockUserRepository(),
             authManager: new MockAuthManager(),
+            firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
             user: null
         };
         break;
