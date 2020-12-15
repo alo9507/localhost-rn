@@ -1,120 +1,22 @@
 import React from "react";
-import FirstLaunch from "../FirstLaunch/FirstLaunch";
-import LocalUsers from "./Explore/LocalUsers";
-import UserProfile from "./Explore/UserProfile";
-import UploadImage from "./UploadImage";
-import Settings from "./Settings/Settings";
-import EditProfile from "./Settings/EditProfile";
-import Gender from "./Settings/Gender";
-import Matches from "./Matches/Matches";
-import Nods from "./Nods/Nods";
+import ChatStack from "./Chat/ChatStack";
+import ExploreStack from "./Explore/ExploreStack"
+import SettingsStackNavigator from "./Settings/SettingsStack"
+import NodsStackNavigator from "./Nods/NodsStackNavigator";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const NodsStack = createStackNavigator();
-function NodsStackScreen() {
+const BottomTabNavigator = createBottomTabNavigator();
+function MainTabNavigator({ dispatch }) {
     return (
-        <NodsStack.Navigator>
-            <NodsStack.Screen
-                name="Nods"
-                component={Nods}
-                options={{ title: "Nods" }}
-            />
-        </NodsStack.Navigator>
+        <BottomTabNavigator.Navigator initialRouteName="Settings">
+            <BottomTabNavigator.Screen name="Explore" component={ExploreStack} />
+            <BottomTabNavigator.Screen name="Nods" component={NodsStackNavigator} />
+            <BottomTabNavigator.Screen name="Chat" component={ChatStack} />
+            <BottomTabNavigator.Screen name="Settings" children={() => <SettingsStackNavigator dispatch={dispatch} />} />
+        </BottomTabNavigator.Navigator>
     )
 }
 
-const MatchesStack = createStackNavigator();
-function MatchesStackScreen() {
-    return (
-        <MatchesStack.Navigator>
-            <MatchesStack.Screen
-                name="Matches"
-                component={Matches}
-                options={{ title: "Matches" }}
-            />
-        </MatchesStack.Navigator>
-    )
-}
-
-const HomeStack = createStackNavigator();
-function HomeStackScreen() {
-    return (
-        <HomeStack.Navigator initialRouteName="LocalUsers">
-            <HomeStack.Screen
-                name="UserProfile"
-                component={UserProfile}
-                options={{ title: "UserProfile" }}
-            />
-            <HomeStack.Screen
-                name="UploadImage"
-                component={UploadImage}
-                options={{ title: "UploadImage" }}
-            />
-            <HomeStack.Screen
-                name="LocalUsers"
-                component={LocalUsers}
-            />
-            <HomeStack.Screen
-                name="FirstLaunch"
-                component={FirstLaunch}
-                options={{ title: "First Launch Screen" }}
-            />
-        </HomeStack.Navigator>
-    );
-}
-
-const EditProfileStack = createStackNavigator()
-function EditProfileStackScreen() {
-    return (
-        <EditProfileStack.Navigator initialRouteName="EditProfile">
-            <EditProfileStack.Screen
-                name="EditProfile"
-                component={EditProfile}
-                options={{ headerShown: false }}
-            />
-            <EditProfileStack.Screen
-                name="Gender"
-                component={Gender}
-                options={{ title: "Gender" }}
-            />
-        </EditProfileStack.Navigator>
-    )
-}
-
-const SettingsStack = createStackNavigator();
-function SettingsStackScreen({ dispatch }) {
-    return (
-        <SettingsStack.Navigator
-            screenOptions={{ animationEnabled: false }}
-            mode="modal"
-        >
-            <SettingsStack.Screen
-                name="Settings"
-                component={Settings}
-                options={{ title: "Settings" }}
-                initialParams={{ dispatch }}
-            />
-            <SettingsStack.Screen
-                name="EditProfile"
-                component={EditProfileStackScreen}
-                options={{ animationEnabled: true, headerShown: false }}
-            />
-        </SettingsStack.Navigator>
-    )
-}
-
-const Tab = createBottomTabNavigator();
-function MainTabNavigatorStack({ dispatch }) {
-    return (
-        <Tab.Navigator initialRouteName="Settings">
-            <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Nods" component={NodsStackScreen} />
-            <Tab.Screen name="Chat" component={MatchesStackScreen} />
-            <Tab.Screen name="Settings" children={() => <SettingsStackScreen dispatch={dispatch} />} />
-        </Tab.Navigator>
-    )
-}
-
-export default MainTabNavigatorStack;
+export default MainTabNavigator;

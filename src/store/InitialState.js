@@ -41,8 +41,8 @@ switch (env.environment) {
         initialState = {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),
-            user: null,
-            goToMain: false
+            user: user,
+            goToMain: true
         };
         break;
     case "production":

@@ -7,7 +7,7 @@ import SegmentedControl from '@react-native-community/segmented-control';
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
-const LocalUsers = (props) => {
+const Explore = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
 
   console.log("Local Users App State: ", appState)
@@ -156,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LocalUsers;
+export default Explore;

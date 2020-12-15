@@ -13,7 +13,7 @@ import AuthSession from "./service/authentication/AuthSession/AuthSession"
 import AsyncStorageFirstLaunchService from "./service/first-launch-service/AsyncStorageFirstLaunchService"
 
 // Screens
-import MainTabNavigatorStack from "./screens/MainTabNavigator/MainTabNavigator"
+import MainTabNavigator from "./screens/MainTabNavigator/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
@@ -114,7 +114,7 @@ const Root = () => {
         } else if (state?.isFirstLaunch) {
             return <LaunchStackScreens />
         } else if (state?.isAuthenticated) {
-            return <MainTabNavigatorStack dispatch={dispatch} />
+            return <MainTabNavigator dispatch={dispatch} />
         } else {
             return <LoginStackScreens dispatch={dispatch} />
         }
