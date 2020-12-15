@@ -10,7 +10,7 @@ import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER } from "./mutations"
 
 const env = require("../../../../env.json")
 
-class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
+class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
   constructor () { }
 
   errorLink = onError(({ graphQLErrors, networkError, response }) => {
@@ -113,6 +113,23 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
     })
     return promise
   }
+
+  confirmSignUp(username: string, code: string): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+
+  forgotPassword(username: string): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+
+  forgotPasswordSubmit(username: string, code: string, newPassword: string): Promise<boolean> {
+    throw new Error("Method not implemented.");
+  }
+
 }
 
-export default AWSAmplifyRemoteAuthProvider;
+export default LocalhostRemoteAuthProvider;

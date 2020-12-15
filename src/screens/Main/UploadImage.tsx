@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Image, View, Platform, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import StoreContext from "../../store/StoreContext";
 
 export default function ImagePickerExample() {
     const [image, setImage] = useState(null);
     const [uploaded, setUploaded] = useState(true);
     const [uploadedImgUrl, setUploadedImgUrl] = useState(null);
+
+    const [appState, setAppState] = useContext(StoreContext);
 
     useEffect(() => {
         (async () => {
@@ -33,46 +36,10 @@ export default function ImagePickerExample() {
 
     async function uploadImageAsync(uri) {
         setUploaded(false);
-        let apiUrl = 'http://localhost:80/media/upload';
-
-        // Note:
-        // Uncomment this if you want to experiment with local server
-        //
-        // if (Constants.isDevice) {
-        //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-        // } else {
-        //   apiUrl = `http://localhost:3000/upload`
-        // }
-
-        let uriParts = uri.split('.');
-        let fileType = uriParts[uriParts.length - 1];
-
-        let formData = new FormData();
-        const uploadUri = Platform.OS === "android" ? uri : uri.replace("file://", "");
-        const fileObject: any = {
-            uri: uploadUri,
-            "name": `photo.${fileType}`,
-            'type': `image/${fileType}`,
-        }
-        formData.append("file", fileObject);
-        let options = {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data',
-            },
-        };
-
-        fetch(apiUrl, options)
-            .then(res => res.json())
-            .then(res => {
-                setUploadedImgUrl(res.location);
-                setUploaded(true);
-            })
-            .catch(err => {
-                console.log('err', err);
-            });
+        let result = await appState.mediaUploadService.upload(uri)
+        console.log(result)
+        setUploadedImgUrl(result.location);
+        setUploaded(true);
     }
 
     return (

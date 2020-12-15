@@ -14,6 +14,7 @@ import MockAuthManager from "../service/authentication/AuthManager/MockAuthManag
 import FirstLaunchService from "../service/first-launch-service/FirstLaunchService";
 import MockFirstLaunchService from "../service/first-launch-service/MockFirstLauncService";
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService";
+import MainMediaUploadService from "../service/media-upload/MainMediaUploadService";
 
 import AppState from "../models/AppState";
 
@@ -48,6 +49,7 @@ switch (env.environment) {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
+            mediaUploadService: new MainMediaUploadService(),
             user: user,
             goToMain: true
         };
@@ -57,6 +59,7 @@ switch (env.environment) {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
+            mediaUploadService: new MainMediaUploadService(),
             user: null
         };
         break;
@@ -65,6 +68,7 @@ switch (env.environment) {
             userRepository: new MockUserRepository(),
             authManager: new MockAuthManager(),
             firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
+            mediaUploadService: new MainMediaUploadService(),
             user: null
         };
         break;

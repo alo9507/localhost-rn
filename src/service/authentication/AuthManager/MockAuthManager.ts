@@ -41,6 +41,23 @@ class MockAuthManager implements AuthManager {
         })
         return promise
     }
+
+    confirmSignUp(username: string, code: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+
+    changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+
+    forgotPassword(username: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+
+    forgotPasswordSubmit(username: string, code: string, newPassword: string): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+
 }
 
 export default MockAuthManager
