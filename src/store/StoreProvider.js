@@ -18,7 +18,6 @@ const StoreProvider = ({ children }) => {
     (prevState, action) => {
       switch (action.type) {
         case 'UPDATE_USER':
-          console.log("UPDATE_USER reducer called with: ", action.payload);
           return {
             ...prevState, user: action.payload
           };

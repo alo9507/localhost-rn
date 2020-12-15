@@ -29,7 +29,6 @@ const Login = (props) => {
       setAppState({ type: "UPDATE_USER", payload: user });
       props.route.params.dispatch({ type: "IS_AUTHENTICATED" });
     } catch (error) {
-      console.log(error)
       console.log("Error Signing In:", error);
     }
   }

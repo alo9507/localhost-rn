@@ -1,13 +1,13 @@
 import React from "react";
 import { Text } from "react-native";
 
-const Splash = (props) => {
+const Chat = (props) => {
 
     return (
         <>
-            <Text>Splash</Text>
+            <Text>Chat</Text>
         </>
     );
 };
 
-export default Splash;
+export default Chat;

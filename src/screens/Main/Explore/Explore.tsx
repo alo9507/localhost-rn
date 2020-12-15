@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, Image, StyleSheet, TextInput, Button, TouchableHighlight } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
-import { Switch } from "react-native"
 import SegmentedControl from '@react-native-community/segmented-control';
 
 const initialState = { id: "mynewid", name: "", location: "" };
@@ -10,7 +9,6 @@ const initialState = { id: "mynewid", name: "", location: "" };
 const Explore = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
 
-  console.log("Local Users App State: ", appState)
   const selectedSex = () => {
     const sexcriteria = appState.user.showMeCriteria.sex
     let selected = 0

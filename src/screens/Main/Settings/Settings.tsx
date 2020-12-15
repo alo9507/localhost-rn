@@ -1,13 +1,11 @@
 import React from "react";
-import { View, Image, Text, Button, TouchableHighlight, StyleSheet } from "react-native";
+import { View, Image, Button, StyleSheet } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 
 const Settings = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-    console.log(appState.user)
     async function signOut() {
         let authResult = await appState.authManager.signOut()
-        console.log(authResult)
         props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 

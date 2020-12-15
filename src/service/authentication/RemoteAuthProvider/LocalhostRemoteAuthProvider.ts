@@ -92,7 +92,6 @@ class AWSAmplifyRemoteAuthProvider implements RemoteAuthProvider {
         });
 
         const authSession = result.data.signUp
-        console.log("in repo", authSession)
 
         resolve(new AuthSession(authSession.userId, authSession.authToken));
       } catch (e) {

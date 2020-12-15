@@ -37,7 +37,6 @@ const user = {
 
 switch (env.environment) {
     case "development":
-        console.log("dev called");
         initialState = {
             userRepository: new GraphQLUserRepository(),
             authManager: new EZAuthManager(),

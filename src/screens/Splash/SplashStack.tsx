@@ -1,4 +1,3 @@
-import Launch from "../Launch";
 import { createStackNavigator } from "@react-navigation/stack";
 import Splash from "./Splash"
 

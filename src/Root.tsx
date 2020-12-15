@@ -13,7 +13,7 @@ import AuthSession from "./service/authentication/AuthSession/AuthSession"
 import AsyncStorageFirstLaunchService from "./service/first-launch-service/AsyncStorageFirstLaunchService"
 
 // Screens
-import MainTabNavigator from "./screens/MainTabNavigator/MainTabNavigator"
+import MainTabNavigator from "./screens/Main/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
@@ -26,28 +26,28 @@ const Root = () => {
             switch (action.type) {
                 case 'IS_FIRST_LAUNCH':
                     return {
-                        isFirstLaunch: true,
                         isLoading: false,
+                        isFirstLaunch: true,
                         isAuthenticated: false,
                     };
                 case 'IS_AUTHENTICATED':
                     return {
                         isLoading: false,
-                        isAuthenticated: true,
                         isFirstLaunch: false,
+                        isAuthenticated: true,
                     };
                 case 'IS_NOT_AUTHENTICATED':
                     return {
                         isLoading: false,
-                        isAuthenticated: false,
                         isFirstLaunch: false,
+                        isAuthenticated: false,
                     };
             }
         },
         {
             isLoading: true,
-            isAuthenticated: false,
             isFirstLaunch: false,
+            isAuthenticated: false,
         }
     );
 
@@ -93,7 +93,6 @@ const Root = () => {
         }
 
         setAppState({ type: "UPDATE_USER", payload: user })
-        console.log("root App state: ", appState)
 
         if (isAuthenticated) {
             dispatch({ type: "IS_AUTHENTICATED" })
@@ -108,7 +107,7 @@ const Root = () => {
         determineFirstScreen()
     }, [])
 
-    const firstScreen = () => {
+    const currentScreen = () => {
         if (state?.isLoading) {
             return <SplashStackScreens />
         } else if (state?.isFirstLaunch) {
@@ -122,7 +121,7 @@ const Root = () => {
 
     return (
         <NavigationContainer >
-            {firstScreen()}
+            {currentScreen()}
         </NavigationContainer>
     )
 };

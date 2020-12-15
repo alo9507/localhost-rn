@@ -48,7 +48,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   createUser(id: string, email: string): Promise<User> {
-    console.log(`${id}, ${email}`)
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -79,7 +78,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   report(input: Object): Promise<Object> {
-    console.log(input)
     let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -95,7 +93,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   unmatch(input: Object): Promise<Object> {
-    console.log(input)
     let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -111,7 +108,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   becomeInvisibleTo(input: Object): Promise<Object> {
-    console.log(input)
     let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -127,7 +123,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   becomeVisibleTo(input: Object): Promise<Object> {
-    console.log(input)
     let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -174,7 +169,6 @@ class GraphQLUserRepository implements UserRepository {
   }
 
   getIncomingNods(id: string): Promise<User> {
-    console.log(id)
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
