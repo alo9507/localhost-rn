@@ -1,7 +1,7 @@
 import AuthError from "../AuthError/AuthError";
 import AuthSession from "../AuthSession/AuthSession";
 import RemoteAuthProvider from "./RemoteAuthProvider"
-
+import { Platform } from 'react-native'
 import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http"
@@ -13,6 +13,8 @@ const env = require("../../../../env.json")
 class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
   constructor () { }
 
+  authApiUrl = Platform.OS === "android" ? env.ANDROID_API_URL : env.IOS_API_URL
+
   errorLink = onError(({ graphQLErrors, networkError, response }) => {
     if (graphQLErrors)
       graphQLErrors.forEach(({ message, locations, path }) =>
@@ -23,10 +25,10 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
 
-  httpLink = new HttpLink({ uri: `${env.API_URL}/account` })
+  httpLink = new HttpLink({ uri: `${this.authApiUrl}/account` })
 
   private client = new ApolloClient({
-    uri: `${env.API_URL}/account`,
+    uri: `${this.authApiUrl}/account`,
     cache: new InMemoryCache({
       addTypename: false
     }),
@@ -36,6 +38,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
   signIn(email: string, password: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
+        console.log(this.authApiUrl)
         const result = await this.client.mutate({
           mutation: SIGN_IN_USER,
           variables: { input: { email: email, password: password } },

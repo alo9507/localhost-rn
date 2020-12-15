@@ -6,11 +6,14 @@ import User from "../../models/User"
 import { GET_USER, GET_INCOMING_NODS, GET_USERS } from "./graphql/query"
 import { CREATE_USER, UNMATCH, BECOME_INVISIBLE_TO, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD, BECOME_VISIBLE_TO } from "./graphql/mutation"
 import { UpdateUserInput, UpdateLocationGetUsers } from "./graphql/input"
+import { Platform } from "react-native"
 
 const env = require("../../../env.json")
 
 class GraphQLUserRepository implements UserRepository {
   constructor () { }
+
+  userRepoApiUrl = Platform.OS === "android" ? env.ANDROID_API_URL : env.IOS_API_URL
 
   errorLink = onError(({ graphQLErrors, networkError, response }) => {
     if (graphQLErrors)
@@ -22,10 +25,10 @@ class GraphQLUserRepository implements UserRepository {
     if (networkError) console.log(`[Network error]: ${networkError}`);
   });
 
-  httpLink = new HttpLink({ uri: `${env.API_URL}/api` })
+  httpLink = new HttpLink({ uri: `${this.userRepoApiUrl}/api` })
 
   private client = new ApolloClient({
-    uri: `${env.API_URL}/api`,
+    uri: `${this.userRepoApiUrl}/api`,
     cache: new InMemoryCache({
       addTypename: false
     }),

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-native";
+import { Button, Alert } from "react-native";
 import StoreContext from "../../store/StoreContext";
 import styled from "styled-components/native";
 
@@ -30,6 +30,14 @@ const Login = (props) => {
       props.route.params.dispatch({ type: "IS_AUTHENTICATED" });
     } catch (error) {
       console.log("Error Signing In:", error);
+      Alert.alert(
+        "Error",
+        JSON.stringify(error),
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: true }
+      );
     }
   }
 
