@@ -7,7 +7,7 @@ import UploadImage from "../UploadImage";
 const ExploreStackNav = createStackNavigator();
 function ExploreStack() {
     return (
-        <ExploreStackNav.Navigator initialRouteName="Explore">
+        <ExploreStackNav.Navigator initialRouteName="UploadImage">
             <ExploreStackNav.Screen
                 name="UserProfile"
                 component={UserProfile}
