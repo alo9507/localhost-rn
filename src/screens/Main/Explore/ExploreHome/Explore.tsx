@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useContext, useReducer } from "react";
-import { View, Text, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
-import StoreContext from "../../../store/StoreContext";
-import User from "../../../models/User"
+import { View, Text, Button, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
+import StoreContext from "../../../../store/StoreContext";
+import User from "../../../../models/User"
 import SegmentedControl from '@react-native-community/segmented-control';
+import YouAreInvisible from "./YouAreInvisible"
+import NoUsers from "./NoUsers"
+import styled from "styled-components/native";
 
 const initialState = { id: "mynewid", name: "", location: "" };
 
@@ -70,6 +73,11 @@ const Explore = (props) => {
 
   const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
   const [sex, setSex] = useState(selectedSex())
+  const [formState, setFormState] = useState({ whatAmIDoing: "" });
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
 
   const toggleSwitch = async () => {
     const user = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !state.isVisible })
@@ -123,25 +131,34 @@ const Explore = (props) => {
     props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
   }, [])
 
+  async function submitWhatAmIDoing() {
+    await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
+    setAppState({ type: "UPDATE_USER", payload: { ...formState } })
+    console.log(formState)
+  }
+
   if (state.loading) return <Text>"Loading..."</Text>
   if (state.error) return `Error! ${state.error}`;
-  if (!state.isVisible) return (
-    <>
-      <Text>isVisible: {state.isVisible}</Text>
-      <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={state.isVisible ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={state.isVisible}
-      />
-    </>
-  )
-  if (state.noUsers) return `NO LOCAL USERS!`
+  if (!state.isVisible) return <YouAreInvisible toggleSwitch={toggleSwitch} />
+  if (state.noUsers) return <NoUsers />
 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
+        <View style={styles.profileImgContainer}>
+          <Image source={{ uri: appState.user.profileImageUrl }} style={styles.profileImg} />
+        </View>
+        <>
+          <Text>{appState.user.whatAmIDoing}</Text>
+          <Container>
+            <Input
+              onChangeText={(val) => setInput("whatAmIDoing", val)}
+              value={formState.whatAmIDoing}
+              placeholder="What are you up to?"
+            />
+            <Button title="send it!" onPress={submitWhatAmIDoing} />
+          </Container>
+        </>
         <SegmentedControl
           values={['all', 'male', 'female']}
           selectedIndex={sex}
@@ -196,5 +213,18 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
 });
+
+const Input = styled.TextInput`
+  height: 50px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+  padding: 8px;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+`;
 
 export default Explore;

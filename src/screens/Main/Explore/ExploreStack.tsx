@@ -1,4 +1,4 @@
-import Explore from "./Explore"
+import Explore from "./ExploreHome/Explore"
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import UserProfile from "./UserProfile";
