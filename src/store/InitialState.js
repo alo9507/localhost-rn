@@ -50,8 +50,8 @@ switch (env.environment) {
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
-            user: user,
-            goToMain: true
+            user: null,
+            goToMain: false
         };
         break;
     case "production":

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useReducer } from "react";
 import { View, Text, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import User from "../../../models/User"
@@ -8,6 +8,52 @@ const initialState = { id: "mynewid", name: "", location: "" };
 
 const Explore = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
+
+  const [state, dispatch] = useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'NO_LOCAL_USERS':
+          return {
+            noUsers: true,
+            loading: false,
+            users: [],
+            error: null,
+            isVisible: true,
+          };
+        case 'LOCAL_USERS_FETCHED':
+          return {
+            users: action.payload,
+            loading: false,
+            noUsers: false,
+            error: null,
+            isVisible: true,
+          };
+        case 'ERROR':
+          return {
+            error: action.payload,
+            loading: false,
+            noUsers: false,
+            users: [],
+            isVisible: true,
+          };
+        case 'CHANGE_VISIBILITY':
+          return {
+            ...prevState,
+            isVisible: action.payload,
+            loading: false,
+          };
+        default:
+          throw new Error(`UNKNOWN ACTION: ${action.type}`)
+      }
+    },
+    {
+      loading: true,
+      error: null,
+      noUsers: false,
+      users: [],
+      isVisible: appState.user.isVisible,
+    }
+  );
 
   const selectedSex = () => {
     const sexcriteria = appState.user.showMeCriteria.sex
@@ -22,51 +68,38 @@ const Explore = (props) => {
     return selected
   }
 
-  const [high, setHigh] = useState(0)
-  const [low, setLow] = useState(0)
-  const [formState, setFormState] = useState(initialState);
   const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
   const [sex, setSex] = useState(selectedSex())
-  const [isVisible, setIsVisible] = useState(appState.user.isVisible)
-  const [ageRange, setAgeRange] = useState(appState.user.showMeCriteria.age)
 
   const toggleSwitch = async () => {
-    const user = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !isVisible })
-    setIsVisible(previousState => !previousState);
+    const user = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !state.isVisible })
+    dispatch({ type: "CHANGE_VISIBILITY", payload: user.isVisible })
   }
 
-  const [showMeCriteria, setShowMeCriteria] = useState({
-    id: appState.user.id,
-    sex: appState.user.showMeCriteria.sex,
-    age: appState.user.showMeCriteria.age
-  })
-
-  type LocalUsersInitialState = {
-    loading: boolean,
-    error: boolean,
-    users: User[],
-  }
-
-  const initial: LocalUsersInitialState = {
-    users: [],
-    loading: true,
-    error: false
-  }
-
-  const [state, setState] = useState(initial)
+  useEffect(() => {
+    if (!state.isVisible) {
+      dispatch({ type: "CHANGE_VISIBILITY", payload: state.isVisible })
+      return
+    }
+  }, [])
 
   useEffect(() => {
     async function getUsers() {
+      if (!state.isVisible) { return }
       try {
         const users = await appState.userRepository.updateLocationGetUsers({ id: appState.user.id, ...location })
-        setState({ ...state, users, loading: false })
+        if (users.length === 0) {
+          dispatch({ type: "NO_LOCAL_USERS" })
+        } else {
+          dispatch({ type: "LOCAL_USERS_FETCHED", payload: users })
+        }
       } catch (e) {
-        setState({ ...state, loading: false, error: e })
+        dispatch({ type: "ERROR", payload: JSON.stringify(e) })
       }
     }
 
     getUsers()
-  }, [isVisible, sex])
+  }, [state.isVisible, sex])
 
   const changeSex = async (selectedIndex) => {
     let sexArray: String[] = []
@@ -83,18 +116,28 @@ const Explore = (props) => {
     }
     await appState.userRepository.updateShowMeCriteria({ id: appState.user.id, sex: sexArray })
     setSex(selectedIndex)
+    setAppState({ type: "UPDATE_USER", payload: { showMeCriteria: { sex: sexArray } } })
   }
 
   useEffect(() => {
     props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
   }, [])
 
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value });
-  }
-
   if (state.loading) return <Text>"Loading..."</Text>
   if (state.error) return `Error! ${state.error}`;
+  if (!state.isVisible) return (
+    <>
+      <Text>isVisible: {state.isVisible}</Text>
+      <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={state.isVisible ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={state.isVisible}
+      />
+    </>
+  )
+  if (state.noUsers) return `NO LOCAL USERS!`
 
   return (
     <View style={styles.container}>
@@ -106,16 +149,16 @@ const Explore = (props) => {
             changeSex(event.nativeEvent.selectedSegmentIndex)
           }}
         />
-        <Text>{sex}</Text>
-        <Text>isVisible: {isVisible}</Text>
+        <Text>isVisible: {state.isVisible}</Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isVisible ? "#f5dd4b" : "#f4f3f4"}
+          thumbColor={state.isVisible ? "#f5dd4b" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
-          value={isVisible}
+          value={state.isVisible}
         />
-        <Text>VISIBILITY CONTROLS: AGE: {showMeCriteria.age[0]} / {showMeCriteria.age[1]} SEX: {showMeCriteria.sex}</Text>
+        <Text>VISIBILITY CONTROLS: AGE: {appState.user.age[0]} / {appState.user.age[1]} SEX: {appState.user.sex}</Text>
+        <Text>{JSON.stringify(appState.user.showMeCriteria)}</Text>
       </View>
       {state.users.map((user, index) => (
         <TouchableHighlight key={user.id ? user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user })}>

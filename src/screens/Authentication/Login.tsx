@@ -26,7 +26,7 @@ const Login = (props) => {
     try {
       const authSession = await appState.authManager.signIn(formState.email, formState.password)
       const user = await appState.userRepository.getUser(authSession.userId)
-      setAppState({ type: "UPDATE_USER", payload: user });
+      setAppState({ type: "OVERWRITE_USER", payload: user });
       props.route.params.dispatch({ type: "IS_AUTHENTICATED" });
     } catch (error) {
       console.log("Error Signing In:", error);

@@ -17,9 +17,13 @@ const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
-        case 'UPDATE_USER':
+        case 'OVERWRITE_USER':
           return {
             ...prevState, user: action.payload
+          };
+        case 'UPDATE_USER':
+          return {
+            ...prevState, user: { ...prevState.user, ...action.payload }
           };
         default:
           throw new Error('Unsupported action type: ', action.type);
