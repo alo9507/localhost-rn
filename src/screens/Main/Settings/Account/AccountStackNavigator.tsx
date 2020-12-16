@@ -1,19 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import Account from "./Account"
 
 const AccountStack = createStackNavigator()
 function AccountStackNavigator() {
     return (
-        <AccountStack.Navigator initialRouteName="EditProfile">
+        <AccountStack.Navigator initialRouteName="Account">
             <AccountStack.Screen
-                name="EditProfile"
-                component={EditProfile}
+                name="Account"
+                component={Account}
                 options={{ headerShown: false }}
-            />
-            <AccountStack.Screen
-                name="Gender"
-                component={Gender}
-                options={{ title: "Gender" }}
             />
         </AccountStack.Navigator>
     )

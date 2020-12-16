@@ -1,26 +1,22 @@
 import React from "react";
-import { View, Button } from "react-native";
+import { Text, Button } from "react-native"
 import StoreContext from "../../../../store/StoreContext";
 
 const Account = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-
-    function close() {
-        props.navigation.pop()
-    }
-
-    function forgotPassword() {
-        props.navigation.navigate("ForgotPassword")
+    console.log(props)
+    async function signOut() {
+        let authResult = await appState.authManager.signOut()
+        props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 
     return (
         <>
-            <View>
-                <Button title="Close" onPress={close} />
-                <Button title="Forgot Password" onPress={forgotPassword} />
-            </View>
+            <Text>Account</Text>
+            <Button title="Close" onPress={() => props.navigation.pop()} />
+            <Button title="Sign Out" onPress={signOut} />
         </>
-    );
-};
+    )
+}
 
-export default Account;
+export default Account

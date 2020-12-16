@@ -4,23 +4,16 @@ import StoreContext from "../../../store/StoreContext";
 
 const Settings = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-    async function signOut() {
-        let authResult = await appState.authManager.signOut()
-        props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
-    }
-
-    function editProfile() {
-        props.navigation.navigate("EditProfile")
-    }
-
+    console.log("settigns props", props)
     return (
         <>
             <View>
                 <View style={styles.profileImgContainer}>
                     <Image source={{ uri: appState.user.profileImageUrl }} style={styles.profileImg} />
                 </View>
-                <Button title="Edit Profile" onPress={editProfile} />
-                <Button title="Sign Out" onPress={signOut} />
+                <Button title="Edit Profile" onPress={() => props.navigation.navigate("EditProfile")} />
+                <Button title="Visibility Preferences" onPress={() => props.navigation.navigate("VisibilityPreferences")} />
+                <Button title="Account" onPress={() => props.navigation.navigate("Account", { dispatch: props.route.params.dispatch })} />
             </View>
         </>
     );

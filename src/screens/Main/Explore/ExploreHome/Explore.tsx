@@ -132,7 +132,6 @@ const Explore = (props) => {
   async function submitWhatAmIDoing() {
     await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
     setAppState({ type: "UPDATE_USER", payload: { ...formState } })
-    console.log(formState)
   }
 
   if (state.loading) return <Text>"Loading..."</Text>

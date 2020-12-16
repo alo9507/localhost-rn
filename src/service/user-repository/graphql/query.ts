@@ -12,6 +12,13 @@ query GetUser($id: ID!) {
       isVisible
       age
       profileImageUrl
+      hometown
+      workExperience {
+        organizationName
+      }
+      schools {
+        name
+      }
       inbound {
         id
       }
