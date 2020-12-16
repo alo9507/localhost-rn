@@ -7,8 +7,6 @@ import YouAreInvisible from "./YouAreInvisible"
 import NoUsers from "./NoUsers"
 import styled from "styled-components/native";
 
-const initialState = { id: "mynewid", name: "", location: "" };
-
 const Explore = (props) => {
   const [appState, setAppState] = useContext(StoreContext);
 
@@ -73,7 +71,7 @@ const Explore = (props) => {
 
   const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
   const [sex, setSex] = useState(selectedSex())
-  const [formState, setFormState] = useState({ whatAmIDoing: "" });
+  const [formState, setFormState] = useState({ whatAmIDoing: appState.user.whatAmIDoing });
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -149,14 +147,14 @@ const Explore = (props) => {
           <Image source={{ uri: appState.user.profileImageUrl }} style={styles.profileImg} />
         </View>
         <>
-          <Text>{appState.user.whatAmIDoing}</Text>
+          <Text>{formState.whatAmIDoing}</Text>
           <Container>
             <Input
               onChangeText={(val) => setInput("whatAmIDoing", val)}
+              onBlur={submitWhatAmIDoing}
               value={formState.whatAmIDoing}
               placeholder="What are you up to?"
             />
-            <Button title="send it!" onPress={submitWhatAmIDoing} />
           </Container>
         </>
         <SegmentedControl
