@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext, useReducer } from "react";
 import { View, Text, Button, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
-import User from "../../../../models/User"
 import SegmentedControl from '@react-native-community/segmented-control';
 import YouAreInvisible from "./YouAreInvisible"
 import NoUsers from "./NoUsers"

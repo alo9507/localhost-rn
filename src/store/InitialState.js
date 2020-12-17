@@ -43,6 +43,8 @@ const user = {
     profileImageUrl: "https://randomuser.me/portraits/men/55.jpg"
 };
 
+console.log(env);
+
 switch (env.environment) {
     case "development":
         initialState = {
