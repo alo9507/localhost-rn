@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import ViewPager from '@react-native-community/viewpager';
 
-const FirstLaunch = (props) => {
-
+const FirstLaunch = () => {
     return (
-        <>
-            <Text>FIRST LAUNCH SCREEN</Text>
-        </>
+        <ViewPager style={styles.viewPager} initialPage={0}>
+            <View key="1">
+                <Text>First page</Text>
+            </View>
+            <View key="2">
+                <Text>Second page</Text>
+            </View>
+        </ViewPager>
     );
 };
 
-export default FirstLaunch;
+const styles = StyleSheet.create({
+    viewPager: {
+        flex: 1,
+    },
+});
+
+export default FirstLaunch
