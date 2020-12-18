@@ -109,7 +109,7 @@ const Root = () => {
         if (state?.isLoading) {
             return <SplashStackScreens />
         } else if (state?.isFirstLaunch) {
-            return <LaunchStackScreens />
+            return <LaunchStackScreens dispatch={dispatch} />
         } else if (state?.isAuthenticated) {
             return <MainTabNavigator dispatch={dispatch} />
         } else {
