@@ -3,13 +3,15 @@ import FirstLaunch from "./FirstLaunch";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const LaunchStack = createStackNavigator();
-function LaunchStackScreens() {
+
+function LaunchStackScreens({ dispatch }) {
     return (
         <LaunchStack.Navigator>
             <LaunchStack.Screen
                 name="Launch"
                 component={FirstLaunch}
                 options={{ title: "Launch" }}
+                initialParams={{ dispatch }}
             />
         </LaunchStack.Navigator>
     )
