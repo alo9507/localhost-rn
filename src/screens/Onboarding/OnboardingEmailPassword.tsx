@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { View, Button } from "react-native";
+import { View, Button, ActivityIndicator } from "react-native";
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 
@@ -24,6 +24,21 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
         setFormState({ ...formState, [key]: value });
     }
 
+    async function submitAndGoToNext() {
+        // optimistically go to next page
+        goToNext(slideNumber)
+
+        try {
+            const authSession = await appState.authManager.signUp(formState.email, formState.password)
+            const user = await appState.userRepository.createUser(authSession.userId, formState.email)
+            setAppState({ type: "UPDATE_USER", payload: user })
+        } catch (e) {
+            console.log("Error signing up:", e);
+        }
+
+        // how to return if an error occurs?
+    }
+
     const bgStyle = { backgroundColor: item.backgroundColor }
     return (
         <View style={[styles.slide, bgStyle]}>
@@ -38,7 +53,8 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     value={formState.password}
                     placeholder="Password"
                 />
-                <Button title="Next" onPress={() => goToNext(slideNumber)} />
+                <Button title="Next" onPress={submitAndGoToNext} />
+                <ActivityIndicator size="large" />
             </Container>
         </View>
     )

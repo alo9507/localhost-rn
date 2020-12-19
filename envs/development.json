@@ -4,5 +4,5 @@
     "ANDROID_API_URL": "http://10.0.2.2:80",
     "alwaysFirstLaunch": false,
     "goToMain": false,
-    "goToOnboarding": false
+    "goToOnboarding": true
 }
