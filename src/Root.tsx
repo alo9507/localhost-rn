@@ -16,6 +16,7 @@ import MainTabNavigator from "./screens/Main/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
 import LoginStackScreens from "./screens/Authentication/Authentication"
 import SplashStackScreens from "./screens/Splash/SplashStack"
+import OnboardingNavigator from "./screens/Onboarding/OnboardingNavigator"
 
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
@@ -28,25 +29,37 @@ const Root = () => {
                         isLoading: false,
                         isFirstLaunch: true,
                         isAuthenticated: false,
+                        isOnboarding: false
                     };
                 case 'IS_AUTHENTICATED':
                     return {
                         isLoading: false,
                         isFirstLaunch: false,
                         isAuthenticated: true,
+                        isOnboarding: false
                     };
                 case 'IS_NOT_AUTHENTICATED':
                     return {
                         isLoading: false,
                         isFirstLaunch: false,
                         isAuthenticated: false,
+                        isOnboarding: false
                     };
+                case 'IS_ONBOARDING':
+                    return {
+                        isLoading: false,
+                        isFirstLaunch: false,
+                        isAuthenticated: false,
+                        isOnboarding: true
+                    };
+
             }
         },
         {
             isLoading: true,
             isFirstLaunch: false,
             isAuthenticated: false,
+            isOnboarding: false
         }
     );
 
@@ -112,6 +125,8 @@ const Root = () => {
             return <LaunchStackScreens dispatch={dispatch} />
         } else if (state?.isAuthenticated) {
             return <MainTabNavigator dispatch={dispatch} />
+        } else if (state?.isOnboarding) {
+            return <OnboardingNavigator dispatch={dispatch} />
         } else {
             return <LoginStackScreens dispatch={dispatch} />
         }

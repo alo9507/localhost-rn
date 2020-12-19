@@ -5,14 +5,14 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 const slides = [
     {
         key: 'one',
-        title: 'Title 1',
+        title: "Social Media Isn't Social Anymore",
         text: 'Description.\nSay something cool',
         image: { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png' },
         backgroundColor: '#59b2ab',
     },
     {
         key: 'two',
-        title: 'Title 2',
+        title: 'Meet People.\nWhere You Are.\nRight Now.',
         text: 'Other cool stuff',
         image: { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png' },
         backgroundColor: '#febe29',
@@ -58,12 +58,13 @@ const FirstLaunch = (props) => {
                 <Text style={styles.title}>{item.title}</Text>
                 <Image source={item.image} style={styles.image} />
                 <Text style={styles.text}>{item.text}</Text>
+                <Text style={styles.text}>{item.thing}</Text>
             </View>
         );
     };
 
     const onDone = () => {
-        props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" });
+        props.route.params.dispatch({ type: "IS_ONBOARDING" });
     };
 
     const keyExtractor = (item) => item.title;
