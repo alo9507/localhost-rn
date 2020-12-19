@@ -2,5 +2,7 @@
     "environment": "production",
     "IOS_API_URL": "http://localhost:80",
     "ANDROID_API_URL": "http://10.0.2.2:80",
-    "alwaysFirstLaunch": false
+    "alwaysFirstLaunch": false,
+    "goToMain": false,
+    "goToOnboarding": false
 }

@@ -43,8 +43,6 @@ const user = {
     profileImageUrl: "https://randomuser.me/portraits/men/55.jpg"
 };
 
-console.log(env);
-
 switch (env.environment) {
     case "development":
         initialState = {
@@ -53,7 +51,8 @@ switch (env.environment) {
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
             user: null,
-            goToMain: false
+            goToMain: env.goToMain,
+            goToOnboarding: env.goToOnboarding
         };
         break;
     case "production":
@@ -62,7 +61,9 @@ switch (env.environment) {
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
-            user: null
+            user: null,
+            goToMain: env.goToMain,
+            goToOnboarding: env.goToOnboarding
         };
         break;
     case "local":
@@ -71,7 +72,9 @@ switch (env.environment) {
             authManager: new MockAuthManager(),
             firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
             mediaUploadService: new MainMediaUploadService(),
-            user: null
+            user: null,
+            goToMain: env.goToMain,
+            goToOnboarding: env.goToOnboarding
         };
         break;
     default:

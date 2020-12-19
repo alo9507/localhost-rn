@@ -81,7 +81,8 @@ const Root = () => {
     }
 
     const determineFirstScreen = async () => {
-        // if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+        if (appState.goToMain) { return dispatch({ type: "IS_AUTHENTICATED" }) }
+        if (appState.goToOnboarding) { return dispatch({ type: "IS_ONBOARDING" }) }
 
         try {
             const isFirstLaunch = await determineFirstLaunch()

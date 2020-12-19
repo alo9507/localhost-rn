@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, View, SafeAreaView, Image, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import OnboardingEmailPassword from "./OnboardingEmailPassword";
 import OnboardingName from "./OnboardingName";
@@ -7,11 +7,15 @@ import OnboardingName from "./OnboardingName";
 const slides = [
     {
         key: 'one',
-        onboardingStep: "emailAndPassword"
+        slideNumber: 0,
+        onboardingStep: "emailAndPassword",
+        backgroundColor: '#59b2ab',
     },
     {
         key: 'two',
-        onboardingStep: "name"
+        slideNumber: 1,
+        onboardingStep: "name",
+        backgroundColor: '#febe29',
     }
 ];
 
@@ -41,12 +45,11 @@ const styles = StyleSheet.create({
 
 const Onboarding = (props) => {
     const renderItem = ({ item }) => {
-        const bgStyle = { backgroundColor: item.backgroundColor }
         switch (item.onboardingStep) {
             case "emailAndPassword":
-                return <OnboardingEmailPassword />
+                return <OnboardingEmailPassword item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
-                return <OnboardingName />
+                return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             default:
                 throw Error("No onboarding screen")
         }
@@ -58,16 +61,21 @@ const Onboarding = (props) => {
 
     const keyExtractor = (item) => item.title;
 
+    const slider = useRef();
+
+    const goToNext = (currentIndex) => {
+        slider.current.goToSlide(currentIndex + 1, true)
+    }
+
     return (
         <>
-            <SafeAreaView style={styles.container}>
-                <AppIntroSlider
-                    renderItem={renderItem}
-                    data={slides}
-                    onDone={onDone}
-                    keyExtractor={keyExtractor}
-                />
-            </SafeAreaView>
+            <AppIntroSlider
+                renderItem={renderItem}
+                data={slides}
+                onDone={onDone}
+                keyExtractor={keyExtractor}
+                ref={(ref) => (slider.current = ref)}
+            />
         </>
     );
 };

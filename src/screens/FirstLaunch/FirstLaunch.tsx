@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Text, View, SafeAreaView, Image, StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 
@@ -69,6 +69,10 @@ const FirstLaunch = (props) => {
 
     const keyExtractor = (item) => item.title;
 
+    const slider = useRef();
+
+    const onPress = () => { () => slider.current.goToSlide(1, true) }
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -77,6 +81,7 @@ const FirstLaunch = (props) => {
                     data={slides}
                     onDone={onDone}
                     keyExtractor={keyExtractor}
+                    ref={(ref) => (slider.current = ref)}
                 />
             </SafeAreaView>
         </>

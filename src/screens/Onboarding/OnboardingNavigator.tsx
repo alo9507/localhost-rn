@@ -10,7 +10,7 @@ function OnboardingStackScreens({ dispatch }) {
             <OnboardingStack.Screen
                 name="Onboarding"
                 component={Onboarding}
-                options={{ title: "Onboarding" }}
+                options={{ title: "Onboarding", headerShown: false }}
                 initialParams={{ dispatch }}
             />
         </OnboardingStack.Navigator>
