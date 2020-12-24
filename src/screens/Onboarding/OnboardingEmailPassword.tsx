@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useReducer } from "react"
 import { View, Button, ActivityIndicator } from "react-native";
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
@@ -13,6 +13,54 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
         password: string,
     }
 
+    const [state, dispatch] = useReducer(
+        (prevState, action) => {
+            switch (action.type) {
+                case 'LOADING':
+                    return {
+                        loading: true,
+                        error: null,
+                        inputValid: false,
+                        emailTouched: false
+                    };
+                case 'ERROR':
+                    return {
+                        loading: false,
+                        error: action.payload.replace(/['"]+/g, ''),
+                        inputValid: false,
+                        emailTouched: false
+                    };
+                case 'INPUT_VALID':
+                    return {
+                        error: null,
+                        loading: false,
+                        inputValid: true,
+                        emailTouched: true
+                    };
+                case 'INPUT_INVALID':
+                    return {
+                        error: action.payload,
+                        loading: false,
+                        inputValid: false,
+                        emailTouched: true
+                    };
+                case 'EMAIL_TOUCHED':
+                    return {
+                        ...prevState,
+                        emailTouched: true
+                    };
+                default:
+                    throw new Error(`UNKNOWN ACTION: ${action.type}`)
+            }
+        },
+        {
+            loading: false,
+            error: null,
+            inputValid: false,
+            emailTouched: false
+        }
+    );
+
     const initial: LoginInitialState = {
         email: "",
         password: ""
@@ -20,41 +68,75 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
 
     const [formState, setFormState] = useState(initial);
 
-    function setInput(key, value) {
+    function setEmail(key, value) {
+        if (state.emailTouched) {
+            let error: string = emailValidation(value)
+            if (error.length != 0) {
+                dispatch({ type: "INPUT_INVALID", payload: error })
+            } else {
+                dispatch({ type: "INPUT_VALID" })
+            }
+        }
+
         setFormState({ ...formState, [key]: value });
     }
 
+    function emailTouched() {
+        dispatch({ type: "EMAIL_TOUCHED" })
+    }
+
+    function emailValidation(value): string {
+        let error: string = ""
+        const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!emailPattern.test(value)) {
+            error = 'Enter a valid email';
+        }
+        return error
+    }
+
+    function setPassword(key, value) {
+        setFormState({ ...formState, [key]: value });
+        // validation if input is dirty
+        dispatch({ type: "INPUT_VALID", payload: true })
+    }
+
     async function submitAndGoToNext() {
-        // optimistically go to next page
-        goToNext(slideNumber)
+        dispatch({ type: "LOADING" })
 
         try {
             const authSession = await appState.authManager.signUp(formState.email, formState.password)
             const user = await appState.userRepository.createUser(authSession.userId, formState.email)
             setAppState({ type: "UPDATE_USER", payload: user })
+            goToNext(slideNumber)
         } catch (e) {
-            console.log("Error signing up:", e);
+            dispatch({ type: "ERROR", payload: JSON.stringify(e) })
         }
-
-        // how to return if an error occurs?
     }
 
     const bgStyle = { backgroundColor: item.backgroundColor }
     return (
         <View style={[styles.slide, bgStyle]}>
             <Container>
+                {state.error &&
+                    <Error >
+                        <ErrorMessage>
+                            {state.error}
+                        </ErrorMessage>
+                    </Error>
+                }
                 <Input
-                    onChangeText={(val) => setInput("email", val)}
+                    onChangeText={(val) => setEmail("email", val)}
                     value={formState.email}
                     placeholder="Email"
+                    onBlur={() => emailTouched()}
                 />
                 <Input
-                    onChangeText={(val) => setInput("password", val)}
+                    onChangeText={(val) => setPassword("password", val)}
                     value={formState.password}
                     placeholder="Password"
                 />
-                <Button title="Next" onPress={submitAndGoToNext} />
-                <ActivityIndicator size="large" />
+                <NextButton disabled={!state.inputValid} title="Next" onPress={submitAndGoToNext} />
+                {state.loading && <ActivityIndicator size="large" />}
             </Container>
         </View>
     )
@@ -72,5 +154,21 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
 `;
+
+const Error = styled.View`
+    flex: 1;
+    justify-content: center;
+    padding: 20px;
+    paddingLeft: 0px;
+`
+
+const ErrorMessage = styled.Text`
+    color: red;
+    fontSize: 15px;
+`
+
+const NextButton = styled.Button`
+    background: gray;
+`
 
 export default OnboardingEmailPassword
