@@ -18,24 +18,32 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
             switch (action.type) {
                 case 'LOADING':
                     return {
+                        ...prevState,
                         loading: true,
-                        error: null,
+                        errors: [],
+                        submissionError: null
                     };
-                case 'ERROR':
+                case 'SUBMISSION_ERROR':
                     return {
+                        ...prevState,
                         loading: false,
-                        error: action.payload.replace(/['"]+/g, ''),
+                        submissionError: action.payload.replace(/['"]+/g, ''),
                     };
-                case 'FORM_VALID':
+                case 'INPUT_VALID':
                     return {
+                        ...prevState,
                         loading: false,
-                        error: null,
+                        formErrors: prevState.formErrors,
+                        submissionError: null,
                         formValid: true
                     };
-                case 'FORM_INVALID':
+                case 'INPUT_INVALID':
+                    console.log("INPUT_INVALID", action.payload)
                     return {
+                        ...prevState,
                         loading: false,
-                        error: null,
+                        formErrors: prevState.formErrors.push(action.payload),
+                        submissionError: null,
                         formValid: false
                     };
                 default:
@@ -44,7 +52,9 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
         },
         {
             loading: false,
-            error: null,
+            errors: null,
+            submissionError: null,
+            formErrors: [],
             formValid: false
         }
     );
@@ -61,7 +71,7 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
             setAppState({ type: "UPDATE_USER", payload: user })
             goToNext(slideNumber)
         } catch (e) {
-            dispatch({ type: "ERROR", payload: JSON.stringify(e) })
+            dispatch({ type: "SUBMISSION_ERROR", payload: JSON.stringify(e) })
         }
     }
 
@@ -88,6 +98,8 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     keyName="email"
                     placeholder="email"
                     label="Email"
+                    inputValid={() => dispatch({ type: "INPUT_VALID", payload: "email" })}
+                    inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "email" })}
                 />
                 <OnboardingTextInput
                     pattern={/.{8,}$/}
@@ -97,6 +109,8 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     keyName="password"
                     placeholder="password"
                     label="Password"
+                    inputValid={() => dispatch({ type: "INPUT_VALID", payload: "password" })}
+                    inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "password" })}
                 />
                 <NextButton disabled={!state.formValid} title="Next" onPress={submitAndGoToNext} />
                 {state.loading && <ActivityIndicator size="large" />}

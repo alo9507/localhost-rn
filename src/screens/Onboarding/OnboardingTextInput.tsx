@@ -1,8 +1,16 @@
-import React, { useState, useReducer } from "react"
-import { Text } from "react-native";
+import React, { useReducer } from "react"
 import styled from "styled-components/native";
 
-const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput, placeholder, keyName }) => {
+const OnboardingTextInput = ({
+    label,
+    placeholder,
+    pattern,
+    errorMessage,
+    setInput,
+    formState,
+    keyName,
+    inputValid,
+    inputInvalid }) => {
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
@@ -59,10 +67,12 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
 
     function validate() {
         let error: string = validation(formState[keyName])
-        if (error.length != 0) {
+        if (error.length !== 0) {
             dispatch({ type: "INVALID", payload: error })
+            inputInvalid()
         } else {
             dispatch({ type: "VALID" })
+            inputValid()
         }
     }
 
@@ -78,11 +88,13 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
     const handleTextChange = (val) => {
         setInput(keyName, val)
 
-        const errors = validation(val)
-        if (errors.length == 0) {
+        const error = validation(val)
+        if (error.length === 0) {
             dispatch({ type: "VALID" })
+            inputValid()
         } else {
             dispatch({ type: "INVALID" })
+            inputInvalid()
         }
 
         if (state.touched) {
@@ -105,7 +117,6 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
     }
 
     const determineStyle = (inputState) => {
-        console.log(inputState)
         switch (bitMask(inputState)) {
             // totally fresh
             case "0000":
@@ -113,7 +124,7 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
 
             // dirty
             case "1000":
-                return { borderColor: "#1D2A82", color: "#1D2A82" }
+                return { borderColor: "#9A3548", color: "#9A3548" }
 
             // dirty + focused
             case "1100":
@@ -136,7 +147,7 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
                 return { borderColor: "#6DA576", color: "#6DA576" }
 
             default:
-                console.log("ERROR", inputState)
+                console.log("ERROR: No behavior configured for input state: ", inputState)
         }
     }
 
@@ -149,8 +160,6 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
         return mask
     }
 
-    const borderColor = determineStyle(state)
-
     return (
         <InputContainer>
             <InputLabel>{label}</InputLabel>
@@ -160,8 +169,8 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
                 onFocus={() => handleOnFocus()}
                 value={formState[keyName]}
                 placeholder={placeholder}
-                placeholderTextColor={"#4D58A7"}
-                style={borderColor}
+                placeholderTextColor={determineStyle(state).color}
+                style={determineStyle(state)}
             />
             {state.error &&
                 <Error>
@@ -173,6 +182,10 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
         </InputContainer>
     )
 }
+
+const InputContainer = styled.View`
+    
+`
 
 const Input = styled.TextInput`
   height: 50px;
@@ -193,19 +206,12 @@ const InputLabel = styled.Text`
 `
 
 const Error = styled.View`
-    flex: 1;
-    justify-content: center;
-    padding: 20px;
     paddingLeft: 0px;
 `
 
 const ErrorMessage = styled.Text`
-    color: red;
+    color: #9A3548;
     fontSize: 15px;
-`
-
-const InputContainer = styled.View`
-    
 `
 
 export default OnboardingTextInput
