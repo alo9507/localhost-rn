@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'pink',
-        paddingTop: "100px"
+        backgroundColor: '#FFFACC',
+        paddingTop: "10%"
     },
     image: {
         width: 320,

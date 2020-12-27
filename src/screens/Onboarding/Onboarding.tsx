@@ -9,13 +9,13 @@ const slides = [
         key: 'one',
         slideNumber: 0,
         onboardingStep: "emailAndPassword",
-        backgroundColor: '#59b2ab',
+        backgroundColor: '#FFFACC',
     },
     {
         key: 'two',
         slideNumber: 1,
         onboardingStep: "name",
-        backgroundColor: '#febe29',
+        backgroundColor: '#FFFACC',
     }
 ];
 

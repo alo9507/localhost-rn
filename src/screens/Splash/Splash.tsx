@@ -1,13 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import Venn from "../../components/Venn"
 
 const Splash = (props) => {
 
     return (
         <View style={styles.container}>
             <Text>localhost</Text>
-            <Venn />
         </View>
     );
 };
