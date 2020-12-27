@@ -7,36 +7,61 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
-                case 'INPUT_VALID':
+                case 'INVALID':
                     return {
-                        error: null,
-                        inputValid: true,
-                        borderColor: "#4D58A7"
-                    };
-                case 'INPUT_INVALID':
-                    return {
+                        ...prevState,
                         error: action.payload,
-                        inputValid: false,
-                        borderColor: "red"
+                        valid: false,
+                    };
+                case 'VALID':
+                    return {
+                        ...prevState,
+                        valid: true,
+                    };
+                case 'FOCUSED':
+                    return {
+                        ...prevState,
+                        focused: true,
+                    };
+                case 'UNFOCUSED':
+                    return {
+                        ...prevState,
+                        focused: false,
+                    };
+                case 'TOUCHED':
+                    return {
+                        ...prevState,
+                        touched: true,
+                    };
+                case 'SET':
+                    return {
+                        ...prevState,
+                        set: true,
+                    };
+                case 'UNSET':
+                    return {
+                        ...prevState,
+                        set: false,
                     };
                 default:
                     throw new Error(`UNKNOWN ACTION: ${action.type}`)
             }
         },
         {
+            touched: false,
+            focused: false,
+            set: false,
+            valid: false,
             error: null,
-            inputValid: false,
-            borderColor: "#4D58A7"
         }
     );
 
     function validate() {
-        console.log(formState[keyName])
         let error: string = validation(formState[keyName])
         if (error.length != 0) {
-            dispatch({ type: "INPUT_INVALID", payload: error })
+            dispatch({ type: "INVALID", payload: error })
         } else {
-            dispatch({ type: "INPUT_VALID" })
+            dispatch({ type: "VALID" })
         }
     }
 
@@ -48,20 +73,89 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
         return error
     }
 
+
+    const handleTextChange = (val) => {
+        setInput(keyName, val)
+
+        const errors = validation(val)
+        if (errors.length == 0) {
+            dispatch({ type: "VALID" })
+        }
+
+        if (state.touched) {
+            if (val === "") {
+                console.log("unset")
+                dispatch({ type: "UNSET" })
+            } else {
+                dispatch({ type: "SET" })
+            }
+        }
+    }
+
+    const handleOnBlur = () => {
+        validate()
+        dispatch({ type: "UNFOCUSED" })
+    }
+
+    const handleOnFocus = () => {
+        dispatch({ type: "TOUCHED" })
+        dispatch({ type: "FOCUSED" })
+    }
+
+    const determineStyle = (inputState) => {
+        switch (bitMask(inputState)) {
+            // totally fresh
+            case "0000":
+                return { borderColor: "#4D58A7" }
+            // dirty
+            case "1000":
+                return { borderColor: "purple" }
+            // dirty + focused
+            case "1100":
+                return { borderColor: "black" }
+
+            // dirty + focused + set
+            case "1110":
+                return { borderColor: "yellow" }
+
+            // dirty + focused + set + valid
+            case "1111":
+                return { borderColor: "green" }
+
+            // dirty + focused + set + valid
+            case "1111":
+                return { borderColor: "green" }
+
+            default:
+                console.log("ERROR", inputState)
+        }
+    }
+
+    const bitMask = (inputState): string => {
+        let mask = ""
+        mask += inputState.touched ? "1" : "0"
+        mask += inputState.focused ? "1" : "0"
+        mask += inputState.set ? "1" : "0"
+        mask += inputState.valid ? "1" : "0"
+        return mask
+    }
+
+    const borderColor = determineStyle(state)
+
     return (
         <InputContainer>
             <InputLabel>{label}</InputLabel>
             <Input
-                onChangeText={(val) => setInput(keyName, val)}
+                onChangeText={(val) => handleTextChange(val)}
+                onBlur={() => handleOnBlur()}
+                onFocus={() => handleOnFocus()}
                 value={formState[keyName]}
                 placeholder={placeholder}
-                onBlur={() => validate()}
-                onFocus={() => dispatch({ type: "INPUT_VALID" })}
                 placeholderTextColor={"#4D58A7"}
-                style={{ borderColor: state.borderColor }}
+                style={borderColor}
             />
             {state.error &&
-                <Error >
+                <Error>
                     <ErrorMessage>
                         {state.error}
                     </ErrorMessage>
