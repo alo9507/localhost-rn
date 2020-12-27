@@ -67,22 +67,18 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
     }
 
     const [formState, setFormState] = useState(initial);
-
     function setEmail(key, value) {
-        if (state.emailTouched) {
-            let error: string = emailValidation(value)
-            if (error.length != 0) {
-                dispatch({ type: "INPUT_INVALID", payload: error })
-            } else {
-                dispatch({ type: "INPUT_VALID" })
-            }
-        }
-
         setFormState({ ...formState, [key]: value });
     }
 
-    function emailTouched() {
+    function emailTouchedAndValidate() {
         dispatch({ type: "EMAIL_TOUCHED" })
+        let error: string = emailValidation(formState.email)
+        if (error.length != 0) {
+            dispatch({ type: "INPUT_INVALID", payload: error })
+        } else {
+            dispatch({ type: "INPUT_VALID" })
+        }
     }
 
     function emailValidation(value): string {
@@ -96,8 +92,6 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
 
     function setPassword(key, value) {
         setFormState({ ...formState, [key]: value });
-        // validation if input is dirty
-        dispatch({ type: "INPUT_VALID", payload: true })
     }
 
     async function submitAndGoToNext() {
@@ -128,12 +122,15 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     onChangeText={(val) => setEmail("email", val)}
                     value={formState.email}
                     placeholder="Email"
-                    onBlur={() => emailTouched()}
+                    onBlur={() => emailTouchedAndValidate()}
+                    onFocus={() => dispatch({ type: "INPUT_VALID" })}
+                    enterKeyHint={""}
                 />
                 <Input
                     onChangeText={(val) => setPassword("password", val)}
                     value={formState.password}
                     placeholder="Password"
+                    enterKeyHint={""}
                 />
                 <NextButton disabled={!state.inputValid} title="Next" onPress={submitAndGoToNext} />
                 {state.loading && <ActivityIndicator size="large" />}

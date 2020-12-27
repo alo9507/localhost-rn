@@ -9,8 +9,8 @@ class User {
     public whatAmIDoing: string,
     public location: string,
     public isVisible: boolean,
-    public latitude: boolean,
-    public longitude: boolean,
+    public latitude: number,
+    public longitude: number,
     public profileImageUrl: string
   ) { }
 }

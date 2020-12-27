@@ -4,7 +4,7 @@ const Venn = () => {
     return (
         <svg width="212px" height="205px" viewBox="0 0 212 205" version="1.1">
             <title>Venn</title>
-            <g id="Splash" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.508741259">
+            <g id="Splash" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.508741259">
                 <g transform="translate(-101.000000, -328.000000)" fill="#00D6CC" id="Group">
                     <g transform="translate(77.000000, 304.500000)" id="Venn">
                         <ellipse id="Oval-Copy" transform="translate(170.229867, 90.000000) rotate(45.000000) translate(-170.229867, -90.000000) " cx="170.229867" cy="90" rx="45" ry="81"></ellipse>
