@@ -10,13 +10,14 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
                 case 'INVALID':
                     return {
                         ...prevState,
-                        error: action.payload,
                         valid: false,
+                        error: action.payload,
                     };
                 case 'VALID':
                     return {
                         ...prevState,
                         valid: true,
+                        error: null
                     };
                 case 'FOCUSED':
                     return {
@@ -80,11 +81,12 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
         const errors = validation(val)
         if (errors.length == 0) {
             dispatch({ type: "VALID" })
+        } else {
+            dispatch({ type: "INVALID" })
         }
 
         if (state.touched) {
             if (val === "") {
-                console.log("unset")
                 dispatch({ type: "UNSET" })
             } else {
                 dispatch({ type: "SET" })
@@ -103,28 +105,35 @@ const OnboardingTextInput = ({ label, pattern, errorMessage, formState, setInput
     }
 
     const determineStyle = (inputState) => {
+        console.log(inputState)
         switch (bitMask(inputState)) {
             // totally fresh
             case "0000":
-                return { borderColor: "#4D58A7" }
+                return { borderColor: "#4D58A7", color: "#4D58A7" }
+
             // dirty
             case "1000":
-                return { borderColor: "purple" }
+                return { borderColor: "#1D2A82", color: "#1D2A82" }
+
             // dirty + focused
             case "1100":
-                return { borderColor: "black" }
+                return { borderColor: "#101E80", color: "#101E80" }
 
             // dirty + focused + set
             case "1110":
-                return { borderColor: "yellow" }
+                return { borderColor: "#101643", color: "#101643" }
 
             // dirty + focused + set + valid
             case "1111":
-                return { borderColor: "green" }
+                return { borderColor: "#35773F", color: "#35773F" }
 
-            // dirty + focused + set + valid
-            case "1111":
-                return { borderColor: "green" }
+            // dirty + unfocused + set + invalid
+            case "1010":
+                return { borderColor: "#9A3548", color: "#9A3548" }
+
+            // dirty + unfocused + set + valid
+            case "1011":
+                return { borderColor: "#6DA576", color: "#6DA576" }
 
             default:
                 console.log("ERROR", inputState)
@@ -173,7 +182,7 @@ const Input = styled.TextInput`
   padding: 8px;
   color: #4D58A7;
   font-weight: bold;
-  border: 5px solid #4D58A7;
+  border-width: 5px;
   border-radius: 40px;
 `;
 
