@@ -98,6 +98,9 @@ const OnboardingTextInput = ({
         if (state.touched) {
             if (value === "") {
                 dispatch({ type: "UNSET" })
+                if (!required) {
+                    inputValid()
+                }
             } else {
                 dispatch({ type: "SET" })
             }

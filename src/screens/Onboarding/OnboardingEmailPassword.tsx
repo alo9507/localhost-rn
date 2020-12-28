@@ -107,7 +107,7 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     label="Email"
                     inputValid={() => dispatch({ type: "INPUT_VALID", payload: "email" })}
                     inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "email" })}
-                    required={true}
+                    required={false}
                 />
                 <OnboardingTextInput
                     pattern={/.{8,}$/}
@@ -119,7 +119,7 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
                     label="Password"
                     inputValid={() => dispatch({ type: "INPUT_VALID", payload: "password" })}
                     inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "password" })}
-                    required={true}
+                    required={false}
                 />
                 <NextButton disabled={state.formErrors?.length !== 0} title="Next" onPress={submitAndGoToNext} />
                 {state.loading && <ActivityIndicator size="large" />}
