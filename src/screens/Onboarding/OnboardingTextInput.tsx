@@ -1,5 +1,6 @@
-import React, { useReducer } from "react"
+import React, { useReducer, useContext } from "react"
 import styled from "styled-components/native";
+import StyleContext from "../../store/StyleContext"
 
 const OnboardingTextInput = ({
     label,
@@ -11,6 +12,8 @@ const OnboardingTextInput = ({
     keyName,
     inputValid,
     inputInvalid }) => {
+
+    const globalStyle = useContext(StyleContext);
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
@@ -120,31 +123,31 @@ const OnboardingTextInput = ({
         switch (bitMask(inputState)) {
             // totally fresh
             case "0000":
-                return { borderColor: "#4D58A7", color: "#4D58A7" }
+                return { borderColor: globalStyle.color.primaryText, color: globalStyle.color.primaryText }
 
             // dirty
             case "1000":
-                return { borderColor: "#9A3548", color: "#9A3548" }
+                return { borderColor: globalStyle.color.primaryText_darker, color: globalStyle.color.primaryText_darker }
 
             // dirty + focused
             case "1100":
-                return { borderColor: "#101E80", color: "#101E80" }
+                return { borderColor: globalStyle.color.primaryText_darkest, color: globalStyle.color.primaryText_darkest }
 
             // dirty + focused + set
             case "1110":
-                return { borderColor: "#101643", color: "#101643" }
+                return { borderColor: globalStyle.color.primaryText_darkest, color: globalStyle.color.primaryText_darkest }
 
             // dirty + focused + set + valid
             case "1111":
-                return { borderColor: "#35773F", color: "#35773F" }
+                return { borderColor: globalStyle.color.good_dark, color: globalStyle.color.good_dark }
 
             // dirty + unfocused + set + invalid
             case "1010":
-                return { borderColor: "#9A3548", color: "#9A3548" }
+                return { borderColor: globalStyle.color.error_dark, color: globalStyle.color.error_dark }
 
             // dirty + unfocused + set + valid
             case "1011":
-                return { borderColor: "#6DA576", color: "#6DA576" }
+                return { borderColor: globalStyle.color.good_light, color: globalStyle.color.good_light }
 
             default:
                 console.log("ERROR: No behavior configured for input state: ", inputState)
