@@ -13,6 +13,9 @@ const StyleProvider = ({ children }) => {
             good_dark: "#35773F",
             good_light: "#65996E",
             error_dark: "#9A3548"
+        },
+        textInput: {
+            borderWidth: 3
         }
     };
 

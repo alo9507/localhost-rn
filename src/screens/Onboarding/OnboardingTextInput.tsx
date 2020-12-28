@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react"
+import React, { useReducer, useContext, useEffect } from "react"
 import styled from "styled-components/native";
 import StyleContext from "../../store/StyleContext"
 
@@ -11,9 +11,11 @@ const OnboardingTextInput = ({
     formState,
     keyName,
     inputValid,
-    inputInvalid }) => {
+    inputInvalid,
+    required
+}) => {
 
-    const globalStyle = useContext(StyleContext);
+    const { color } = useContext(StyleContext);
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
@@ -69,30 +71,23 @@ const OnboardingTextInput = ({
     );
 
     function validate() {
-        let error: string = validation(formState[keyName])
-        if (error.length !== 0) {
-            dispatch({ type: "INVALID", payload: error })
-            inputInvalid()
-        } else {
-            dispatch({ type: "VALID" })
-            inputValid()
+        const value = formState[keyName]
+
+        if (value !== "") {
+            if (pattern.test(value)) {
+                dispatch({ type: "VALID" })
+                inputValid()
+            } else {
+                dispatch({ type: "INVALID", payload: errorMessage })
+                inputInvalid()
+            }
         }
     }
 
-    function validation(value): string {
-        let error: string = ""
-        if (!pattern.test(value)) {
-            error = errorMessage
-        }
-        return error
-    }
+    const handleTextChange = (value) => {
+        setInput(keyName, value)
 
-
-    const handleTextChange = (val) => {
-        setInput(keyName, val)
-
-        const error = validation(val)
-        if (error.length === 0) {
+        if (pattern.test(value)) {
             dispatch({ type: "VALID" })
             inputValid()
         } else {
@@ -101,13 +96,19 @@ const OnboardingTextInput = ({
         }
 
         if (state.touched) {
-            if (val === "") {
+            if (value === "") {
                 dispatch({ type: "UNSET" })
             } else {
                 dispatch({ type: "SET" })
             }
         }
     }
+
+    useEffect(() => {
+        if (required) {
+            inputInvalid()
+        }
+    }, [])
 
     const handleOnBlur = () => {
         validate()
@@ -120,34 +121,35 @@ const OnboardingTextInput = ({
     }
 
     const determineStyle = (inputState) => {
+        console.log(inputState)
         switch (bitMask(inputState)) {
             // totally fresh
             case "0000":
-                return { borderColor: globalStyle.color.primaryText, color: globalStyle.color.primaryText }
+                return { borderColor: color.primaryText, color: color.primaryText }
 
-            // dirty
+            // touched
             case "1000":
-                return { borderColor: globalStyle.color.primaryText_darker, color: globalStyle.color.primaryText_darker }
+                return { borderColor: color.primaryText_darker, color: color.primaryText_darker }
 
-            // dirty + focused
+            // touched + focused
             case "1100":
-                return { borderColor: globalStyle.color.primaryText_darkest, color: globalStyle.color.primaryText_darkest }
+                return { borderColor: color.primaryText_darkest, color: color.primaryText_darkest }
 
-            // dirty + focused + set
+            // touched + focused + set
             case "1110":
-                return { borderColor: globalStyle.color.primaryText_darkest, color: globalStyle.color.primaryText_darkest }
+                return { borderColor: color.primaryText_darkest, color: color.primaryText_darkest }
 
-            // dirty + focused + set + valid
+            // touched + focused + set + valid
             case "1111":
-                return { borderColor: globalStyle.color.good_dark, color: globalStyle.color.good_dark }
+                return { borderColor: color.good_dark, color: color.good_dark }
 
-            // dirty + unfocused + set + invalid
+            // touched + unfocused + set + invalid
             case "1010":
-                return { borderColor: globalStyle.color.error_dark, color: globalStyle.color.error_dark }
+                return { borderColor: color.error_dark, color: color.error_dark }
 
-            // dirty + unfocused + set + valid
+            // touched + unfocused + set + valid
             case "1011":
-                return { borderColor: globalStyle.color.good_light, color: globalStyle.color.good_light }
+                return { borderColor: color.good_light, color: color.good_light }
 
             default:
                 console.log("ERROR: No behavior configured for input state: ", inputState)
@@ -163,6 +165,8 @@ const OnboardingTextInput = ({
         return mask
     }
 
+    const style = determineStyle(state)
+
     return (
         <InputContainer>
             <InputLabel>{label}</InputLabel>
@@ -172,8 +176,8 @@ const OnboardingTextInput = ({
                 onFocus={() => handleOnFocus()}
                 value={formState[keyName]}
                 placeholder={placeholder}
-                placeholderTextColor={determineStyle(state).color}
-                style={determineStyle(state)}
+                placeholderTextColor={style.color}
+                style={style}
             />
             {state.error &&
                 <Error>
