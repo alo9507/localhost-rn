@@ -6,11 +6,9 @@ import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext";
 import OnboardingTextInput from "./OnboardingTextInput";
 
-const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
+const OnboardingForm = ({ item, goToNext, slideNumber, children, initial, controls }) => {
     const [appState, setAppState] = useContext(StoreContext);
 
-    type LoginInitialState = { email: string, password: string, }
-    const initial: LoginInitialState = { email: "", password: "" }
     const [formState, setFormState] = useState(initial);
 
     const [state, dispatch] = useReducer(
@@ -82,46 +80,12 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
         }
     }
 
-    const passwordErrorMessage = `
-    Must contain:
-    - At least 8 characters
-    - One number
-    `
-
-    const emailErrorMessage = `
-    Please enter a valid email address:
-    - example@g.com
-    `
-
     const bgStyle = { backgroundColor: item.backgroundColor }
     return (
         <View style={[styles.slide, bgStyle]}>
             <Container>
-                <OnboardingTextInput
-                    pattern={/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/}
-                    errorMessage={emailErrorMessage}
-                    formState={formState}
-                    setInput={setInput}
-                    keyName="email"
-                    placeholder="email"
-                    label="Email"
-                    inputValid={() => dispatch({ type: "INPUT_VALID", payload: "email" })}
-                    inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "email" })}
-                    required={true}
-                />
-                <OnboardingTextInput
-                    pattern={/.{8,}$/}
-                    errorMessage={passwordErrorMessage}
-                    formState={formState}
-                    setInput={setInput}
-                    keyName="password"
-                    placeholder="password"
-                    label="Password"
-                    inputValid={() => dispatch({ type: "INPUT_VALID", payload: "password" })}
-                    inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: "password" })}
-                    required={true}
-                />
-                <NextButton disabled={state.formErrors?.length !== 0} title="Next" onPress={submitAndGoToNext} />
+
+                < NextButton disabled={state.formErrors?.length !== 0} title="Next" onPress={submitAndGoToNext} />
                 {state.loading && <ActivityIndicator size="large" />}
             </Container>
         </View>
@@ -137,4 +101,4 @@ const NextButton = styled.Button`
     background: gray;
 `
 
-export default OnboardingEmailPassword
+export default OnboardingForm
