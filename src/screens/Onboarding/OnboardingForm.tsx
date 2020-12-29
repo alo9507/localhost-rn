@@ -6,10 +6,8 @@ import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext";
 import OnboardingTextInput from "./OnboardingTextInput";
 
-const OnboardingForm = ({ item, goToNext, slideNumber, children, initial, controls }) => {
+const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
     const [appState, setAppState] = useContext(StoreContext);
-
-    const [formState, setFormState] = useState(initial);
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
@@ -68,27 +66,34 @@ const OnboardingForm = ({ item, goToNext, slideNumber, children, initial, contro
         setFormState({ ...formState, [key]: value });
     }
 
-    async function submitAndGoToNext() {
-        try {
-            dispatch({ type: "LOADING" })
-            const authSession = await appState.authManager.signUp(formState.email, formState.password)
-            const user = await appState.userRepository.createUser(authSession.userId, formState.email)
-            setAppState({ type: "UPDATE_USER", payload: user })
-            goToNext(slideNumber)
-        } catch (e) {
-            dispatch({ type: "SUBMISSION_ERROR", payload: JSON.stringify(e) })
+    function confgiureControl(control) {
+        switch (control.type) {
+            case "text":
+                return <OnboardingTextInput
+                    label={control.label}
+                    placeholder={control.placeholder}
+                    pattern={control.pattern}
+                    errorMessage={control.errorMessage}
+                    setInput={setInput}
+                    formState={formState}
+                    keyName={control.keyName}
+                    inputValid={() => dispatch({ type: "INPUT_VALID", payload: control.keyName })}
+                    inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: control.keyName })}
+                    required={control.required}
+                    key={control.keyName}
+                />
         }
     }
 
-    const bgStyle = { backgroundColor: item.backgroundColor }
     return (
-        <View style={[styles.slide, bgStyle]}>
-            <Container>
-
-                < NextButton disabled={state.formErrors?.length !== 0} title="Next" onPress={submitAndGoToNext} />
-                {state.loading && <ActivityIndicator size="large" />}
-            </Container>
-        </View>
+        <Container>
+            {controls.map((control, index) => {
+                console.log(control)
+                return confgiureControl(control)
+            })}
+            <SubmitButton disabled={state.formErrors?.length !== 0} title="Next" onPress={onSubmit} />
+            {state.loading && <ActivityIndicator size="large" />}
+        </Container>
     )
 }
 
@@ -97,7 +102,7 @@ const Container = styled.View`
   justify-content: center;
 `;
 
-const NextButton = styled.Button`
+const SubmitButton = styled.Button`
     background: gray;
 `
 
