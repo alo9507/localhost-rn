@@ -88,7 +88,6 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
     return (
         <Container>
             {controls.map((control, index) => {
-                console.log(control)
                 return confgiureControl(control)
             })}
             <SubmitButton disabled={state.formErrors?.length !== 0} title="Next" onPress={onSubmit} />

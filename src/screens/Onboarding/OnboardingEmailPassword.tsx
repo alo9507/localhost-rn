@@ -37,8 +37,8 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
             type: "text",
             label: "Email",
             placeholder: "email",
-            pattern: "",
-            errorMessage: "message",
+            pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+            errorMessage: emailErrorMessage,
             keyName: "email",
             required: true
         },
@@ -46,14 +46,15 @@ const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
             type: "text",
             label: "Password",
             placeholder: "password",
-            pattern: "",
-            errorMessage: "password error message",
+            pattern: /.{8,}$/,
+            errorMessage: passwordErrorMessage,
             keyName: "password",
             required: true
         },
     ]
 
     const bgStyle = { backgroundColor: item.backgroundColor }
+
     return (
         <View style={[styles.slide, bgStyle]}>
             <Container>

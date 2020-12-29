@@ -124,7 +124,6 @@ const OnboardingTextInput = ({
     }
 
     const determineStyle = (inputState) => {
-        console.log(inputState)
         switch (bitMask(inputState)) {
             // totally fresh
             case "0000":
