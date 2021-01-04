@@ -38,13 +38,13 @@ const FirstLaunch = (props) => {
     const renderItem = ({ item }) => {
         switch (item.key) {
             case "one":
-                return <FirstLaunchScreen item={item} />
+                return <FirstLaunchScreen item={item} startHosting={false} />
             case "two":
-                return <FirstLaunchScreen item={item} />
+                return <FirstLaunchScreen item={item} startHosting={false} />
             case "three":
-                return <FirstLaunchScreen item={item} />
+                return <FirstLaunchScreen item={item} startHosting={false} />
             case "four":
-                return <FirstLaunchScreen item={item} />
+                return <FirstLaunchScreen item={item} startHosting={true} dispatch={props.route.params.dispatch} />
             default:
                 throw Error("No first launch screen")
         }

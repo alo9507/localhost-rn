@@ -58,7 +58,7 @@ const Onboarding = (props) => {
             case "name":
                 return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "location":
-                return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+                return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} startHosting={() => props.route.params.dispatch({ type: "IS_AUTHENTICATED" })} />
             default:
                 throw Error("No onboarding screen")
         }

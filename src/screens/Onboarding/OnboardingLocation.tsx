@@ -4,7 +4,7 @@ import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext"
 
-const OnboardingLocation = ({ item, goToNext, slideNumber }) => {
+const OnboardingLocation = ({ item, goToNext, slideNumber, startHosting }) => {
   const [appState, setAppState] = useContext(StoreContext);
 
   const [state, dispatch] = useReducer(
@@ -56,6 +56,7 @@ const OnboardingLocation = ({ item, goToNext, slideNumber }) => {
     text = state.error;
   } else if (state.location) {
     text = JSON.stringify(state.location);
+    startHosting()
   }
 
   const bgStyle = { backgroundColor: item.backgroundColor }
