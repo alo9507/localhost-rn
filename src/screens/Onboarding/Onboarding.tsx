@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import OnboardingEmailPassword from "./OnboardingEmailPassword";
+import OnboardingLocation from "./OnboardingLocation";
 import OnboardingName from "./OnboardingName";
 
 const slides = [
@@ -15,6 +16,12 @@ const slides = [
         key: 'two',
         slideNumber: 1,
         onboardingStep: "name",
+        backgroundColor: '#FFFACC',
+    },
+    {
+        key: 'three',
+        slideNumber: 2,
+        onboardingStep: "location",
         backgroundColor: '#FFFACC',
     }
 ];
@@ -50,6 +57,8 @@ const Onboarding = (props) => {
                 return <OnboardingEmailPassword item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
                 return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+            case "location":
+                return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             default:
                 throw Error("No onboarding screen")
         }

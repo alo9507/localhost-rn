@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Text, View, SafeAreaView, Image, StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
+import FirstLaunchScreen from "./FirstLaunchScreen"
 
 const slides = [
     {
@@ -19,48 +20,34 @@ const slides = [
     },
     {
         key: 'three',
-        title: 'Rocket guy',
+        title: 'Show what you want to show',
+        text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
+        image: { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png' },
+        backgroundColor: '#22bcb5',
+    },
+    {
+        key: 'four',
+        title: 'Start hosting?',
         text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
         image: { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png' },
         backgroundColor: '#22bcb5',
     }
 ];
 
-const styles = StyleSheet.create({
-    slide: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'pink',
-    },
-    image: {
-        width: 320,
-        height: 320,
-        marginVertical: 32,
-    },
-    text: {
-        // color: 'rgba(255, 255, 255, 0.8)',
-        textAlign: 'center',
-    },
-    title: {
-        fontSize: 22,
-        // color: 'white',
-        textAlign: 'center',
-    },
-    container: { flex: 1 },
-});
-
 const FirstLaunch = (props) => {
     const renderItem = ({ item }) => {
-        const bgStyle = { backgroundColor: item.backgroundColor }
-        return (
-            <View style={[styles.slide, bgStyle]}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Image source={item.image} style={styles.image} />
-                <Text style={styles.text}>{item.text}</Text>
-                <Text style={styles.text}>{item.thing}</Text>
-            </View>
-        );
+        switch (item.key) {
+            case "one":
+                return <FirstLaunchScreen item={item} />
+            case "two":
+                return <FirstLaunchScreen item={item} />
+            case "three":
+                return <FirstLaunchScreen item={item} />
+            case "four":
+                return <FirstLaunchScreen item={item} />
+            default:
+                throw Error("No first launch screen")
+        }
     };
 
     const onDone = () => {
@@ -71,8 +58,6 @@ const FirstLaunch = (props) => {
 
     const slider = useRef();
 
-    const onPress = () => { () => slider.current.goToSlide(1, true) }
-
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -81,11 +66,14 @@ const FirstLaunch = (props) => {
                     data={slides}
                     onDone={onDone}
                     keyExtractor={keyExtractor}
-                    ref={(ref) => (slider.current = ref)}
                 />
             </SafeAreaView>
         </>
     );
 };
+
+const styles = StyleSheet.create({
+    container: { flex: 1 },
+});
 
 export default FirstLaunch;

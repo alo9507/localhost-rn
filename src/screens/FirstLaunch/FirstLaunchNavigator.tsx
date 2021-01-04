@@ -10,8 +10,9 @@ function LaunchStackScreens({ dispatch }) {
             <LaunchStack.Screen
                 name="Launch"
                 component={FirstLaunch}
-                options={{ title: "Launch" }}
+                options={{ title: "Launch", headerShown: false }}
                 initialParams={{ dispatch }}
+
             />
         </LaunchStack.Navigator>
     )
