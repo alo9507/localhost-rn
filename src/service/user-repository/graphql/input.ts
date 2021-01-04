@@ -1,7 +1,8 @@
 export type UpdateUserInput = {
     id: String,
     email: String | null,
-    name: String | null,
+    firstname: String | null,
+    lastname: String | null,
     bio: String | null,
     whatAmIDoing: String | null,
     isVisible: Boolean | null,

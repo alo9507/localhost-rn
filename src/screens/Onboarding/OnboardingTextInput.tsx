@@ -178,7 +178,7 @@ const OnboardingTextInput = ({
                 onFocus={() => handleOnFocus()}
                 value={formState[keyName]}
                 placeholder={placeholder}
-                placeholderTextColor={style.color}
+                placeholderTextColor={color.primaryText_darkest}
                 style={style}
             />
             {state.error &&

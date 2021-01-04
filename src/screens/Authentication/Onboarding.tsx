@@ -6,7 +6,8 @@ import { Button } from "react-native"
 const Onboarding = (props) => {
 
   const initialState = {
-    name: "",
+    firstname: "",
+    lastname: "",
     bio: "",
     whatAmIDoing: "",
     sex: "",

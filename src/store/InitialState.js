@@ -22,7 +22,8 @@ let initialState;
 
 const user = {
     id: "433b6860-51a1-411a-ad43-ad74035541a3",
-    name: "George",
+    firstname: "George",
+    lastname: "George",
     bio: "George's bio",
     whatAmIDoing: "What George is doing",
     isVisible: true,

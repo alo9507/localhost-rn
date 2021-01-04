@@ -3,41 +3,65 @@ import { View, Text, Button } from "react-native"
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext"
+import OnboardingForm from "./OnboardingForm"
 
 const OnboardingName = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
+    const [formState, setFormState] = useState({ firstname: "", lastname: "" });
 
-    type OnboardingNameInitialState = {
-        firstName: string,
-        lastName: string,
+    async function submitAndGoToNext() {
+        try {
+            const user = appState.userRepository.updateUser(formState)
+            console.log(formState)
+            setAppState({ type: "UPDATE_USER", payload: user })
+            goToNext(slideNumber)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    const initial: OnboardingNameInitialState = {
-        firstName: "",
-        lastName: ""
-    }
+    const firstNameErrorMessage = `
+    Must contain:
+    - At least 8 characters
+    - One number
+    `
 
-    const [formState, setFormState] = useState(initial);
+    const lastNameErrorMessage = `
+    Please enter a valid email address:
+    - example@g.com
+    `
 
-    function setInput(key, value) {
-        setFormState({ ...formState, [key]: value });
-    }
+    const controls = [
+        {
+            type: "text",
+            label: "First Name",
+            placeholder: "Andrew",
+            pattern: /.*/,
+            errorMessage: firstNameErrorMessage,
+            keyName: "firstname",
+            required: true
+        },
+        {
+            type: "text",
+            label: "Last Name",
+            placeholder: "O'Brien",
+            pattern: /.*/,
+            errorMessage: lastNameErrorMessage,
+            keyName: "lastname",
+            required: true
+        },
+    ]
 
     const bgStyle = { backgroundColor: item.backgroundColor }
     return (
         <View style={[styles.slide, bgStyle]}>
             <Container>
-                <Input
-                    onChangeText={(val) => setInput("firstName", val)}
-                    value={formState.firstName}
-                    placeholder="First Name"
+                <OnboardingForm
+                    onSubmit={submitAndGoToNext}
+                    controls={controls}
+                    formState={formState}
+                    setFormState={setFormState}
                 />
-                <Input
-                    onChangeText={(val) => setInput("lastName", val)}
-                    value={formState.lastName}
-                    placeholder="Last Name"
-                />
-                <Button title="Next" onPress={() => goToNext(slideNumber)} />
             </Container>
         </View >
     )

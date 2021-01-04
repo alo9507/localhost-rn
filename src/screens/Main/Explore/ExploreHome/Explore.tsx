@@ -125,7 +125,7 @@ const Explore = (props) => {
   }
 
   useEffect(() => {
-    props.navigation.setOptions({ title: appState.user?.name ? appState.user.name : "No Name" });
+    props.navigation.setOptions({ title: appState.user?.name ? appState.user.firstname : "No Name" });
   }, [])
 
   async function submitWhatAmIDoing() {
@@ -177,7 +177,7 @@ const Explore = (props) => {
         <TouchableHighlight key={user.id ? user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
           <View style={styles.user}>
             <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
-            <Text style={styles.userName}>Name: {user.name}</Text>
+            <Text style={styles.userName}>Name: {user.firstname}</Text>
             <Text>ID: {user.id}</Text>
             <Text>bio: {user.bio}</Text>
             <Text>whatAmIDoing: {user.whatAmIDoing}</Text>

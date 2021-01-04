@@ -56,7 +56,7 @@ const UserProfile = (props) => {
             <View style={styles.profileImgContainer}>
                 <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
             </View>
-            <Text style={styles.userName}>Name: {user.name}</Text>
+            <Text style={styles.userName}>Name: {user.firstname} {user.lastname}</Text>
             <Text>ID: {user.id}</Text>
             <Text>bio: {user.bio}</Text>
             <Text>whatAmIDoing: {user.whatAmIDoing}</Text>

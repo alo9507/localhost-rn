@@ -57,7 +57,7 @@ const Nods = (props) => {
                     <View style={styles.user}>
                         <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
                         <Text>{userWithNod.nod.message}</Text>
-                        <Text style={styles.userName}>Name: {userWithNod.user.name}</Text>
+                        <Text style={styles.userName}>Name: {userWithNod.user.firstname}</Text>
                         <Text>ID: {userWithNod.user.id}</Text>
                         <Text>bio: {userWithNod.user.bio}</Text>
                         <Text>whatAmIDoing: {userWithNod.user.whatAmIDoing}</Text>
