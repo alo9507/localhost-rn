@@ -3,7 +3,6 @@ import { View, Text, Button } from "react-native"
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext"
-import * as Location from 'expo-location';
 
 const OnboardingLocation = ({ item, goToNext, slideNumber }) => {
   const [appState, setAppState] = useContext(StoreContext);
@@ -41,14 +40,14 @@ const OnboardingLocation = ({ item, goToNext, slideNumber }) => {
   );
 
   async function getLocation() {
-    let { status } = await Location.requestPermissionsAsync();
+    let { status } = await appState.locationManager.requestLocationPermission()
     if (status !== 'granted') {
       dispatch({ type: "ERROR", payload: 'Permission to access location was denied' })
       return;
     }
 
     dispatch({ type: "LOADING" })
-    let location = await Location.getCurrentPositionAsync({});
+    let location = await appState.locationManager.getLocation()
     dispatch({ type: "LOCATION", payload: location })
   }
 

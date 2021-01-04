@@ -15,6 +15,7 @@ import FirstLaunchService from "../service/first-launch-service/FirstLaunchServi
 import MockFirstLaunchService from "../service/first-launch-service/MockFirstLauncService";
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService";
 import MainMediaUploadService from "../service/media-upload/MainMediaUploadService";
+import ExpoLocationManager from "../service/location/ExpoLocationManager";
 
 import AppState from "../models/AppState";
 
@@ -51,6 +52,7 @@ switch (env.environment) {
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
+            locationManager: new ExpoLocationManager(),
             user: null,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
@@ -62,6 +64,7 @@ switch (env.environment) {
             authManager: new EZAuthManager(),
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
+            locationManager: new ExpoLocationManager(),
             user: null,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
@@ -73,6 +76,7 @@ switch (env.environment) {
             authManager: new MockAuthManager(),
             firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
             mediaUploadService: new MainMediaUploadService(),
+            locationManager: new ExpoLocationManager(),
             user: null,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
