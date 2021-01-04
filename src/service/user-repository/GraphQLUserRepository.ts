@@ -156,7 +156,7 @@ class GraphQLUserRepository implements UserRepository {
   }
 
 
-  updateLocationGetUsers(input: UpdateUserInput): Promise<User> {
+  updateLocationGetUsers(input: UpdateUserInput): Promise<User[]> {
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -171,7 +171,7 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 
-  getIncomingNods(id: string): Promise<User> {
+  getIncomingNods(id: string): Promise<User[]> {
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

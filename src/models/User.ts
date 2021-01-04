@@ -12,7 +12,8 @@ class User {
     public isVisible: boolean,
     public latitude: number,
     public longitude: number,
-    public profileImageUrl: string
+    public profileImageUrl: string,
+    public showMeCriteria: object
   ) { }
 }
 

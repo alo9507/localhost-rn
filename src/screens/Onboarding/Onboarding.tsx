@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import OnboardingEmailPassword from "./OnboardingEmailPassword";
 import OnboardingLocation from "./OnboardingLocation";
