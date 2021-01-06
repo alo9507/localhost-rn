@@ -3,6 +3,7 @@ class User {
     public id: string,
     public age: number,
     public email: string,
+    public phonenumber: string,
     public sex: string,
     public firstname: string,
     public lastname: string,

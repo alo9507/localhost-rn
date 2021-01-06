@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
-import OnboardingEmailPassword from "./OnboardingEmailPassword";
+import OnboardingPhoneNumber from "./OnboardingPhoneNumber";
+import OnboardingConfirmPhoneNumber from "./OnboardingConfirmPhoneNumber";
 import OnboardingLocation from "./OnboardingLocation";
 import OnboardingName from "./OnboardingName";
 
@@ -9,7 +10,13 @@ const slides = [
     {
         key: 'one',
         slideNumber: 0,
-        onboardingStep: "emailAndPassword",
+        onboardingStep: "phonenumber",
+        backgroundColor: '#FFFACC',
+    },
+    {
+        key: 'key',
+        slideNumber: 0,
+        onboardingStep: "confirmPhonenumber",
         backgroundColor: '#FFFACC',
     },
     {
@@ -53,8 +60,10 @@ const styles = StyleSheet.create({
 const Onboarding = (props) => {
     const renderItem = ({ item }) => {
         switch (item.onboardingStep) {
-            case "emailAndPassword":
-                return <OnboardingEmailPassword item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+            case "phonenumber":
+                return <OnboardingPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+            case "confirmPhonenumber":
+                return <OnboardingConfirmPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
                 return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "location":

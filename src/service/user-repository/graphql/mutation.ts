@@ -6,6 +6,7 @@ mutation CreateUser($input: CreateUserInput!) {
         id
         sex
         name
+        phonenumber
         email
         bio
         whatAmIDoing

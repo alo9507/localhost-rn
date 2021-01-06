@@ -50,12 +50,12 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 
-  createUser(id: string, email: string): Promise<User> {
+  createUser(id: string, phonenumber: string): Promise<User> {
     let promise: Promise<User> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: CREATE_USER,
-          variables: { input: { id: id, email: email } },
+          variables: { input: { id: id, phonenumber: phonenumber } },
         });
         resolve(result.data.createUser)
       } catch (e) {

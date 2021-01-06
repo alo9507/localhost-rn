@@ -1,5 +1,7 @@
 import React from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
+import Face from "../../assets/Antisocial.svg"
+import Diagnostic from "../../assets/diagnostic.svg"
 
 const FirstLaunchScreen = (props) => {
     const { item, startHosting } = props
@@ -16,6 +18,8 @@ const FirstLaunchScreen = (props) => {
             <Text style={styles.text}>{item.text}</Text>
             <Text style={styles.text}>{item.thing}</Text>
             {startHosting ? <Button title="start hosting?" onPress={goToOnboarding} /> : <View></View>}
+            <Face />
+            <Diagnostic />
         </View>
     );
 };

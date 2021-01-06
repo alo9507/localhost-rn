@@ -9,6 +9,8 @@ When applied, the local environment file will initiatlize the app's [InitialStat
 
 You do not have to worry about the backend. The mock backend applied by `local.json` will fully replace the backend with mock data that YOU control.
 
+It will take you to the first launch screen where you can implement the SVG.
+
 ## GETTING STARTED - BACKEND DEVELOPERS
 
 Run `docker-compose -f docker-compose.development.yml up`
