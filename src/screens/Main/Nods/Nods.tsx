@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Text, TouchableHighlight, Image, StyleSheet, View } from "react-native";
 import StoreContext from "../../../store/StoreContext";
-import User from "../../../models/User"
+import { Nod, UserWithNods } from "./models/Nod"
 
 const Nods = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-
-    type Nod = {
-        createdAt: number,
-        latitude: number,
-        longitude: number,
-        message: string,
-        initiator: boolean,
-        seen: boolean
-    }
-
-    type UserWithNods = {
-        user: User
-        nod: Nod
-    }
 
     type NodsInitialState = {
         loading: boolean,
@@ -32,15 +18,40 @@ const Nods = (props) => {
         error: false
     }
 
-    const [state, setState] = useState(initial)
+    const [state, dispatch] = useReducer(
+        (prevState, action) => {
+            switch (action.type) {
+                case 'INCOMING_NODS_RECEIVED':
+                    return {
+                        ...prevState, userWithNods: action.payload, loading: false
+                    };
+                case 'ERROR':
+                    return {
+                        ...prevState, error: action.payload, loading: false
+                    };
+                case 'NOD_SEEN':
+                    let usersWithNodsClone = [...prevState.userWithNods]
+                    const index = usersWithNodsClone.indexOf(action.payload.sender.id)
+                    if (index !== -1) {
+                        usersWithNodsClone[index].seen = true
+                    }
+                    return {
+                        ...prevState, usersWithNods: usersWithNodsClone
+                    };
+                default:
+                    throw new Error(`Unsupported action type: ${action.type}`);
+            }
+        },
+        initial
+    );
 
     useEffect(() => {
         async function getIncomingNods() {
             try {
                 const incomingUsersWithNods = await appState.userRepository.getIncomingNods(appState.user.id)
-                setState({ ...state, userWithNods: incomingUsersWithNods, loading: false })
+                dispatch({ type: 'INCOMING_NODS_RECEIVED', payload: incomingUsersWithNods })
             } catch (e) {
-                setState({ ...state, loading: false, error: e })
+                dispatch({ type: 'ERROR', payload: e })
             }
         }
 
@@ -50,12 +61,19 @@ const Nods = (props) => {
     if (state.loading) return <Text>"Loading..."</Text>
     if (state.error) return `Error! ${state.error}`;
 
+    const userClicked = (userWithNod) => {
+        appState.userRepository.nodSeen({ recipient: appState.user.id, sender: userWithNod.user.id })
+        dispatch({ type: "NOD_SEEN", payload: userWithNod })
+        props.navigation.navigate("UserProfile", { user: userWithNod.user })
+    }
+
     return (
         <>
             {state.userWithNods.map((userWithNod, index) => (
-                <TouchableHighlight key={userWithNod.user.id ? userWithNod.user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user: userWithNod.user })}>
+                <TouchableHighlight key={userWithNod.user.id ? userWithNod.user.id : index} onPress={(e) => userClicked(userWithNod)}>
                     <View style={styles.user}>
                         <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
+                        <Text>Seen: {userWithNod.nod.seen}</Text>
                         <Text>{userWithNod.nod.message}</Text>
                         <Text style={styles.userName}>Name: {userWithNod.user.firstname}</Text>
                         <Text>ID: {userWithNod.user.id}</Text>

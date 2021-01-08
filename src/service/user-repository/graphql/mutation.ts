@@ -5,7 +5,8 @@ mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
         id
         sex
-        name
+        firstname
+        lastname
         phonenumber
         email
         bio
@@ -35,7 +36,8 @@ mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input ) {
         id
         sex
-        name
+        firstname
+        lastname
         email
         bio
         whatAmIDoing
@@ -66,6 +68,14 @@ mutation SendNod($input: SendNodInput!) {
         latitude
         longitude
         message
+    }
+}`
+
+export const NOD_SEEN = gql`
+mutation NOD_SEEN($input: NodSeenInput!) {
+    nodSeen(input: $input ) {
+        recipient
+        sender
     }
 }`
 
@@ -128,7 +138,8 @@ export const UPDATE_LOCATION_AND_GET_USERS = gql`
 mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {
         id
-        name
+        firstname
+        lastname
         bio
         whatAmIDoing
         sex

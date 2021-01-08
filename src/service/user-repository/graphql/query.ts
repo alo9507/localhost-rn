@@ -5,7 +5,8 @@ query GetUser($id: ID!) {
     user(id: $id) {
       id
       sex
-      name
+      firstname
+      lastname
       email
       bio
       whatAmIDoing
@@ -40,7 +41,8 @@ export const GET_USERS = gql`
 query GetUsers {
     users {
         id
-        name
+        firstname
+        lastname
         sex
         age
         isVisible
@@ -56,7 +58,8 @@ query GetIncomingNods($id: ID!) {
         user {
           id
           sex
-          name
+          firstname
+          lastname
           email
           bio
           whatAmIDoing
