@@ -31,9 +31,10 @@ const Nods = (props) => {
                     };
                 case 'NOD_SEEN':
                     let usersWithNodsClone = [...prevState.userWithNods]
-                    const index = usersWithNodsClone.indexOf(action.payload.sender.id)
+                    const index = usersWithNodsClone.indexOf(action.payload.user.id)
                     if (index !== -1) {
                         usersWithNodsClone[index].seen = true
+                        console.log("in index")
                     }
                     return {
                         ...prevState, usersWithNods: usersWithNodsClone
@@ -73,8 +74,9 @@ const Nods = (props) => {
                 <TouchableHighlight key={userWithNod.user.id ? userWithNod.user.id : index} onPress={(e) => userClicked(userWithNod)}>
                     <View style={styles.user}>
                         <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
-                        <Text>Seen: {userWithNod.nod.seen}</Text>
+                        <Text>{userWithNod.nod.seen ? "Seen" : "New Nod!"}</Text>
                         <Text>{userWithNod.nod.message}</Text>
+                        <Text>Created At: {userWithNod.nod.createdAt}</Text>
                         <Text style={styles.userName}>Name: {userWithNod.user.firstname}</Text>
                         <Text>ID: {userWithNod.user.id}</Text>
                         <Text>bio: {userWithNod.user.bio}</Text>

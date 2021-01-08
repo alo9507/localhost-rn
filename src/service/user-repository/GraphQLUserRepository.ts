@@ -186,11 +186,12 @@ class GraphQLUserRepository implements UserRepository {
     return promise
   }
 
-  nodSeen(input): Promise<User[]> {
-    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+  nodSeen(input): Promise<Object> {
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
-        const result = await this.client.query({
-          query: NOD_SEEN,
+        console.log(input)
+        const result = await this.client.mutate({
+          mutation: NOD_SEEN,
           variables: { input },
         });
         resolve(result.data.nodSeen)

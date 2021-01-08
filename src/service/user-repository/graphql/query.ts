@@ -72,6 +72,8 @@ query GetIncomingNods($id: ID!) {
         nod {
           message
           seen
+          latitude
+          longitude
         }
     }
 }
