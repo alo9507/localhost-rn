@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
-import Face from "../../assets/Antisocial.svg"
+import Face from "../../assets/antisocial.svg"
 import Diagnostic from "../../assets/diagnostic.svg"
 
 const FirstLaunchScreen = (props) => {
@@ -18,8 +18,8 @@ const FirstLaunchScreen = (props) => {
             <Text style={styles.text}>{item.text}</Text>
             <Text style={styles.text}>{item.thing}</Text>
             {startHosting ? <Button title="start hosting?" onPress={goToOnboarding} /> : <View></View>}
-            <Face fill={'#000000'} width={'80%'} height={'50%'} />
-            <Diagnostic fill={'#000000'} width={'50%'}  height={'50%'} />
+            <Face fill={'#000000'} width={'25%'} height={'25%'} />
+            <Diagnostic fill={'#000000'} width={'50%'} height={'50%'} />
         </View>
     );
 };
