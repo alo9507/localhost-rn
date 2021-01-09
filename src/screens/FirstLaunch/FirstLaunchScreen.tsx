@@ -14,12 +14,12 @@ const FirstLaunchScreen = (props) => {
     return (
         <View style={[styles.slide, bgStyle]}>
             <Text style={styles.title}>{item.title}</Text>
-            <Image source={item.image} style={styles.image} />
+            {/*<Image source={item.image} style={styles.image} />*/}
             <Text style={styles.text}>{item.text}</Text>
             <Text style={styles.text}>{item.thing}</Text>
             {startHosting ? <Button title="start hosting?" onPress={goToOnboarding} /> : <View></View>}
-            <Face />
-            <Diagnostic />
+            <Face fill={'#000000'} width={'80%'} height={'50%'} />
+            <Diagnostic fill={'#000000'} width={'50%'}  height={'50%'} />
         </View>
     );
 };
