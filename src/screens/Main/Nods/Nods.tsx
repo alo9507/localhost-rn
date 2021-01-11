@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { Text, TouchableHighlight, Image, StyleSheet, View } from "react-native";
+import { Text, TouchableHighlight, Image, StyleSheet, View, FlatList } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import { Nod, UserWithNods } from "./models/Nod"
 
@@ -58,37 +58,52 @@ const Nods = (props) => {
         getIncomingNods()
     }, [])
 
-    if (state.loading) return <Text>"Loading..."</Text>
-    if (state.error) return `Error! ${state.error}`;
-
     const userClicked = (userWithNod) => {
         appState.userRepository.nodSeen({ recipient: appState.user.id, sender: userWithNod.user.id })
         dispatch({ type: "NOD_SEEN", payload: userWithNod })
-        props.navigation.navigate("UserProfile", { user: userWithNod.user })
+        props.navigation.navigate("UserProfile", { user: userWithNod.user, isNod: true })
+    }
+
+    if (state.loading) return <Text>"Loading..."</Text>
+    if (state.error) return `Error! ${state.error}`;
+
+    if (state.userWithNods.length === 0) return (
+        <>
+            <Text>No new nods you worthless fuck!</Text>
+        </>
+    )
+
+    const renderItem = ({ item }) => {
+        const userWithNod = item
+        return (
+            <TouchableHighlight onPress={(e) => userClicked(userWithNod)}>
+                <View style={styles.user}>
+                    <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
+                    <Text>{userWithNod.nod.seen ? "Seen" : "New Nod!"}</Text>
+                    <Text>{userWithNod.nod.message}</Text>
+                    <Text>Created At: {userWithNod.nod.createdAt}</Text>
+                    <Text style={styles.userName}>Name: {userWithNod.user.firstname}</Text>
+                    <Text>ID: {userWithNod.user.id}</Text>
+                    <Text>bio: {userWithNod.user.bio}</Text>
+                    <Text>whatAmIDoing: {userWithNod.user.whatAmIDoing}</Text>
+                    <Text>isVisible: {userWithNod.user.isVisible}</Text>
+                    <Text>sex: {userWithNod.user.sex}</Text>
+                    <Text>age: {userWithNod.user.age}</Text>
+                    <Text>email: {userWithNod.user.email}</Text>
+                    <Text>latitude: {userWithNod.user.latitude}</Text>
+                    <Text>longitude: {userWithNod.user.longitude}</Text>
+                </View>
+            </TouchableHighlight>
+        )
     }
 
     return (
         <>
-            {state.userWithNods.map((userWithNod, index) => (
-                <TouchableHighlight key={userWithNod.user.id ? userWithNod.user.id : index} onPress={(e) => userClicked(userWithNod)}>
-                    <View style={styles.user}>
-                        <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
-                        <Text>{userWithNod.nod.seen ? "Seen" : "New Nod!"}</Text>
-                        <Text>{userWithNod.nod.message}</Text>
-                        <Text>Created At: {userWithNod.nod.createdAt}</Text>
-                        <Text style={styles.userName}>Name: {userWithNod.user.firstname}</Text>
-                        <Text>ID: {userWithNod.user.id}</Text>
-                        <Text>bio: {userWithNod.user.bio}</Text>
-                        <Text>whatAmIDoing: {userWithNod.user.whatAmIDoing}</Text>
-                        <Text>isVisible: {userWithNod.user.isVisible}</Text>
-                        <Text>sex: {userWithNod.user.sex}</Text>
-                        <Text>age: {userWithNod.user.age}</Text>
-                        <Text>email: {userWithNod.user.email}</Text>
-                        <Text>latitude: {userWithNod.user.latitude}</Text>
-                        <Text>longitude: {userWithNod.user.longitude}</Text>
-                    </View>
-                </TouchableHighlight>
-            ))}
+            <FlatList
+                data={state.userWithNods}
+                renderItem={renderItem}
+                keyExtractor={item => item.user.id}
+            />
         </>
     );
 };

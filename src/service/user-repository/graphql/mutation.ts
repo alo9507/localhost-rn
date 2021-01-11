@@ -71,14 +71,6 @@ mutation SendNod($input: SendNodInput!) {
     }
 }`
 
-export const NOD_SEEN = gql`
-mutation NOD_SEEN($input: NodSeenInput!) {
-    nodSeen(input: $input ) {
-        recipient
-        sender
-    }
-}`
-
 export const RETURN_NOD = gql`
 mutation ReturnNod($input: SendNodInput!) {
     returnNod(input: $input ) {
@@ -87,6 +79,14 @@ mutation ReturnNod($input: SendNodInput!) {
         latitude
         longitude
         message
+    }
+}`
+
+export const NOD_SEEN = gql`
+mutation NOD_SEEN($input: NodSeenInput!) {
+    nodSeen(input: $input ) {
+        recipient
+        sender
     }
 }`
 

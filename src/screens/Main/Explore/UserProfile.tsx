@@ -5,17 +5,28 @@ import StoreContext from "../../../store/StoreContext";
 const UserProfile = (props) => {
 
     const user = props.route.params.user
+    const isNod = props.route.params.isNod
 
     const [appState, setAppState] = React.useContext(StoreContext);
 
     const sendNod = async () => {
-        appState.userRepository.sendNod({
-            from: appState.user.id,
-            to: user.id,
-            message: "nice ass bitch",
-            latitude: 21.3,
-            longitude: 21.3
-        })
+        if (isNod) {
+            appState.userRepository.returnNod({
+                from: appState.user.id,
+                to: user.id,
+                message: "nice ass bitch",
+                latitude: 21.3,
+                longitude: 21.3
+            })
+        } else {
+            appState.userRepository.sendNod({
+                from: appState.user.id,
+                to: user.id,
+                message: "nice ass bitch",
+                latitude: 21.3,
+                longitude: 21.3
+            })
+        }
     }
 
     const report = async () => {

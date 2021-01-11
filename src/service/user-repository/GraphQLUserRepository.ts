@@ -4,7 +4,7 @@ import { HttpLink } from "apollo-link-http"
 import UserRepository from "../../service/user-repository/UserRepository"
 import User from "../../models/User"
 import { GET_USER, GET_INCOMING_NODS, GET_USERS } from "./graphql/query"
-import { NOD_SEEN, CREATE_USER, UNMATCH, BECOME_INVISIBLE_TO, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD, BECOME_VISIBLE_TO } from "./graphql/mutation"
+import { RETURN_NOD, NOD_SEEN, CREATE_USER, UNMATCH, BECOME_INVISIBLE_TO, REPORT, UPDATE_USER, UPDATE_LOCATION_AND_GET_USERS, UPDATE_SHOWME_CRITERIA, SEND_NOD, BECOME_VISIBLE_TO } from "./graphql/mutation"
 import { UpdateUserInput, UpdateLocationGetUsers } from "./graphql/input"
 import { Platform } from "react-native"
 
@@ -73,6 +73,21 @@ class GraphQLUserRepository implements UserRepository {
           variables: { input },
         });
         resolve(result.data.sendNod)
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
+  returnNod(input: Object): Promise<Object> {
+    let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: RETURN_NOD,
+          variables: { input },
+        });
+        resolve(result.data.returnNod)
       } catch (e) {
         reject(e)
       }
