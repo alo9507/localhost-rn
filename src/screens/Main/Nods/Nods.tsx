@@ -1,10 +1,13 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useContext } from "react";
 import { Text, TouchableHighlight, Image, StyleSheet, View, FlatList } from "react-native";
 import StoreContext from "../../../store/StoreContext";
 import { Nod, UserWithNods } from "./models/Nod"
+import StyleContext from "../../../store/StyleContext"
 
 const Nods = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
+
+    const { color } = useContext(StyleContext);
 
     type NodsInitialState = {
         loading: boolean,
@@ -75,9 +78,13 @@ const Nods = (props) => {
 
     const renderItem = ({ item }) => {
         const userWithNod = item
+        let bg = color.primaryText
+        if (!item.nod.seen) {
+            bg = color.primaryText_darkest
+        }
         return (
             <TouchableHighlight onPress={(e) => userClicked(userWithNod)}>
-                <View style={styles.user}>
+                <View style={{ ...styles.user, backgroundColor: bg }}>
                     <Image source={{ uri: userWithNod.user.profileImageUrl }} style={styles.profileImg} />
                     <Text>{userWithNod.nod.seen ? "Seen" : "New Nod!"}</Text>
                     <Text>{userWithNod.nod.message}</Text>
