@@ -30,14 +30,13 @@ const Nods = (props) => {
                         ...prevState, error: action.payload, loading: false
                     };
                 case 'NOD_SEEN':
+                    console.log(prevState.userWithNods)
                     let usersWithNodsClone = [...prevState.userWithNods]
-                    const index = usersWithNodsClone.indexOf(action.payload.user.id)
-                    if (index !== -1) {
-                        usersWithNodsClone[index].seen = true
-                        console.log("in index")
-                    }
+                    const index = usersWithNodsClone.findIndex(element => element.user.id === action.payload.user.id);
+                    console.log(usersWithNodsClone[index].nod)
+                    usersWithNodsClone[index] = { user: usersWithNodsClone[index].user, nod: { ...usersWithNodsClone[index].nod, seen: true } }
                     return {
-                        ...prevState, usersWithNods: usersWithNodsClone
+                        ...prevState, userWithNods: usersWithNodsClone
                     };
                 default:
                     throw new Error(`Unsupported action type: ${action.type}`);

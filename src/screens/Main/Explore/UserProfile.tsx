@@ -5,7 +5,6 @@ import StoreContext from "../../../store/StoreContext";
 const UserProfile = (props) => {
 
     const user = props.route.params.user
-    console.log(user)
 
     const [appState, setAppState] = React.useContext(StoreContext);
 
