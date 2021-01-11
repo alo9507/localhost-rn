@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useReducer } from "react";
-import { View, Text, Button, Image, StyleSheet, TouchableHighlight, Switch } from "react-native";
+import { View, Text, Button, Image, StyleSheet, TouchableHighlight, Switch, FlatList } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
 import SegmentedControl from '@react-native-community/segmented-control';
 import YouAreInvisible from "./YouAreInvisible"
@@ -138,6 +138,28 @@ const Explore = (props) => {
   if (!state.isVisible) return <YouAreInvisible toggleSwitch={toggleSwitch} />
   if (state.noUsers) return <NoUsers />
 
+  const renderItem = ({ item }) => {
+    const user = item
+    return (
+      <TouchableHighlight onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
+        <View style={styles.user}>
+          <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
+          <Text style={styles.userName}>Name: {user.firstname}</Text>
+          <Text>ID: {user.id}</Text>
+          <Text>bio: {user.bio}</Text>
+          <Text>whatAmIDoing: {user.whatAmIDoing}</Text>
+          <Text>isVisible: {user.isVisible}</Text>
+          <Text>sex: {user.sex}</Text>
+          <Text>age: {user.age}</Text>
+          <Text>location: {user.location}</Text>
+          <Text>email: {user.email}</Text>
+          <Text>latitude: {user.latitude}</Text>
+          <Text>longitude: {user.longitude}</Text>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.container}>
@@ -173,24 +195,11 @@ const Explore = (props) => {
         <Text>VISIBILITY CONTROLS: AGE: {appState.user.age[0]} / {appState.user.age[1]} SEX: {appState.user.sex}</Text>
         <Text>{JSON.stringify(appState.user.showMeCriteria)}</Text>
       </View>
-      {state.users.map((user, index) => (
-        <TouchableHighlight key={user.id ? user.id : index} onPress={(e) => props.navigation.navigate("UserProfile", { user })}>
-          <View style={styles.user}>
-            <Image source={{ uri: user.profileImageUrl }} style={styles.profileImg} />
-            <Text style={styles.userName}>Name: {user.firstname}</Text>
-            <Text>ID: {user.id}</Text>
-            <Text>bio: {user.bio}</Text>
-            <Text>whatAmIDoing: {user.whatAmIDoing}</Text>
-            <Text>isVisible: {user.isVisible}</Text>
-            <Text>sex: {user.sex}</Text>
-            <Text>age: {user.age}</Text>
-            <Text>location: {user.location}</Text>
-            <Text>email: {user.email}</Text>
-            <Text>latitude: {user.latitude}</Text>
-            <Text>longitude: {user.longitude}</Text>
-          </View>
-        </TouchableHighlight>
-      ))}
+      <FlatList
+        data={state.users}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 };
