@@ -1,15 +1,5 @@
-import { graphQLResultHasError } from "@apollo/client/utilities";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useReducer } from "react";
 import StoreContext from "./StoreContext";
-import UserRepository from "../service/user-repository/UserRepository";
-import GraphQLUserRepository from "../service/user-repository/GraphQLUserRepository";
-import MockUserRepository from "../service/user-repository/MockUserRepository";
-import AuthManager from "../service/authentication/AuthManager/AuthManager";
-import EZAuthManager from "../service/authentication/AuthManager/EZAuthManager";
-import MockAuthManager from "../service/authentication/AuthManager/MockAuthManager";
-import AppState from "../models/AppState";
-import { Text } from "react-native";
-const env = require("../../env.json");
 import { initialState } from "./InitialState";
 
 const StoreProvider = ({ children }) => {

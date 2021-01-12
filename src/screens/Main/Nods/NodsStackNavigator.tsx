@@ -6,7 +6,10 @@ import UserProfile from "../Explore/UserProfile"
 const NodsStack = createStackNavigator();
 function NodsStackNavigator() {
     return (
-        <NodsStack.Navigator>
+        <NodsStack.Navigator
+            screenOptions={{ animationEnabled: true }}
+            mode="modal"
+        >
             <NodsStack.Screen
                 name="Nods"
                 component={Nods}

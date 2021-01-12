@@ -7,7 +7,11 @@ import UploadImage from "../UploadImage";
 const ExploreStackNav = createStackNavigator();
 function ExploreStack() {
     return (
-        <ExploreStackNav.Navigator initialRouteName="Explore">
+        <ExploreStackNav.Navigator
+            initialRouteName="Explore"
+            screenOptions={{ animationEnabled: true }}
+            mode="modal"
+        >
             <ExploreStackNav.Screen
                 name="UserProfile"
                 component={UserProfile}

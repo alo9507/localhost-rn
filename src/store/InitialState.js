@@ -82,13 +82,13 @@ switch (env.environment) {
             mediaUploadService: new MainMediaUploadService(),
             locationManager: new ExpoLocationManager(),
             eventConsumer: new MockEventConsumer(),
-            user: null,
+            user: user,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
         };
         break;
     default:
-        throw Error("ENVIRONMENT NOT CONFIGURED CORRECTLY");
+        throw Error(`ENVIRONMENT NOT CONFIGURED CORRECTLY: ${env.environment} is not an environment`);
 }
 
 export { initialState };

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Input } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
 
 const Work = (props) => {
@@ -9,7 +9,10 @@ const Work = (props) => {
         <>
             <Text>Work</Text>
             <View>
-                <Button title="Submit" onPress={close} />
+                <Input
+                    onChangeText={(val) => handleTextChange(val)}
+                    onBlur={() => handleOnBlur()}
+                />
             </View>
         </>
     );
