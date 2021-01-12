@@ -6,7 +6,8 @@ const getInitialState = () => {
 
     let initialUserState = {
         firstname: appState.user.firstname,
-        lastname: appState.user.lastname
+        lastname: appState.user.lastname,
+        age: appState.user.age
     };
 
     return initialUserState;

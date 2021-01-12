@@ -5,15 +5,14 @@ import EditProfileContext from "./store/EditProfileContext"
 
 const Age = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-    const [editProfileState, stEditProfileState] = React.useContext(EditProfileContext);
+    const [editProfileState, setEditProfileState] = React.useContext(EditProfileContext);
 
     console.log(JSON.stringify(editProfileState))
 
     return (
         <>
-            <Text>Age</Text>
+            <Text>Age: {editProfileState.age}</Text>
             <View>
-
                 <Button title="Submit" onPress={() => submit()} />
             </View>
         </>

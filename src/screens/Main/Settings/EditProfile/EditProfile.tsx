@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
+import EditProfileContext from "./store/EditProfileContext";
 import EditProfileProvider from "./store/EditProfileProvider";
 
 const EditProfile = (props) => {
@@ -11,7 +12,7 @@ const EditProfile = (props) => {
     }
 
     return (
-        <EditProfileProvider>
+        <>
             <View style={styles.container}>
                 <Button title="Close" onPress={close} />
                 <Button title="Work" onPress={(e) => props.navigation.navigate("Work")} />
@@ -21,7 +22,7 @@ const EditProfile = (props) => {
                 <Button title="Gender" onPress={(e) => props.navigation.navigate("Gender")} />
                 <Button title="Age" onPress={(e) => props.navigation.navigate("Age")} />
             </View>
-        </EditProfileProvider>
+        </ >
     );
 };
 

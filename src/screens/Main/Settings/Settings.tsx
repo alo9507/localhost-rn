@@ -4,7 +4,7 @@ import StoreContext from "../../../store/StoreContext";
 
 const Settings = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
-    console.log("settigns props", props)
+
     return (
         <>
             <View>
