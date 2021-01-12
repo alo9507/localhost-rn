@@ -50,7 +50,10 @@ class MockAuthManager implements AuthManager {
     }
 
     confirmSignUp(username: string, code: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+        let promise: Promise<boolean> = new Promise((resolve, reject) => {
+            resolve(true)
+        })
+        return promise
     }
 
     changePassword(oldPassword: string, newPassword: string): Promise<boolean> {

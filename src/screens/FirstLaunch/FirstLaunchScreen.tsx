@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
-import Face from "../../assets/antisocial.svg"
-import Diagnostic from "../../assets/diagnostic.svg"
-const io = require("socket.io-client");
-const ENDPOINT = "ws://localhost:4001"
 
 const FirstLaunchScreen = (props) => {
     const { item, startHosting } = props
@@ -14,11 +10,6 @@ const FirstLaunchScreen = (props) => {
     }
 
     const [response, setResponse] = useState("")
-
-    useEffect(() => {
-        const socket = io(ENDPOINT);
-        console.log(socket)
-    }, [])
 
     return (
         <View style={[styles.slide, bgStyle]}>

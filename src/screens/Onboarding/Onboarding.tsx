@@ -15,19 +15,19 @@ const slides = [
     },
     {
         key: 'key',
-        slideNumber: 0,
+        slideNumber: 1,
         onboardingStep: "confirmPhonenumber",
         backgroundColor: '#FFFACC',
     },
     {
         key: 'two',
-        slideNumber: 1,
+        slideNumber: 2,
         onboardingStep: "name",
         backgroundColor: '#FFFACC',
     },
     {
         key: 'three',
-        slideNumber: 2,
+        slideNumber: 3,
         onboardingStep: "location",
         backgroundColor: '#FFFACC',
     }

@@ -12,7 +12,9 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
 
     async function submitAndGoToNext() {
         try {
-            // const confirmationResponse = await appState.authManager.confirmSignUp(appState.user.phonenumber, formState.code)
+            console.log("in here")
+            const confirmationResponse = await appState.authManager.confirmSignUp(appState.user.phonenumber, formState.code)
+            console.log(confirmationResponse)
             goToNext(slideNumber)
         } catch (e) {
             console.log(e)
@@ -25,8 +27,8 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
         {
             type: "text",
             label: "Confirm Phone Number",
-            placeholder: "43434",
-            pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
+            placeholder: "123456",
+            pattern: /\d{6}/,
             errorMessage: confirmPhoneNumberErrorMessage,
             keyName: "code",
             required: true

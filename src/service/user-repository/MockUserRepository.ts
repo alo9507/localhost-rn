@@ -8,7 +8,7 @@ class MockUserRepository implements UserRepository {
     constructor () { }
 
     showMeCriteria = { sex: ["male", "female"], age: [0, 100] }
-    user = new User("id", 11, "myemail@g.com", "male", "Andrew", "OBreezy", "bio", "chilling", "sdf", true, 10.0, 10.0, "profileimage", this.showMeCriteria)
+    user = new User("id", 11, "myemail@g.com", "978-269-4479", "male", "Andrew", "OBreezy", "bio", "chilling", "sdf", true, 10.0, 10.0, "profileimage", this.showMeCriteria)
 
     getUser(id: string): Promise<User> {
         let promise: Promise<User> = new Promise((resolve, reject) => {
@@ -18,10 +18,26 @@ class MockUserRepository implements UserRepository {
         return promise
     }
 
-    createUser(id: string, email: string): Promise<User> {
+    createUser(id: string, phonenumber: string): Promise<User> {
         let promise: Promise<User> = new Promise((resolve, reject) => {
             let mockUser = this.user
             resolve(mockUser)
+        })
+        return promise
+    }
+
+    nodSeen(input): Promise<Object> {
+        let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+            const { recipient, sender } = input
+            resolve({ recipient, sender })
+        })
+        return promise
+    }
+
+    returnNod(input): Promise<Object> {
+        let promise: Promise<Object> = new Promise(async (resolve, reject) => {
+            const { from, to, latitude, longitude, message } = input
+            resolve({ from, to, latitude, longitude, message })
         })
         return promise
     }

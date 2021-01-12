@@ -1,7 +1,7 @@
 import EventConsumer from "./EventConsumer"
 import Event from "./EventConsumer"
 
-class LocalhostEventConsumer implements EventConsumer {
+class MockEventConsumer implements EventConsumer {
     sessionStarted(discussionID: string, callback: (data: any) => void): void {
         setInterval(() => {
             callback(new Date())
@@ -9,4 +9,4 @@ class LocalhostEventConsumer implements EventConsumer {
     }
 }
 
-export default LocalhostEventConsumer
+export default MockEventConsumer
