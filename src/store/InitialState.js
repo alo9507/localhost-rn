@@ -73,7 +73,7 @@ switch (env.environment) {
     case "local":
         initialState = {
             userRepository: new MockUserRepository(),
-            authManager: new MockAuthManager(),
+            authManager: new MockAuthManager(env.isAuthenticated),
             firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
             mediaUploadService: new MainMediaUploadService(),
             locationManager: new ExpoLocationManager(),

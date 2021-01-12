@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { Button, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Button, Alert, Text } from "react-native";
 import StoreContext from "../../store/StoreContext";
 import styled from "styled-components/native";
+const io = require("socket.io-client")
+const ENDPOINT = "ws://localhost:4001"
 
 const Login = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);
@@ -15,6 +17,16 @@ const Login = (props) => {
     email: "",
     password: ""
   }
+
+  const [response, setResponse] = useState("")
+
+  useEffect(() => {
+    const socket = io(ENDPOINT)
+
+    socket.on("FromAPI", data => {
+      setResponse(data)
+    })
+  }, [])
 
   const [formState, setFormState] = useState(initial);
 
@@ -44,6 +56,7 @@ const Login = (props) => {
   return (
     <>
       <Container>
+        <Text>{JSON.stringify(response)}</Text>
         <Input
           onChangeText={(val) => setInput("email", val)}
           value={formState.email}

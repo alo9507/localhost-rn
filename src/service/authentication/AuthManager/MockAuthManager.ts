@@ -1,13 +1,16 @@
 import AuthDataStore from "../AuthDataStore/AuthDataStore";
 import AuthSession from "../AuthSession/AuthSession";
 import AuthManager from "./AuthManager";
+import AsyncStorageAuthDataStore from "../AuthDataStore/AsyncStorageAuthDataStore";
 
 class MockAuthManager implements AuthManager {
     authSession: AuthSession | null = null;
     authDataStore: AuthDataStore;
+    isAuthenticated: boolean
 
-    constructor ($authDataStore: AuthDataStore) {
-        this.authDataStore = $authDataStore;
+    constructor (isAuthenticated: boolean,) {
+        this.authDataStore = new AsyncStorageAuthDataStore();
+        this.isAuthenticated = isAuthenticated
     }
 
     signIn(email: string, password: string): Promise<AuthSession> {
@@ -36,8 +39,12 @@ class MockAuthManager implements AuthManager {
 
     checkForAuthSession(): Promise<AuthSession | null> {
         let promise: Promise<AuthSession | null> = new Promise((resolve, reject) => {
-            let mockAuthSession = new AuthSession("userId", "fakeToken")
-            resolve(mockAuthSession)
+            if (this.isAuthenticated) {
+                let mockAuthSession = new AuthSession("userId", "fakeToken")
+                resolve(mockAuthSession)
+            } else {
+                resolve(null)
+            }
         })
         return promise
     }
