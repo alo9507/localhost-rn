@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button, Alert, Text } from "react-native";
 import StoreContext from "../../store/StoreContext";
 import styled from "styled-components/native";
-const io = require("socket.io-client")
-const ENDPOINT = "ws://localhost:4001"
 
 const Login = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);
@@ -21,9 +19,7 @@ const Login = (props) => {
   const [response, setResponse] = useState("")
 
   useEffect(() => {
-    const socket = io(ENDPOINT)
-
-    socket.on("FromAPI", data => {
+    appState.eventConsumer.sessionStarted("mockDiscussionId", data => {
       setResponse(data)
     })
   }, [])
