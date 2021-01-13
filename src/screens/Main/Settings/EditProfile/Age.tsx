@@ -1,19 +1,25 @@
-import React from "react";
-import { View, Text, Button } from "react-native";
-import StoreContext from "../../../../store/StoreContext";
+import React, { useState } from "react";
+import { View, Text, Button, TextInput } from "react-native";
 import EditProfileContext from "./store/EditProfileContext"
 
 const Age = (props) => {
-    const [appState, setAppState] = React.useContext(StoreContext);
     const [editProfileState, setEditProfileState] = React.useContext(EditProfileContext);
 
-    console.log(JSON.stringify(editProfileState))
+    const [age, setAge] = useState({ "age": editProfileState.age })
+
+    const handleBlur = () => {
+        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: age })
+    }
 
     return (
         <>
-            <Text>Age: {editProfileState.age}</Text>
+            <Text>Age: {age.age}</Text>
             <View>
-                <Button title="Submit" onPress={() => submit()} />
+                <TextInput
+                    value={age.age}
+                    onChangeText={(value) => setAge({ "age": value })}
+                    onBlur={handleBlur}
+                />
             </View>
         </>
     );

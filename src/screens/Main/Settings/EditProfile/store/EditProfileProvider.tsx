@@ -9,8 +9,8 @@ const EditProfileProvider = ({ children }) => {
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
-                case 'PATCH_USER':
-                    return prevState;
+                case 'UPDATE_USER_PATCH':
+                    return { ...prevState, ...action.payload };
                 default:
                     throw new Error('Unsupported action type: ', action.type);
             }

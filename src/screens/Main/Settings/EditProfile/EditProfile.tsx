@@ -1,20 +1,26 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
-import EditProfileContext from "./store/EditProfileContext";
-import EditProfileProvider from "./store/EditProfileProvider";
+import EditProfileContext from "./store/EditProfileContext"
 
 const EditProfile = (props) => {
     const [appState, setAppState] = React.useContext(StoreContext);
+    const [editProfileState, setEditProfileState] = React.useContext(EditProfileContext);
 
-    function close() {
+    const cancel = () => {
+        props.navigation.pop()
+    }
+
+    const done = async () => {
+        const result = await appState.userRepository.updateUser(editProfileState)
         props.navigation.pop()
     }
 
     return (
         <>
             <View style={styles.container}>
-                <Button title="Close" onPress={close} />
+                <Button title="Cancel" onPress={cancel} />
+                <Button title="Done" onPress={done} />
                 <Button title="Work" onPress={(e) => props.navigation.navigate("Work")} />
                 <Button title="School" onPress={(e) => props.navigation.navigate("School")} />
                 <Button title="Hometown" onPress={(e) => props.navigation.navigate("Hometown")} />

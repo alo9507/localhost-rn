@@ -4,10 +4,36 @@ import StoreContext from "../../../../../store/StoreContext";
 const getInitialState = () => {
     const [appState, setAppState] = useContext(StoreContext);
 
+    const {
+        id,
+        firstname,
+        lastname,
+        bio,
+        isVisible,
+        sex,
+        age,
+        email,
+        phonenumber,
+        schools,
+        workExperience,
+        hometown,
+        profileImageUrl,
+    } = appState.user;
+
     let initialUserState = {
-        firstname: appState.user.firstname,
-        lastname: appState.user.lastname,
-        age: appState.user.age
+        id,
+        firstname,
+        lastname,
+        bio,
+        isVisible,
+        sex,
+        age,
+        email,
+        phonenumber,
+        schools,
+        workExperience,
+        hometown,
+        profileImageUrl,
     };
 
     return initialUserState;
