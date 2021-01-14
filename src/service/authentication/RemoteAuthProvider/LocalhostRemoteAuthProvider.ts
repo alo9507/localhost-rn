@@ -35,18 +35,18 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     link: ApolloLink.from([this.errorLink, this.httpLink])
   });
 
-  signIn(email: string, password: string): Promise<AuthSession> {
+  signIn(phoneNumber: string, password: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         console.log(this.authApiUrl)
         const result = await this.client.mutate({
           mutation: SIGN_IN_USER,
-          variables: { input: { email: email, password: password } },
+          variables: { input: { username: phoneNumber, password: password } },
         });
 
         const authSession = result.data.signIn
 
-        resolve(new AuthSession(authSession.userId, authSession.authToken));
+        resolve(new AuthSession(authSession.userId, authSession.accessToken, authSession.userVerified));
       } catch (e) {
         switch (e.message) {
           case "Username should be either an email or a phone number.":
@@ -121,7 +121,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  confirmSignUp(username: string, code: string): Promise<boolean> {
+  confirmSignUp(username: string, code: string): Promise<AuthSession> {
     let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({

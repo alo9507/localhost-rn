@@ -1,6 +1,5 @@
 import LocalhostRemoteAuthProvider from "../RemoteAuthProvider/LocalhostRemoteAuthProvider";
 import AsyncStorageAuthDataStore from "../AuthDataStore/AsyncStorageAuthDataStore";
-import { resolvePlugin } from "@babel/core";
 import AuthSession from "../AuthSession/AuthSession"
 import AuthManager from "../AuthManager/AuthManager"
 import RemoteAuthProvider from "../RemoteAuthProvider/RemoteAuthProvider"
@@ -20,10 +19,8 @@ class EZAuthManager implements AuthManager {
   async signUp(phoneNumber: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
-        const authSession = await this.remoteAuthProvider.signUp(phoneNumber)
-        const authDataStoreResult = await this.authDataStore.save(authSession)
-        this.authSession = authSession;
-        resolve(authSession);
+        const response = await this.remoteAuthProvider.signUp(phoneNumber)
+        resolve(response);
       } catch (e) {
         reject(e)
       }
@@ -83,8 +80,19 @@ class EZAuthManager implements AuthManager {
     return promise
   }
 
-  confirmSignUp(username: string, code: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  confirmSignUp(username: string, code: string): Promise<AuthSession> {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
+      try {
+        const success = await this.remoteAuthProvider.confirmSignUp(username, code)
+        const authSession = await this.remoteAuthProvider.signIn(username, "Abc123!!")
+        const authDataStoreResult = await this.authDataStore.save(authSession)
+        this.authSession = authSession;
+        resolve(authSession);
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
   }
 
   changePassword(oldPassword: string, newPassword: string): Promise<boolean> {

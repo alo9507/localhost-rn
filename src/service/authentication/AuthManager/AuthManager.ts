@@ -6,7 +6,7 @@ interface AuthManager {
     authDataStore: AuthDataStore
 
     signUp(email: string, password: string): Promise<AuthSession>
-    confirmSignUp(username: string, code: string): Promise<boolean>
+    confirmSignUp(username: string, code: string): Promise<AuthSession>
     signIn(email: string, password: string): Promise<AuthSession>
     signOut(): Promise<boolean>
     changePassword(oldPassword: string, newPassword: string): Promise<boolean>

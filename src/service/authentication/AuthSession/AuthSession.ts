@@ -1,10 +1,12 @@
 class AuthSession {
   userId: string;
-  token: string;
+  accessToken: string;
+  userVerified: boolean;
 
-  constructor(userId: string, token: string) {
+  constructor (userId: string, accessToken: string, userVerified: boolean) {
     this.userId = userId;
-    this.token = token;
+    this.accessToken = accessToken;
+    this.userVerified = userVerified;
   }
 }
 

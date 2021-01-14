@@ -26,7 +26,7 @@ mutation SignOutUser($input: SignOutInput!) {
 }`
 
 export const CONFIRM_SIGN_UP = gql`
-mutation ConfirmSignUp($input: ConfirmSignUp!) {
+mutation ConfirmSignUp($input: ConfirmSignUpInput!) {
     confirmSignUp(input: $input) {
         success
     }
