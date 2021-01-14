@@ -3,7 +3,7 @@ import { UpdateUserInput } from "./graphql/input"
 
 interface UserRepository {
   getUser(id: string): Promise<User>
-  createUser(id: string, phonenumber: string): Promise<User>
+  createUser(id: string, phoneNumber: string): Promise<User>
   updateUser(input: UpdateUserInput): Promise<User>
   getUsers(): Promise<User[]>
   getIncomingNods(id: string): Promise<User[]>

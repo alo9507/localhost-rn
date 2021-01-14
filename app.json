@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "localhost-rn",
-    "slug": "localhost-rn",
+    "name": "localhost",
+    "slug": "localhost",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.localhostios.localhostios",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.localhostandroid.localhostandroid",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

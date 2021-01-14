@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Alert, Text } from "react-native";
-import StoreContext from "../../store/StoreContext";
+import StoreContext from "../../../store/StoreContext";
 import styled from "styled-components/native";
 
-const Login = (props) => {
+const Landing = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);
 
   type LoginInitialState = {
@@ -15,14 +15,6 @@ const Login = (props) => {
     email: "",
     password: ""
   }
-
-  const [response, setResponse] = useState("")
-
-  useEffect(() => {
-    appState.eventConsumer.sessionStarted("mockDiscussionId", data => {
-      setResponse(data)
-    })
-  }, [])
 
   const [formState, setFormState] = useState(initial);
 
@@ -52,30 +44,26 @@ const Login = (props) => {
   return (
     <>
       <Container>
-        <Text>{JSON.stringify(response)}</Text>
-        <Input
-          onChangeText={(val) => setInput("email", val)}
-          value={formState.email}
-          placeholder="Email"
-        />
-        <Input
-          onChangeText={(val) => setInput("password", val)}
-          value={formState.password}
-          placeholder="Password"
-        />
-        <Button title="Sign In" onPress={signIn} />
-        <Button title="Sign Up" onPress={() => props.navigation.navigate("EmailPassword")} />
+        <Logo>localhost</Logo>
+        <CreateAccountButton title="Sign Up" onPress={() => props.route.params.dispatch({ type: "IS_ONBOARDING" })} />
+        <SignInButton title="Sign In" onPress={signIn} />
       </Container>
     </>
   );
 };
 
-const Input = styled.TextInput`
-  height: 50px;
-  background-color: #ddd;
-  margin-bottom: 10px;
-  padding: 8px;
-`;
+const Logo = styled.Text`
+color: blue;
+`
+
+const CreateAccountButton = styled.Button`
+  background-color: purple;
+  color: black;
+`
+
+const SignInButton = styled.Button`
+
+`
 
 const Container = styled.View`
   flex: 1;
@@ -83,4 +71,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default Login;
+export default Landing;

@@ -18,7 +18,7 @@ class MockUserRepository implements UserRepository {
         return promise
     }
 
-    createUser(id: string, phonenumber: string): Promise<User> {
+    createUser(id: string, phoneNumber: string): Promise<User> {
         let promise: Promise<User> = new Promise((resolve, reject) => {
             let mockUser = this.user
             resolve(mockUser)

@@ -1,15 +1,24 @@
 enum AuthError {
-    userNotFound = 'UserNotFound',
-    emailAlreadyExists = "The email you entered already exists in localhost",
-    PasswordNotAllowed = "The password you entered is invalid.",
-    passwordTooShort = "Password too short. Must be 8 characters",
-    usernameInvalid = "Username must be a valid email of phone number",
-    unknownError = "UnknownError",
-    userIsNotConfirmed = "The user is not confirmed",
-    incorrectUsernameOrPassword = "Incorrect username or password",
-    userDoesNotExist = "The user you entered does not exist",
-    notAuthneticated = "NotAuthenticated",
-    usernameCannotBeEmpty = 'Please enter an email or a phone number.'
+    usernameAlreadyExists = 'UsernameAlreadyExists',
+    passwordNotAllowed = 'PasswordNotAllowed',
+    passwordTooShort = 'PasswordTooShort',
+    passwordUpperCaseMissing = 'PasswordMissingUpperCaseLetters',
+    passwordLowerCaseMissing = 'PasswordMissingLowerCaseLetters',
+    passwordSepcialCharacterMissing = 'PasswordMissingSpecialCharacters',
+    passwordNumericMissing = 'PasswordNumericCharacterMissing',
+    usernameInvalid = 'UsernameInvalid',
+    unknownError = 'UnknownError',
+    userIsNotConfirmed = 'UserIsNotConfirmed',
+    incorrectUsernameOrPassword = 'IncorrectUsernameOrPassword',
+    userDoesNotExist = 'UserDoesNotExist',
+    notAuthneticated = 'NotAuthenticated',
+    usernameCannotBeEmpty = "UsernameCannotBeEmpty",
+    userdisabled = "UserIsDisabled",
+    userIsAlreadyConfirmed = "UserAlreadyConfirmed",
+    invalidVerificationCode = "InvalidVerficationCode",
+    invalidAccessToken = "AccessTokenInvalid",
+    accessTokenRevoked = "AccessTokenHasBeenRevoked",
+    attempLimitexceeded = "AttemptLimitExceeded"
 }
 
 export default AuthError

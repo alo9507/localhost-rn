@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http"
 
-import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER } from "./mutations"
+import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER, CONFIRM_SIGN_UP } from "./mutations"
 
 const env = require("../../../../env.json")
 
@@ -72,7 +72,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  signOut(): Promise<boolean> {
+  signOut(accesssToken: string): Promise<boolean> {
     let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -86,12 +86,12 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  async signUp(email: string, password: string): Promise<AuthSession> {
+  async signUp(phoneNumber: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: SIGN_UP_USER,
-          variables: { input: { email: email, password: password } },
+          variables: { input: { phoneNumber: phoneNumber, password: "Abc123!!" } },
         });
 
         const authSession = result.data.signUp
@@ -99,11 +99,44 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
         resolve(new AuthSession(authSession.userId, authSession.authToken));
       } catch (e) {
         let error = e.message.match(/"([^']+)"/)[1];
+        console.log(error)
         switch (error) {
           case "PasswordTooShort":
             reject(AuthError.passwordTooShort);
           case "UserNotFound":
-            reject(AuthError.userNotFound);
+            reject(AuthError.userDoesNotExist);
+          case "UsernameInvalid":
+            reject(AuthError.usernameInvalid);
+          case "PasswordTooShort":
+            reject(AuthError.passwordTooShort);
+          case e.message.includes("UsernameAlreadyExists"):
+            reject(AuthError.usernameAlreadyExists);
+          case "UsernameCannotBeEmpty":
+            reject(AuthError.usernameCannotBeEmpty);
+          default:
+            reject(AuthError.unknownError);
+        }
+      }
+    })
+    return promise
+  }
+
+  confirmSignUp(username: string, code: string): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CONFIRM_SIGN_UP,
+          variables: { input: { username: username, code: code } },
+        });
+        const success = result.data.confirmSignUp
+        resolve(success);
+      } catch (e) {
+        let error = e.message.match(/"([^']+)"/)[1];
+        switch (error) {
+          case "PasswordTooShort":
+            reject(AuthError.passwordTooShort);
+          case "UserNotFound":
+            reject(AuthError.userDoesNotExist);
           case "UsernameInvalid":
             reject(AuthError.usernameInvalid);
           case "PasswordTooShort":
@@ -118,10 +151,6 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
       }
     })
     return promise
-  }
-
-  confirmSignUp(username: string, code: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
   }
 
   changePassword(oldPassword: string, newPassword: string): Promise<boolean> {

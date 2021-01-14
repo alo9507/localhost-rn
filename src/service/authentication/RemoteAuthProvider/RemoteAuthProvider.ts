@@ -2,8 +2,8 @@ import AuthSession from "../AuthSession/AuthSession"
 
 interface RemoteAuthProvider {
   signIn(email: string, password: string): Promise<AuthSession>
-  signOut(): Promise<boolean>
-  signUp(email: string, password: string): Promise<AuthSession>
+  signOut(accessToken: string): Promise<boolean>
+  signUp(phoneNumber: string): Promise<AuthSession>
   confirmSignUp(username: string, code: string): Promise<boolean>
   changePassword(oldPassword: string, newPassword: string): Promise<boolean>
   forgotPassword(username: string): Promise<boolean>

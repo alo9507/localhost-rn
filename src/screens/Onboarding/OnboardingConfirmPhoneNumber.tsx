@@ -13,7 +13,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
     async function submitAndGoToNext() {
         try {
             console.log("in here")
-            const confirmationResponse = await appState.authManager.confirmSignUp(appState.user.phonenumber, formState.code)
+            const confirmationResponse = await appState.authManager.confirmSignUp(appState.user.phoneNumber, formState.code)
             console.log(confirmationResponse)
             goToNext(slideNumber)
         } catch (e) {

@@ -17,10 +17,10 @@ class EZAuthManager implements AuthManager {
     this.authSession = null;
   }
 
-  async signUp(email: string, password: string): Promise<AuthSession> {
+  async signUp(phoneNumber: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
-        const authSession = await this.remoteAuthProvider.signUp(email, password)
+        const authSession = await this.remoteAuthProvider.signUp(phoneNumber)
         const authDataStoreResult = await this.authDataStore.save(authSession)
         this.authSession = authSession;
         resolve(authSession);

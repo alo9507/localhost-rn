@@ -8,7 +8,7 @@ class User {
     public sex: string,
     public age: number,
     public email: string,
-    public phonenumber: string,
+    public phoneNumber: string,
     public schools: [School],
     public workExperience: [WorkExperience],
     public hometown: String,

@@ -8,12 +8,12 @@ import OnboardingForm from "./OnboardingForm"
 
 const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
-    const [formState, setFormState] = useState({ phonenumber: "" });
+    const [formState, setFormState] = useState({ phoneNumber: "" });
 
     async function submitAndGoToNext() {
         try {
-            const authSession = await appState.authManager.signUp(formState.phonenumber)
-            const user = await appState.userRepository.createUser(authSession.userId, formState.phonenumber)
+            const authSession = await appState.authManager.signUp(formState.phoneNumber)
+            const user = await appState.userRepository.createUser(authSession.userId, formState.phoneNumber)
             setAppState({ type: "UPDATE_USER", payload: user })
             goToNext(slideNumber)
         } catch (e) {
@@ -32,9 +32,9 @@ const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
             type: "text",
             label: "Phone Number",
             placeholder: "978-245-5454",
-            pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
+            pattern: /^\+1\d{3}\d{3}\d{4}$/,
             errorMessage: phoneNumberErrorMessage,
-            keyName: "phonenumber",
+            keyName: "phoneNumber",
             required: true
         }
     ]
