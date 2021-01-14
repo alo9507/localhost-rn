@@ -13,7 +13,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
     async function submitAndGoToNext() {
         try {
             const authSession = await appState.authManager.confirmSignUp(appState.user.phoneNumber, formState.code)
-            setAppState()
+            setAppState({ type: "UPDATE_USER", payload: { id: authSession.userId } })
             goToNext(slideNumber)
         } catch (e) {
             console.log(e)

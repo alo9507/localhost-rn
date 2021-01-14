@@ -57,6 +57,7 @@ class GraphQLUserRepository implements UserRepository {
           mutation: CREATE_USER,
           variables: { input: { id: id, phoneNumber: phoneNumber } },
         });
+        console.log("resolved from DB", result.data.createUser)
         resolve(result.data.createUser)
       } catch (e) {
         reject(e)

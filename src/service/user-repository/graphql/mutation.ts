@@ -42,6 +42,7 @@ mutation UpdateUser($input: UpdateUserInput!) {
         bio
         whatAmIDoing
         isVisible
+        phoneNumber
         age
         profileImageUrl
         inbound {

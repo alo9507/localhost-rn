@@ -12,6 +12,7 @@ query GetUser($id: ID!) {
       whatAmIDoing
       isVisible
       age
+      phoneNumber
       profileImageUrl
       hometown
       workExperience {

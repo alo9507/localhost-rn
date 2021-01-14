@@ -7,8 +7,9 @@ const Age = (props) => {
 
     const [age, setAge] = useState({ "age": editProfileState.age })
 
+    console.log("editProfileState in AGE", editProfileState)
     const handleBlur = () => {
-        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: age })
+        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: parseInt(age.age) })
     }
 
     return (

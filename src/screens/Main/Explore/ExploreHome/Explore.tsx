@@ -56,6 +56,7 @@ const Explore = (props) => {
   );
 
   const selectedSex = () => {
+    console.log(appState.user)
     const sexcriteria = appState.user.showMeCriteria.sex
     let selected = 0
     if (sexcriteria.includes("male") && sexcriteria.includes("female")) {

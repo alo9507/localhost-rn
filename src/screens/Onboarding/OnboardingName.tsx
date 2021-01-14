@@ -7,12 +7,11 @@ import OnboardingForm from "./OnboardingForm"
 
 const OnboardingName = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
-    const [formState, setFormState] = useState({ id: appState.user.userId, firstname: "", lastname: "" });
+    const [formState, setFormState] = useState({ firstname: "", lastname: "" });
 
     async function submitAndGoToNext() {
         try {
-            const user = appState.userRepository.updateUser(formState)
-            console.log(formState)
+            const user = await ({ id: appState.user.id, ...formState })
             setAppState({ type: "UPDATE_USER", payload: user })
             goToNext(slideNumber)
         } catch (e) {

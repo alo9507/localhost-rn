@@ -12,7 +12,9 @@ const EditProfile = (props) => {
     }
 
     const done = async () => {
+        console.log("editProfileState", editProfileState)
         const result = await appState.userRepository.updateUser(editProfileState)
+        console.log(result)
         props.navigation.pop()
     }
 
