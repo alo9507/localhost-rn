@@ -11,7 +11,7 @@ const Hometown = (props) => {
         setFormState({ ...formState, [key]: value });
     }
 
-    async function submitHometown() {
+    async function submit() {
         await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
         setAppState({ type: "UPDATE_USER", payload: { ...formState } })
     }
@@ -23,7 +23,7 @@ const Hometown = (props) => {
                 <Container>
                     <Input
                         onChangeText={(val) => setInput("hometown", val)}
-                        onBlur={submitHometown}
+                        onBlur={submit}
                         value={formState.hometown}
                         placeholder="Where are you from?"
                     />

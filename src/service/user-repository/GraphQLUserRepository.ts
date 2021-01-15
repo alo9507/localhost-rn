@@ -205,7 +205,6 @@ class GraphQLUserRepository implements UserRepository {
   nodSeen(input): Promise<Object> {
     let promise: Promise<Object> = new Promise(async (resolve, reject) => {
       try {
-        console.log(input)
         const result = await this.client.mutate({
           mutation: NOD_SEEN,
           variables: { input },

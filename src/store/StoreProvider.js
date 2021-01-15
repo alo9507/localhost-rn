@@ -12,11 +12,9 @@ const StoreProvider = ({ children }) => {
             ...prevState, user: action.payload
           };
         case 'UPDATE_USER':
-          console.log("action.payload", action.payload);
           const newState = {
             ...prevState, user: { ...prevState.user, ...action.payload }
           };
-          console.log(newState);
           return newState;
         default:
           throw new Error('Unsupported action type: ', action.type);

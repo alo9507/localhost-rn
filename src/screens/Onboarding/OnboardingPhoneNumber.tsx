@@ -15,7 +15,6 @@ const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
             const authSession = await appState.authManager.signUp(formState.phoneNumber)
             const createdUser = await appState.userRepository.createUser(authSession.userId, formState.phoneNumber)
             const user = await appState.userRepository.getUser(createdUser.id)
-            console.log("gotten user", user)
             setAppState({ type: "UPDATE_USER", payload: user })
             goToNext(slideNumber)
         } catch (e) {

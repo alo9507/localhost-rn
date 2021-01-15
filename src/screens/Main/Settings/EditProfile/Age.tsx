@@ -1,29 +1,37 @@
 import React, { useState } from "react";
 import { View, Text, Button, TextInput } from "react-native";
 import EditProfileContext from "./store/EditProfileContext"
+import styled from "styled-components/native";
+import useEditProfileInput from "./hooks/useEditProfileInput";
 
 const Age = (props) => {
-    const [editProfileState, setEditProfileState] = React.useContext(EditProfileContext);
-
-    const [age, setAge] = useState({ "age": editProfileState.age })
-
-    console.log("editProfileState in AGE", editProfileState)
-    const handleBlur = () => {
-        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: { "age": parseInt(age.age) } })
-    }
+    const { updateEditProfileState, keyName, editProfileState } = props.route.params
+    const [age, bindAge, resetAge] = useEditProfileInput(editProfileState[keyName])
 
     return (
         <>
-            <Text>Age: {age.age}</Text>
+            <Text>Age: {age}</Text>
             <View>
-                <TextInput
-                    value={age.age}
-                    onChangeText={(value) => setAge({ "age": value })}
-                    onBlur={handleBlur}
+                <Input
+                    {...bindAge}
+                    onBlur={() => updateEditProfileState({ [keyName]: parseInt(age) })}
                 />
             </View>
         </>
     );
 };
+
+const Input = styled.TextInput`
+  height: 50px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+  padding: 8px;
+`;
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  padding: 20px;
+`;
 
 export default Age;

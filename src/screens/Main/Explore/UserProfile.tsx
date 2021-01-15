@@ -77,6 +77,9 @@ const UserProfile = (props) => {
             <Text>email: {user.email}</Text>
             <Text>latitude: {user.latitude}</Text>
             <Text>longitude: {user.longitude}</Text>
+            <Text>work: {user.workExperience}</Text>
+            <Text>schools: {user.schools}</Text>
+            <Text>hometown: {user.hometown}</Text>
             <Button title="Send Nod" onPress={sendNod} />
             <Button title="Report" onPress={report} />
             <Button title="Become Invisible To" onPress={becomeInvisibleTo} />

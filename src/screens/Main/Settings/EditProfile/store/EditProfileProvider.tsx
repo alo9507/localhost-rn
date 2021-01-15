@@ -10,6 +10,7 @@ const EditProfileProvider = ({ children }) => {
         (prevState, action) => {
             switch (action.type) {
                 case 'UPDATE_USER_PATCH':
+                    console.log("action.payload", action.payload)
                     return { ...prevState, ...action.payload };
                 default:
                     throw new Error('Unsupported action type: ', action.type);
@@ -17,8 +18,6 @@ const EditProfileProvider = ({ children }) => {
         },
         initialState
     );
-
-    console.log(state)
 
     return (
         <EditProfileContext.Provider value={[state, dispatch]} >

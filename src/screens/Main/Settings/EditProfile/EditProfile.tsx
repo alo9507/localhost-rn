@@ -1,3 +1,4 @@
+import { parse } from "@babel/core";
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import StoreContext from "../../../../store/StoreContext";
@@ -12,14 +13,17 @@ const EditProfile = (props) => {
     }
 
     const done = async () => {
-        console.log("editProfileState", editProfileState)
         const result = await appState.userRepository.updateUser(editProfileState)
-        console.log(result)
+        setAppState({ type: "UPDATE_USER", payload: result })
         props.navigation.pop()
     }
 
     const view = () => {
         props.navigation.navigate("UserProfile", { user: { ...appState.user, ...editProfileState } })
+    }
+
+    const updateEditProfileState = (patch) => {
+        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: patch })
     }
 
     return (
@@ -33,7 +37,7 @@ const EditProfile = (props) => {
                 <Button title="Hometown" onPress={(e) => props.navigation.navigate("Hometown")} />
                 <Button title="Name" onPress={(e) => props.navigation.navigate("Name")} />
                 <Button title="Gender" onPress={(e) => props.navigation.navigate("Gender")} />
-                <Button title="Age" onPress={(e) => props.navigation.navigate("Age")} />
+                <Button title="Age" onPress={(e) => props.navigation.navigate("Age", { keyName: "age", editProfileState, updateEditProfileState })} />
             </View>
         </ >
     );
