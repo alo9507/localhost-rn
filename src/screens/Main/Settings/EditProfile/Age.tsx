@@ -9,7 +9,7 @@ const Age = (props) => {
 
     console.log("editProfileState in AGE", editProfileState)
     const handleBlur = () => {
-        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: parseInt(age.age) })
+        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: { "age": parseInt(age.age) } })
     }
 
     return (
