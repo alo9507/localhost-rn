@@ -18,11 +18,16 @@ const EditProfile = (props) => {
         props.navigation.pop()
     }
 
+    const view = () => {
+        props.navigation.navigate("UserProfile", { user: { ...appState.user, ...editProfileState } })
+    }
+
     return (
         <>
             <View style={styles.container}>
                 <Button title="Cancel" onPress={cancel} />
                 <Button title="Done" onPress={done} />
+                <Button title="View" onPress={view} />
                 <Button title="Work" onPress={(e) => props.navigation.navigate("Work")} />
                 <Button title="School" onPress={(e) => props.navigation.navigate("School")} />
                 <Button title="Hometown" onPress={(e) => props.navigation.navigate("Hometown")} />

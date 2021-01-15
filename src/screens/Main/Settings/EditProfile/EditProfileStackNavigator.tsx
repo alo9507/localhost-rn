@@ -7,6 +7,7 @@ import Name from "./Name"
 import School from "./School"
 import Work from "./Work"
 import Age from "./Age"
+import UserProfile from "../../Explore/UserProfile"
 import EditProfileProvider from "./store/EditProfileProvider"
 
 const EditProfileStack = createStackNavigator()
@@ -18,6 +19,11 @@ function EditProfileStackNavigator() {
                     name="EditProfile"
                     component={EditProfile}
                     options={{ headerShown: false }}
+                />
+                <EditProfileStack.Screen
+                    name="UserProfile"
+                    component={UserProfile}
+                    options={{ title: "UserProfile" }}
                 />
                 <EditProfileStack.Screen
                     name="Gender"
