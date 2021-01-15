@@ -1,29 +1,23 @@
-import { parse } from "@babel/core";
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import StoreContext from "../../../../store/StoreContext";
-import EditProfileContext from "./store/EditProfileContext"
+import { View, Button, StyleSheet } from "react-native";
+import useEditProfileState from "./hooks/useEditProfileState"
+import useCurrentUser from "../../../../hooks/useCurrentUser"
 
 const EditProfile = (props) => {
-    const [appState, setAppState] = React.useContext(StoreContext);
-    const [editProfileState, setEditProfileState] = React.useContext(EditProfileContext);
+    const [editProfileState, updateEditProfileState, submit] = useEditProfileState()
+    const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const cancel = () => {
         props.navigation.pop()
     }
 
-    const done = async () => {
-        const result = await appState.userRepository.updateUser(editProfileState)
-        setAppState({ type: "UPDATE_USER", payload: result })
-        props.navigation.pop()
-    }
-
     const view = () => {
-        props.navigation.navigate("UserProfile", { user: { ...appState.user, ...editProfileState } })
+        props.navigation.navigate("UserProfile", { user: { ...currentUser, ...editProfileState } })
     }
 
-    const updateEditProfileState = (patch) => {
-        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: patch })
+    const done = async () => {
+        await submit()
+        props.navigation.pop()
     }
 
     return (
