@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Button, TextInput } from "react-native";
-import EditProfileContext from "./store/EditProfileContext"
 import styled from "styled-components/native";
 import useEditProfileInput from "./hooks/useEditProfileInput";
 

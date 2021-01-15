@@ -1,33 +1,20 @@
-import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
-import StoreContext from "../../../../store/StoreContext";
+import React from "react";
+import { View, Text } from "react-native";
 import styled from "styled-components/native";
+import useEditProfileInput from "./hooks/useEditProfileInput";
 
 const Hometown = (props) => {
-    const [appState, setAppState] = React.useContext(StoreContext);
-    const [formState, setFormState] = useState({ hometown: appState.user.hometown });
-
-    function setInput(key, value) {
-        setFormState({ ...formState, [key]: value });
-    }
-
-    async function submit() {
-        await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
-        setAppState({ type: "UPDATE_USER", payload: { ...formState } })
-    }
+    const { updateEditProfileState, keyName, editProfileState } = props.route.params
+    const [hometown, bindHometown, resetHometown] = useEditProfileInput(editProfileState[keyName])
 
     return (
         <>
-            <Text>Hometown</Text>
+            <Text>Hometown: {hometown}</Text>
             <View>
-                <Container>
-                    <Input
-                        onChangeText={(val) => setInput("hometown", val)}
-                        onBlur={submit}
-                        value={formState.hometown}
-                        placeholder="Where are you from?"
-                    />
-                </Container>
+                <Input
+                    {...bindHometown}
+                    onBlur={() => updateEditProfileState({ [keyName]: hometown })}
+                />
             </View>
         </>
     );
