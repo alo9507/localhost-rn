@@ -10,6 +10,8 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ code: "" });
 
+    const [submissionError, setSubmissionError] = useState(null);
+
     async function submitAndGoToNext() {
         try {
             const authSession = await appState.authManager.confirmSignUp(appState.user.phoneNumber, formState.code)
@@ -17,6 +19,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
             goToNext(slideNumber)
         } catch (e) {
             console.log(e)
+            setSubmissionError(e)
         }
     }
 
@@ -49,7 +52,9 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
                     controls={controls}
                     formState={formState}
                     setFormState={setFormState}
+                    submissionError={submissionError}
                 />
+                <br /><br /><br /><br />
                 <Button title="Resend Code" onPress={() => resendConfirmationCode()} />
             </Container>
         </View>

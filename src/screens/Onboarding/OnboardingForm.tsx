@@ -6,7 +6,7 @@ import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext";
 import OnboardingTextInput from "./OnboardingTextInput";
 
-const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
+const OnboardingForm = ({ formState, setFormState, controls, onSubmit, submissionError }) => {
     const [appState, setAppState] = useContext(StoreContext);
 
     const [state, dispatch] = useReducer(
@@ -17,13 +17,6 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
                         ...prevState,
                         loading: true,
                         errors: [],
-                        submissionError: null
-                    };
-                case 'SUBMISSION_ERROR':
-                    return {
-                        ...prevState,
-                        loading: false,
-                        submissionError: action.payload.replace(/['"]+/g, ''),
                     };
                 case 'INPUT_VALID':
                     let formErrorsCloneValid = [...prevState.formErrors]
@@ -35,7 +28,6 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
                         ...prevState,
                         loading: false,
                         formErrors: formErrorsCloneValid,
-                        submissionError: null
                     };
                 case 'INPUT_INVALID':
                     let formErrorsClone = [...prevState.formErrors]
@@ -46,7 +38,6 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
                         ...prevState,
                         loading: false,
                         formErrors: formErrorsClone,
-                        submissionError: null,
                         formValid: false
                     };
                 default:
@@ -56,7 +47,6 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
         {
             loading: false,
             errors: null,
-            submissionError: null,
             formErrors: [],
             formValid: false
         }
@@ -81,6 +71,7 @@ const OnboardingForm = ({ formState, setFormState, controls, onSubmit }) => {
                     inputInvalid={() => dispatch({ type: "INPUT_INVALID", payload: control.keyName })}
                     required={control.required}
                     key={control.keyName}
+                    submissionError={submissionError}
                 />
         }
     }

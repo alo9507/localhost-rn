@@ -192,7 +192,7 @@ const Explore = (props) => {
           onValueChange={toggleSwitch}
           value={state.isVisible}
         />
-        <Text>VISIBILITY CONTROLS: AGE: {appState.user.age[0]} / {appState.user.age[1]} SEX: {appState.user.sex}</Text>
+        <Text>VISIBILITY CONTROLS: AGE: {appState.user.showMeCriteria.age[0]} / {appState.user.showMeCriteria.age[1]} SEX: {appState.user.showMeCriteria.sex}</Text>
         <Text>{JSON.stringify(appState.user.showMeCriteria)}</Text>
       </View>
       {state.noUsers && <NoUsers />}

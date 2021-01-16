@@ -12,7 +12,8 @@ const OnboardingTextInput = ({
     keyName,
     inputValid,
     inputInvalid,
-    required
+    required,
+    submissionError
 }) => {
 
     const { color } = useContext(StyleContext);
@@ -69,6 +70,12 @@ const OnboardingTextInput = ({
             error: null,
         }
     );
+
+    useEffect(() => {
+        if (submissionError) {
+            dispatch({ type: "INVALID", payload: submissionError })
+        }
+    }, [submissionError])
 
     function validate() {
         const value = formState[keyName]
