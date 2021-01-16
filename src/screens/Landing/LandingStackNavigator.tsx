@@ -1,26 +1,26 @@
 import React from "react";
-import Landing from "./Landing/Landing";
+import Landing from "./Landing";
 import { createStackNavigator } from "@react-navigation/stack";
 
-const LoginStack = createStackNavigator();
+const LandingStack = createStackNavigator();
 
-function LoginStackScreens({ dispatch }) {
+function LandingStackScreens({ dispatch }) {
     return (
-        <LoginStack.Navigator>
-            <LoginStack.Screen
+        <LandingStack.Navigator>
+            <LandingStack.Screen
                 name="Landing"
                 component={Landing}
                 options={{ title: "Sign In/Sign Up" }}
                 initialParams={{ dispatch }}
             />
-            <LoginStack.Screen
+            <LandingStack.Screen
                 name="SignIn"
                 component={SignIn}
                 options={{ title: "Sign In/Sign Up" }}
                 initialParams={{ dispatch }}
             />
-        </LoginStack.Navigator>
+        </LandingStack.Navigator>
     )
 }
 
-export default LoginStackScreens
+export default LandingStackScreens

@@ -14,7 +14,7 @@ import AuthSession from "./service/authentication/AuthSession/AuthSession"
 // Screens
 import MainTabNavigator from "./screens/Main/MainTabNavigator"
 import LaunchStackScreens from "./screens/FirstLaunch/FirstLaunchNavigator"
-import LoginStackScreens from "./screens/Authentication/Authentication"
+import LandingStackNavigator from "./screens/Landing/LandingStackNavigator"
 import SplashStackScreens from "./screens/Splash/SplashStack"
 import OnboardingNavigator from "./screens/Onboarding/OnboardingNavigator"
 
@@ -129,7 +129,7 @@ const Root = () => {
         } else if (state?.isOnboarding) {
             return <OnboardingNavigator dispatch={dispatch} />
         } else {
-            return <LoginStackScreens dispatch={dispatch} />
+            return <LandingStackNavigator dispatch={dispatch} />
         }
     }
 
