@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import WorkInputGroup from "./WorkInputGroup";
+import HeaderBackButton from "./HeaderBackButton"
 
 const Work = (props) => {
     const { updateEditProfileState, keyName, editProfileState } = props.route.params
-    const [workExperiences, setWorkExperience] = useState(editProfileState[keyName])
+    const [workExperience, setWorkExperience] = useState(editProfileState[keyName])
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerLeft: (() => <HeaderBackButton goBack={() => onGoBack()} />)
+        });
+    }, [props.navigation]);
+
+    const onGoBack = () => {
+        updateEditProfileState({ workExperience })
+        props.navigation.pop()
+    }
 
     const renderWorkExperiences = () => {
-        return workExperiences?.map(workExperience => {
+        return workExperience?.map(workExperience => {
             return (
                 <WorkInputGroup workExperience={workExperience} />
             )
@@ -17,7 +29,7 @@ const Work = (props) => {
 
     return (
         <>
-            <Text>Work: {workExperiences}</Text>
+            <Text>Work</Text>
             <View>
                 {renderWorkExperiences()}
             </View>

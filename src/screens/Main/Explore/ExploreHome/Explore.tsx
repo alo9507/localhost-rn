@@ -136,8 +136,7 @@ const Explore = (props) => {
 
   if (state.loading) return <Text>"Loading..."</Text>
   if (state.error) return `Error! ${state.error}`;
-  if (!state.isVisible) return <YouAreInvisible toggleSwitch={toggleSwitch} />
-  if (state.noUsers) return <NoUsers />
+
 
   const renderItem = ({ item }) => {
     const user = item
@@ -196,6 +195,7 @@ const Explore = (props) => {
         <Text>VISIBILITY CONTROLS: AGE: {appState.user.age[0]} / {appState.user.age[1]} SEX: {appState.user.sex}</Text>
         <Text>{JSON.stringify(appState.user.showMeCriteria)}</Text>
       </View>
+      {state.noUsers && <NoUsers />}
       <FlatList
         data={state.users}
         renderItem={renderItem}
