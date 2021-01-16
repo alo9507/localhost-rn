@@ -3,6 +3,7 @@ import { View, Text, Button } from "react-native"
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext"
+import Location from "../../service/location/Location"
 
 const OnboardingLocation = ({ item, goToNext, slideNumber, startHosting }) => {
   const [appState, setAppState] = useContext(StoreContext);

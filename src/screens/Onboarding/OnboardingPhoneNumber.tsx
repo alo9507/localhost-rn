@@ -10,6 +10,8 @@ const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ phoneNumber: "" });
 
+    const [submissionError, setSubmissionError] = useState(null);
+
     async function submitAndGoToNext() {
         try {
             const authSession = await appState.authManager.signUp(formState.phoneNumber)
@@ -18,7 +20,8 @@ const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
             setAppState({ type: "UPDATE_USER", payload: user })
             goToNext(slideNumber)
         } catch (e) {
-            console.log(e)
+            setSubmissionError(e)
+            console.log("error", e)
         }
     }
 
@@ -50,6 +53,7 @@ const OnboardingPhoneNumber = ({ item, goToNext, slideNumber }) => {
                     controls={controls}
                     formState={formState}
                     setFormState={setFormState}
+                    submissionError={submissionError}
                 />
             </Container>
         </View>

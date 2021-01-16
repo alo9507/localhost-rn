@@ -1,4 +1,5 @@
 import AuthError from "../AuthError/AuthError";
+import { determineErrorType } from "../AuthError/utils/utils"
 import AuthSession from "../AuthSession/AuthSession";
 import RemoteAuthProvider from "./RemoteAuthProvider"
 import { Platform } from 'react-native'
@@ -48,25 +49,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
 
         resolve(new AuthSession(authSession.userId, authSession.accessToken, authSession.userVerified));
       } catch (e) {
-        switch (e.message) {
-          case "Username should be either an email or a phone number.":
-            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
-            break;
-          case "Password did not conform with policy: Password not long enough":
-            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
-            break;
-          case "User is not confirmed.":
-            reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
-            break;
-          case "Incorrect username or password.":
-            reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
-            break;
-          case "User does not exist.":
-            reject(`${AuthError.userDoesNotExist}:  ${e.message}`);
-            break;
-          default:
-            reject(`${AuthError.unknownError}:  ${e.message}`);
-        }
+        reject(determineErrorType(e))
       }
     })
     return promise
@@ -85,25 +68,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
 
         resolve(success);
       } catch (e) {
-        switch (e.message) {
-          case "Username should be either an email or a phone number.":
-            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
-            break;
-          case "Password did not conform with policy: Password not long enough":
-            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
-            break;
-          case "User is not confirmed.":
-            reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
-            break;
-          case "Incorrect username or password.":
-            reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
-            break;
-          case "User does not exist.":
-            reject(`${AuthError.userDoesNotExist}:  ${e.message}`);
-            break;
-          default:
-            reject(`${AuthError.unknownError}:  ${e.message}`);
-        }
+        reject(determineErrorType(e))
       }
     })
     return promise
@@ -133,26 +98,9 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
 
         const authSession = result.data.signUp
 
-        resolve(new AuthSession(authSession.userId, authSession.authToken));
+        resolve(new AuthSession(authSession.userId, authSession.authToken, false));
       } catch (e) {
-        let error = e.message.match(/"([^']+)"/)[1];
-        console.log(error)
-        switch (error) {
-          case "PasswordTooShort":
-            reject(AuthError.passwordTooShort);
-          case "UserNotFound":
-            reject(AuthError.userDoesNotExist);
-          case "UsernameInvalid":
-            reject(AuthError.usernameInvalid);
-          case "PasswordTooShort":
-            reject(AuthError.passwordTooShort);
-          case e.message.includes("UsernameAlreadyExists"):
-            reject(AuthError.usernameAlreadyExists);
-          case "UsernameCannotBeEmpty":
-            reject(AuthError.usernameCannotBeEmpty);
-          default:
-            reject(AuthError.unknownError);
-        }
+        reject(determineErrorType(e))
       }
     })
     return promise
@@ -168,23 +116,7 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
         const success = result.data.confirmSignUp
         resolve(success);
       } catch (e) {
-        let error = e.message.match(/"([^']+)"/)[1];
-        switch (error) {
-          case "PasswordTooShort":
-            reject(AuthError.passwordTooShort);
-          case "UserNotFound":
-            reject(AuthError.userDoesNotExist);
-          case "UsernameInvalid":
-            reject(AuthError.usernameInvalid);
-          case "PasswordTooShort":
-            reject(AuthError.passwordTooShort);
-          case "EmailAlreadyExists":
-            reject(AuthError.emailAlreadyExists);
-          case "UsernameCannotBeEmpty":
-            reject(AuthError.usernameCannotBeEmpty);
-          default:
-            reject(AuthError.unknownError);
-        }
+        reject(determineErrorType(e))
       }
     })
     return promise

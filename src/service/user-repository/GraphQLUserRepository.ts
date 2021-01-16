@@ -173,7 +173,8 @@ class GraphQLUserRepository implements UserRepository {
 
 
   updateLocationGetUsers(input: UpdateUserInput): Promise<User[]> {
-    let promise: Promise<User> = new Promise(async (resolve, reject) => {
+    console.log(input)
+    let promise: Promise<User[]> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPDATE_LOCATION_AND_GET_USERS,

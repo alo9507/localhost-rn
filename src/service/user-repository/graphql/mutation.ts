@@ -154,7 +154,6 @@ mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
         sex
         firstname
         lastname
-        email
         bio
         whatAmIDoing
         isVisible
