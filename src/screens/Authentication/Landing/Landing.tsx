@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Alert, Text } from "react-native";
 import StoreContext from "../../../store/StoreContext";
-import styled from "styled-components/native";
+import styled from "styled-components/native"; "styled-components/native";
 
 const Landing = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);

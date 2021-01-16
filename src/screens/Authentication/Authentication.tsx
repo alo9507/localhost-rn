@@ -13,6 +13,12 @@ function LoginStackScreens({ dispatch }) {
                 options={{ title: "Sign In/Sign Up" }}
                 initialParams={{ dispatch }}
             />
+            <LoginStack.Screen
+                name="SignIn"
+                component={SignIn}
+                options={{ title: "Sign In/Sign Up" }}
+                initialParams={{ dispatch }}
+            />
         </LoginStack.Navigator>
     )
 }

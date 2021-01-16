@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React from "react";
 import styled from "styled-components/native";
 
-const WorkInput = (props) => {
+const WorkInput = ({ setInput, value, onBlur }) => {
 
-  const { data } = props
-  const [inputState, setInputState] = useState(data);
-  console.log(data)
   return (
     <Input
-      value={inputState}
-      onChangeText={(e) => setInputState(e.target.value)}
+      value={value}
+      onChangeText={(value) => setInput(value)}
+      onBlur={() => onBlur()}
     />
   )
 };

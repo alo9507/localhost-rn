@@ -5,11 +5,11 @@ import WorkInputGroup from "./WorkInputGroup";
 
 const HeaderBackButton = (props) => {
 
-    return (
-        <>
-            <Button title="Back" onPress={() => props.goBack()} />
-        </>
-    );
+  return (
+    <>
+      <Button title="Back" onPress={() => props.goBack()} />
+    </>
+  );
 };
 
 // organizationName: String

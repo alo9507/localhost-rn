@@ -4,7 +4,7 @@ import StoreContext from "../../../../store/StoreContext";
 import SegmentedControl from '@react-native-community/segmented-control';
 import YouAreInvisible from "./YouAreInvisible"
 import NoUsers from "./NoUsers"
-import styled from "styled-components/native";
+import styled from "styled-components/native"; "../../../Authentication/Landing/node_modules/styled-components/native";
 
 const Explore = (props) => {
   const [appState, setAppState] = useContext(StoreContext);

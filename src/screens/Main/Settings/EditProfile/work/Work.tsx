@@ -8,7 +8,7 @@ const Work = (props) => {
     const { updateEditProfileState, keyName, editProfileState } = props.route.params
     const [workExperience, setWorkExperience] = useState(editProfileState[keyName])
 
-    console.log("workExperience", workExperience)
+    console.log("userid", editProfileState.id)
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -17,14 +17,15 @@ const Work = (props) => {
     }, [props.navigation]);
 
     const onGoBack = () => {
-        updateEditProfileState({ workExperience })
         props.navigation.pop()
+        console.log("workExperience in Work on go back", workExperience)
+        updateEditProfileState({ workExperience })
     }
 
     const renderWorkExperiences = () => {
-        return workExperience?.map(workExperience => {
+        return workExperience?.map((workExperienceObject, index) => {
             return (
-                <WorkInputGroup workExperience={workExperience} setWorkExperience={setWorkExperience} />
+                <WorkInputGroup allWorkExperience={workExperience} workExperience={workExperienceObject} setWorkExperience={setWorkExperience} index={index} key={index} />
             )
         })
     }
@@ -38,11 +39,6 @@ const Work = (props) => {
         </>
     );
 };
-
-// organizationName: String
-// startYear: Int
-// endYear: Int
-// title: String
 
 const Input = styled.TextInput`
   height: 50px;

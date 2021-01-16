@@ -74,11 +74,12 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
     return promise
   }
 
-  signOut(accesssToken: string): Promise<boolean> {
+  signOut(accessToken: string): Promise<boolean> {
     let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: SIGN_OUT_USER
+          mutation: SIGN_OUT_USER,
+          variables: { input: { accessToken } }
         });
         resolve(result.data.signOut.success);
       } catch (error) {

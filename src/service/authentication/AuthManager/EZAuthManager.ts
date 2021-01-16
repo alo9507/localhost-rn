@@ -54,10 +54,10 @@ class EZAuthManager implements AuthManager {
     return promise
   }
 
-  async signOut(): Promise<boolean> {
+  async signOut(accessToken: string): Promise<boolean> {
     let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
       try {
-        const result = await this.remoteAuthProvider.signOut()
+        const result = await this.remoteAuthProvider.signOut(accessToken)
         const deleteResult = await this.authDataStore.delete()
         this.authSession = null
         resolve(true)
@@ -72,6 +72,7 @@ class EZAuthManager implements AuthManager {
     let promise: Promise<AuthSession | null> = new Promise(async (resolve, reject) => {
       try {
         const authSession = await this.authDataStore.readAuthSession()
+        this.authSession = authSession
         resolve(authSession)
       } catch (e) {
         reject(e)

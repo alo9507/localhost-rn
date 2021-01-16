@@ -5,27 +5,31 @@ import WorkInput from "./WorkInput";
 
 const WorkInputGroup = (props) => {
 
-  const { workExperience } = props
+  const { workExperience, setWorkExperience, index, allWorkExperience } = props
 
   const [formState, setFormState] = useState(workExperience);
-
-  console.log("formState", formState)
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   const onBlur = () => {
-
+    let updatedWorkExperience = [...allWorkExperience]
+    updatedWorkExperience[index] = formState
+    console.log("updatedWorkExperience", updatedWorkExperience)
+    setWorkExperience(updatedWorkExperience)
+    console.log("allWorkExperience", allWorkExperience)
   }
+
+  console.log("allWorkExperience on render", allWorkExperience)
 
   return (
     <>
       <br /><br />
-      <WorkInput data={workExperience.organizationName} keyName={"organizationName"} setInput={setInput} onBlur={() => onBlur()} />
-      <WorkInput data={workExperience.title} keyName={"title"} setInput={setInput} onBlur={() => onBlur()} />
-      <WorkInput data={workExperience.startYear} keyName={"startYear"} setInput={setInput} onBlur={() => onBlur()} />
-      <WorkInput data={workExperience.endYear} keyName={"endYear"} setInput={setInput} onBlur={() => onBlur()} />
+      <WorkInput setInput={(value) => setInput("organizationName", value)} value={formState["organizationName"]} onBlur={onBlur} />
+      <WorkInput setInput={(value) => setInput("title", value)} value={formState["title"]} onBlur={onBlur} />
+      <WorkInput setInput={(value) => setInput("startYear", value)} value={formState["startYear"]} onBlur={onBlur} />
+      <WorkInput setInput={(value) => setInput("endYear", value)} value={formState["endYear"]} onBlur={onBlur} />
       <br /><br /><br /><br />
     </>
   )
