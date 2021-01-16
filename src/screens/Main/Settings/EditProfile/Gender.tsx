@@ -9,7 +9,7 @@ const Gender = (props) => {
         <>
             <Text>Gender</Text>
             <View>
-                <Button title="Submit" onPress={close} />
+                <Text>Gender</Text>
             </View>
         </>
     );
