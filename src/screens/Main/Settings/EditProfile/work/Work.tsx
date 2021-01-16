@@ -24,7 +24,7 @@ const Work = (props) => {
     const renderWorkExperiences = () => {
         return workExperience?.map(workExperience => {
             return (
-                <WorkInputGroup workExperience={workExperience} />
+                <WorkInputGroup workExperience={workExperience} setWorkExperience={setWorkExperience} />
             )
         })
     }

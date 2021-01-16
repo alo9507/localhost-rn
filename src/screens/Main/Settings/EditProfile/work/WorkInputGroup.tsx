@@ -7,15 +7,25 @@ const WorkInputGroup = (props) => {
 
   const { workExperience } = props
 
-  console.log("workExperience in input group", workExperience)
+  const [formState, setFormState] = useState(workExperience);
+
+  console.log("formState", formState)
+
+  function setInput(key, value) {
+    setFormState({ ...formState, [key]: value });
+  }
+
+  const onBlur = () => {
+
+  }
 
   return (
     <>
       <br /><br />
-      <WorkInput data={workExperience.organizationName} />
-      <WorkInput data={workExperience.title} />
-      <WorkInput data={workExperience.startYear} />
-      <WorkInput data={workExperience.endYear} />
+      <WorkInput data={workExperience.organizationName} keyName={"organizationName"} setInput={setInput} onBlur={() => onBlur()} />
+      <WorkInput data={workExperience.title} keyName={"title"} setInput={setInput} onBlur={() => onBlur()} />
+      <WorkInput data={workExperience.startYear} keyName={"startYear"} setInput={setInput} onBlur={() => onBlur()} />
+      <WorkInput data={workExperience.endYear} keyName={"endYear"} setInput={setInput} onBlur={() => onBlur()} />
       <br /><br /><br /><br />
     </>
   )
