@@ -17,6 +17,9 @@ query GetUser($id: ID!) {
       hometown
       workExperience {
         organizationName
+        title
+        startYear
+        endYear
       }
       schools {
         name
@@ -42,13 +45,22 @@ export const GET_USERS = gql`
 query GetUsers {
     users {
         id
+        sex
         firstname
         lastname
-        sex
-        age
-        isVisible
         email
+        bio
+        whatAmIDoing
+        isVisible
+        phoneNumber
+        age
         profileImageUrl
+        workExperience {
+            organizationName
+            title
+            startYear
+            endYear
+        }
     }
 }
 `;
@@ -65,10 +77,15 @@ query GetIncomingNods($id: ID!) {
           bio
           whatAmIDoing
           isVisible
+          phoneNumber
           age
-          latitude
-          longitude
           profileImageUrl
+          workExperience {
+              organizationName
+              title
+              startYear
+              endYear
+          }
         }
         nod {
           message

@@ -6,7 +6,7 @@ const WorkInput = (props) => {
 
   const { data } = props
   const [inputState, setInputState] = useState(data);
-
+  console.log(data)
   return (
     <Input
       value={inputState}

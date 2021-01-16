@@ -5,16 +5,20 @@ import WorkInput from "./WorkInput";
 
 const WorkInputGroup = (props) => {
 
-    const { workExperience } = props
+  const { workExperience } = props
 
-    return (
-        <>
-            <WorkInput data={workExperience.organization} />
-            <WorkInput data={workExperience.title} />
-            <WorkInput data={workExperience.startYear} />
-            <WorkInput data={workExperience.endYear} />
-        </>
-    )
+  console.log("workExperience in input group", workExperience)
+
+  return (
+    <>
+      <br /><br />
+      <WorkInput data={workExperience.organizationName} />
+      <WorkInput data={workExperience.title} />
+      <WorkInput data={workExperience.startYear} />
+      <WorkInput data={workExperience.endYear} />
+      <br /><br /><br /><br />
+    </>
+  )
 };
 
 const Input = styled.TextInput`

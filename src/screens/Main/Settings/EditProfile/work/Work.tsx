@@ -8,6 +8,8 @@ const Work = (props) => {
     const { updateEditProfileState, keyName, editProfileState } = props.route.params
     const [workExperience, setWorkExperience] = useState(editProfileState[keyName])
 
+    console.log("workExperience", workExperience)
+
     useLayoutEffect(() => {
         props.navigation.setOptions({
             headerLeft: (() => <HeaderBackButton goBack={() => onGoBack()} />)

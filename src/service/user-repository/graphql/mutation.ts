@@ -28,6 +28,12 @@ mutation CreateUser($input: CreateUserInput!) {
         mutual {
             id
         }
+        workExperience {
+            organizationName
+            title
+            startYear
+            endYear
+        }
     }
 }`
 
@@ -57,6 +63,12 @@ mutation UpdateUser($input: UpdateUserInput!) {
         showMeCriteria {
             sex
             age
+        }
+        workExperience {
+            organizationName
+            title
+            startYear
+            endYear
         }
     }
 }`
@@ -139,14 +151,21 @@ export const UPDATE_LOCATION_AND_GET_USERS = gql`
 mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
     updateLocationGetUsers(input: $input) {
         id
+        sex
         firstname
         lastname
+        email
         bio
         whatAmIDoing
-        sex
+        isVisible
+        phoneNumber
         age
-        latitude
-        longitude
         profileImageUrl
+        workExperience {
+            organizationName
+            title
+            startYear
+            endYear
+        }
     }
 }`;
