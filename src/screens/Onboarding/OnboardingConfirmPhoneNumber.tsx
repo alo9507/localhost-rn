@@ -1,5 +1,5 @@
 import React, { useContext, useState, useReducer } from "react"
-import { View } from "react-native";
+import { Button, View } from "react-native";
 import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 
@@ -36,6 +36,11 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
 
     const bgStyle = { backgroundColor: item.backgroundColor }
 
+    const resendConfirmationCode = async () => {
+        const success = await appState.authManager.resendConfirmationCode(appState.user.phoneNumber)
+        console.log(success)
+    }
+
     return (
         <View style={[styles.slide, bgStyle]}>
             <Container>
@@ -45,6 +50,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
                     formState={formState}
                     setFormState={setFormState}
                 />
+                <Button title="Resend Code" onPress={() => resendConfirmationCode()} />
             </Container>
         </View>
     )

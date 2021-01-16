@@ -16,6 +16,18 @@ class EZAuthManager implements AuthManager {
     this.authSession = null;
   }
 
+  resendConfirmationCode(username: string): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.remoteAuthProvider.resendConfirmationCode(username)
+        resolve(response);
+      } catch (e) {
+        reject(e)
+      }
+    })
+    return promise
+  }
+
   async signUp(phoneNumber: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {

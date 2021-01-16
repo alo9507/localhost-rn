@@ -18,6 +18,13 @@ mutation SignInUser($input: SignInInput!) {
     }
 }`
 
+export const RESEND_CONFIRMATION_CODE = gql`
+mutation ResendConfirmationCode($input: ResendConfirmationCodeInput!) {
+    resendConfirmationCode(input: $input) {
+        success
+    }
+}`
+
 export const SIGN_OUT_USER = gql`
 mutation SignOutUser($input: SignOutInput!) {
     signOut(input: $input) {

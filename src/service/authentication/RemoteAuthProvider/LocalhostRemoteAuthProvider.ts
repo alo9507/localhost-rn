@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http"
 
-import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER, CONFIRM_SIGN_UP } from "./mutations"
+import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER, CONFIRM_SIGN_UP, RESEND_CONFIRMATION_CODE } from "./mutations"
 
 const env = require("../../../../env.json")
 
@@ -47,6 +47,43 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
         const authSession = result.data.signIn
 
         resolve(new AuthSession(authSession.userId, authSession.accessToken, authSession.userVerified));
+      } catch (e) {
+        switch (e.message) {
+          case "Username should be either an email or a phone number.":
+            reject(`${AuthError.usernameInvalid}:  ${e.message}`);
+            break;
+          case "Password did not conform with policy: Password not long enough":
+            reject(`${AuthError.passwordTooShort}:  ${e.message}`);
+            break;
+          case "User is not confirmed.":
+            reject(`${AuthError.userIsNotConfirmed}:  ${e.message}`);
+            break;
+          case "Incorrect username or password.":
+            reject(`${AuthError.incorrectUsernameOrPassword}:  ${e.message}`);
+            break;
+          case "User does not exist.":
+            reject(`${AuthError.userDoesNotExist}:  ${e.message}`);
+            break;
+          default:
+            reject(`${AuthError.unknownError}:  ${e.message}`);
+        }
+      }
+    })
+    return promise
+  }
+
+  resendConfirmationCode(username: string): Promise<boolean> {
+    let promise: Promise<boolean> = new Promise(async (resolve, reject) => {
+      try {
+        console.log(this.authApiUrl)
+        const result = await this.client.mutate({
+          mutation: RESEND_CONFIRMATION_CODE,
+          variables: { input: { username } },
+        });
+
+        const success = result.data.resendConfirmationCode
+
+        resolve(success);
       } catch (e) {
         switch (e.message) {
           case "Username should be either an email or a phone number.":

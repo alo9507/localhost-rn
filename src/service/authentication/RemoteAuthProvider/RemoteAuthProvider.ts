@@ -4,6 +4,7 @@ interface RemoteAuthProvider {
   signIn(email: string, password: string): Promise<AuthSession>
   signOut(accessToken: string): Promise<boolean>
   signUp(phoneNumber: string): Promise<AuthSession>
+  resendConfirmationCode(username: string): Promise<boolean>
   confirmSignUp(username: string, code: string): Promise<AuthSession>
   changePassword(oldPassword: string, newPassword: string): Promise<boolean>
   forgotPassword(username: string): Promise<boolean>
