@@ -27,11 +27,14 @@ const Work = (props) => {
 
     const renderWorkExperiences = () => {
         return workExperience?.map((workExperienceObject, index) => {
+            console.log(workExperienceObject)
             return (
                 <WorkInputGroup workExperienceObject={workExperienceObject} index={index} key={index} />
             )
         })
     }
+
+    console.log("work re-rendered")
 
     return (
         <>

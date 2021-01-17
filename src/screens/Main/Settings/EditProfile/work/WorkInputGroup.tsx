@@ -1,6 +1,6 @@
 import { parse } from "@babel/core";
 import React, { useState, useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import WorkInput from "./WorkInput";
 import WorkContext from "./store/WorkContext"
@@ -19,6 +19,7 @@ const WorkInputGroup = (props) => {
   const onBlur = () => {
     let updatedWorkExperience = [...workExperience]
     updatedWorkExperience[index] = formState
+    console.log("onBlur called")
     setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
   }
 
@@ -28,9 +29,19 @@ const WorkInputGroup = (props) => {
     }
   }
 
+  const removeWorkExperience = () => {
+    let updatedWorkExperience = [...workExperience]
+    console.log(index)
+    updatedWorkExperience.splice(index, 1)
+    console.log("in remove")
+    console.log(updatedWorkExperience)
+    setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
+  }
+
   return (
     <>
       <br /><br />
+      <Button title="Remove" onPress={() => removeWorkExperience()} />
       <WorkInput setInput={(value) => setInput("organizationName", value)} value={formState["organizationName"]} onBlur={onBlur} />
       <WorkInput setInput={(value) => setInput("title", value)} value={formState["title"]} onBlur={onBlur} />
       <WorkInput setInput={(value) => setInput("startYear", parseNumber(value))} value={formState["startYear"]} onBlur={onBlur} />
