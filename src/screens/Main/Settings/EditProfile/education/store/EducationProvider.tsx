@@ -3,13 +3,12 @@ import EducationContext from "./EducationContext";
 
 const EducationProvider = ({ children }) => {
 
-    const initialState: any = []
+    const initialState: any[] = []
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
                 case 'UPDATE_EDUCATION':
-                    console.log("ACTION IN EDUCATION PROVIDER", action)
                     return action.payload
                 default:
                     throw new Error('Unsupported action type: ', action.type);

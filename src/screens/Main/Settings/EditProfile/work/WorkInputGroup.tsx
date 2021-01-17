@@ -1,28 +1,26 @@
 import { parse } from "@babel/core";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import WorkInput from "./WorkInput";
+import WorkContext from "./store/WorkContext"
 
 const WorkInputGroup = (props) => {
+  const [workExperience, setWorkExperience] = useContext(WorkContext)
 
-  const { workExperience, setWorkExperience, index, allWorkExperience } = props
+  const { workExperienceObject, index } = props
 
-  const [formState, setFormState] = useState(workExperience);
+  const [formState, setFormState] = useState(workExperienceObject);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   const onBlur = () => {
-    let updatedWorkExperience = [...allWorkExperience]
+    let updatedWorkExperience = [...workExperience]
     updatedWorkExperience[index] = formState
-    console.log("updatedWorkExperience", updatedWorkExperience)
     setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
-    console.log("allWorkExperience", allWorkExperience)
   }
-
-  console.log("allWorkExperience on render", allWorkExperience)
 
   const parseNumber = (value) => {
     if (value !== "") {

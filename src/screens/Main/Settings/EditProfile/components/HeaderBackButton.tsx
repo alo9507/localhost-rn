@@ -7,7 +7,7 @@ const HeaderBackButton = (props) => {
 
   return (
     <>
-      <Button title="Back" onPress={() => props.goBack()} />
+      <Button title="Back" onPress={props.goBack} />
     </>
   );
 };

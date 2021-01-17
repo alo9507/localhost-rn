@@ -9,6 +9,7 @@ const WorkProvider = ({ children }) => {
         (prevState, action) => {
             switch (action.type) {
                 case 'UPDATE_WORK_EXPERIENCE':
+                    console.log("UPDATE_WORK_EXPERIENCE", action.payload)
                     return action.payload
                 default:
                     throw new Error('Unsupported action type: ', action.type);

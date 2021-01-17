@@ -62,14 +62,15 @@ const UserProfile = (props) => {
     }
 
     const renderWorkExperience = () => {
-        return user.workExperience?.map((workExperience) => {
+        return user.workExperience?.map((workExperience, index) => {
+            console.log(workExperience)
             return (
-                <>
-                    <Text>{workExperience.ogranizationName}</Text>
-                    <Text>{workExperience.title}</Text>
-                    <Text>{workExperience.startYear}</Text>
-                    <Text>{workExperience.endYear}</Text>
-                </>
+                <View key={index} >
+                    <Text>ogranizationName: {workExperience.organizationName}</Text>
+                    <Text>title: {workExperience.title}</Text>
+                    <Text>startYear: {workExperience.startYear}</Text>
+                    <Text>endYear: {workExperience.endYear}</Text>
+                </View>
             )
         })
     }

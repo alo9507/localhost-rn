@@ -5,13 +5,12 @@ import getInitialState from "./InitialState";
 const EditProfileProvider = ({ children }) => {
 
     let initialState = getInitialState()
-    console.log("initialState", initialState)
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {
                 case 'UPDATE_USER_PATCH':
-                    console.log("patch", action.payload)
+                    console.log("UPDATE_USER_PATCH", action.payload)
                     return { ...prevState, ...action.payload };
                 default:
                     throw new Error('Unsupported action type: ', action.type);

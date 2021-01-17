@@ -16,12 +16,12 @@ const EditProfile = (props) => {
     }
 
     useEffect(() => {
-        console.log("useeffect ran")
         setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: editProfileState["workExperience"] })
         setEducation({ type: "UPDATE_EDUCATION", payload: editProfileState["education"] })
     }, [])
 
     const view = () => {
+        console.log("pre view editProfileState", editProfileState)
         props.navigation.navigate("UserProfile", { user: { ...currentUser, ...editProfileState } })
     }
 

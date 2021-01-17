@@ -10,7 +10,6 @@ const useEditProfileState = () => {
     const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const updateEditProfileState = (patch) => {
-        console.log("patch", patch)
         setEditProfileState({ type: "UPDATE_USER_PATCH", payload: patch })
     }
 
