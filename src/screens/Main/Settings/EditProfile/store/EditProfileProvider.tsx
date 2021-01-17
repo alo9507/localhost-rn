@@ -5,7 +5,7 @@ import getInitialState from "./InitialState";
 const EditProfileProvider = ({ children }) => {
 
     let initialState = getInitialState()
-    console.log(initialState)
+
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             switch (action.type) {

@@ -1,7 +1,5 @@
 class LocationPermissionResponse {
-    constructor (
-        public status: string
-    ) { }
+  constructor(public status: string) {}
 }
 
-export default LocationPermissionResponse
+export default LocationPermissionResponse;

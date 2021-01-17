@@ -1,25 +1,25 @@
-import { useContext } from 'react'
-import StoreContext from "../../../../../store/StoreContext";
-import EditProfileContext from "../store/EditProfileContext"
-import useCurrentUser from "../../../../../hooks/useCurrentUser"
+import { useContext } from 'react';
+import StoreContext from '../../../../../store/StoreContext';
+import EditProfileContext from '../store/EditProfileContext';
+import useCurrentUser from '../../../../../hooks/useCurrentUser';
+import User from '../../../../../models/User';
 
-const useEditProfileState = () => {
-    const [appState, setAppState] = useContext(StoreContext)
-    const [editProfileState, setEditProfileState] = useContext(EditProfileContext);
+const useEditProfileState = (): [User, (payload) => void, () => void] => {
+  const [appState] = useContext(StoreContext);
+  const [editProfileState, setEditProfileState] = useContext(EditProfileContext);
 
-    const [currentUser, updateCurrentUser] = useCurrentUser()
+  const [, updateCurrentUser] = useCurrentUser();
 
-    const updateEditProfileState = (patch) => {
-        setEditProfileState({ type: "UPDATE_USER_PATCH", payload: patch })
-    }
+  const updateEditProfileState = (payload) => {
+    setEditProfileState({ type: 'UPDATE_USER_PATCH', payload });
+  };
 
-    const submit = async () => {
-        console.log("editProfileState", editProfileState)
-        const result = await appState.userRepository.updateUser(editProfileState)
-        updateCurrentUser(result)
-    }
+  const submit = async () => {
+    const result = await appState.userRepository.updateUser(editProfileState);
+    updateCurrentUser(result);
+  };
 
-    return [editProfileState, updateEditProfileState, submit]
-}
+  return [editProfileState, updateEditProfileState, submit];
+};
 
-export default useEditProfileState
+export default useEditProfileState;

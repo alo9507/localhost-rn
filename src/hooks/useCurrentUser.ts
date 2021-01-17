@@ -1,16 +1,16 @@
-import { useContext } from 'react'
-import StoreContext from "../store/StoreContext";
+import { useContext } from 'react';
+import StoreContext from '../store/StoreContext';
+import User from '../models/User';
 
-const useCurrentUser = () => {
-    const [appState, setAppState] = useContext(StoreContext);
-    const currentUser = appState.user
+const useCurrentUser = (): [User, (any) => void] => {
+  const [appState, setAppState] = useContext(StoreContext);
+  const currentUser = appState.user;
 
-    const updateCurrentUser = (patch) => {
-        console.log("current user updated", patch)
-        setAppState({ type: "UPDATE_USER", payload: patch })
-    }
+  const updateCurrentUser = (payload) => {
+    setAppState({ type: 'UPDATE_USER', payload });
+  };
 
-    return [currentUser, updateCurrentUser]
-}
+  return [currentUser, updateCurrentUser];
+};
 
-export default useCurrentUser
+export default useCurrentUser;

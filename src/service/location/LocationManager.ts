@@ -1,9 +1,9 @@
-import Location from "./Location"
-import LocationPermissionResponse from "./LocationPermissionResponse"
+import Location from './Location';
+import LocationPermissionResponse from './LocationPermissionResponse';
 
 interface LocationManager {
-    requestLocationPermission(): Promise<LocationPermissionResponse>
-    getLocation(): Promise<Location>
+  requestLocationPermission(): Promise<LocationPermissionResponse>;
+  getLocation(): Promise<Location>;
 }
 
-export default LocationManager
+export default LocationManager;

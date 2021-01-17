@@ -17,7 +17,7 @@ const PhoneNumber = ({ item, goToNext, slideNumber, isSignIn, navigation, route 
             try {
                 const { session } = await appState.authManager.signIn(formState.phoneNumber, "Abc123!!")
                 setAppState({ type: "SET_MFA_SESSION", payload: { session, phoneNumber: formState.phoneNumber } })
-                navigation.navigate("ConfirmSignIn")
+                navigation.navigate("ConfirmSignIn", { isSignIn: true })
             } catch (e) {
                 setSubmissionError(e)
                 console.log("error", e)

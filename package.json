@@ -11,9 +11,15 @@
     "test": "jest --watch",
     "env:local": "node scripts/set-environment.js local",
     "env:development": "node scripts/set-environment.js development",
-    "env:prod": "node scripts/set-environment.js production"
+    "env:prod": "node scripts/set-environment.js production",
+    "lint": "eslint . --ext .ts",
+    "lint+": "eslint . --ext .ts --fix"
   },
   "dependencies": {
+    "prettier": "^2.1.2",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "@apollo/client": "^3.2.1",
     "@expo/metro-config": "^0.1.48",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
@@ -66,7 +72,10 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "ts-node": "^9.0.0",
-    "typescript": "~4.0.0"
+    "typescript": "~4.0.0",
+    "@babel/preset-typescript": "^7.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1"
   },
   "private": true
 }

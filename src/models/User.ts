@@ -1,5 +1,8 @@
+import Education from './Education';
+import WorkExperience from './WorkExperience';
+
 class User {
-  constructor (
+  constructor(
     public id: string,
     public firstname: string,
     public lastname: string,
@@ -11,14 +14,14 @@ class User {
     public phoneNumber: string,
     public education: [Education],
     public workExperience: [WorkExperience],
-    public hometown: String,
+    public hometown: string,
     public profileImageUrl: string,
 
     public whatAmIDoing: string,
     public latitude: number,
     public longitude: number,
     public showMeCriteria: object
-  ) { }
+  ) {}
 }
 
-export default User
+export default User;

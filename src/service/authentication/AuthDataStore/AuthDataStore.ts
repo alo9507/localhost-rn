@@ -1,9 +1,9 @@
-import AuthSession from "../AuthSession/AuthSession";
+import AuthSession from '../AuthSession/AuthSession';
 
 interface AuthDataStore {
   readAuthSession(): Promise<AuthSession | null>;
   save(authSession: AuthSession): Promise<AuthSession | null>;
-  delete(): Promise<boolean>
+  delete(): Promise<boolean>;
 }
 
-export default AuthDataStore
+export default AuthDataStore;

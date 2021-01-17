@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_USER = gql`
-query GetUser($id: ID!) {
+  query GetUser($id: ID!) {
     user(id: $id) {
       id
       sex
@@ -42,12 +42,44 @@ query GetUser($id: ID!) {
         age
       }
     }
-}
+  }
 `;
 
 export const GET_USERS = gql`
-query GetUsers {
+  query GetUsers {
     users {
+      id
+      sex
+      firstname
+      lastname
+      email
+      bio
+      whatAmIDoing
+      isVisible
+      phoneNumber
+      age
+      profileImageUrl
+      workExperience {
+        organizationName
+        title
+        startYear
+        endYear
+      }
+      education {
+        name
+        degree
+        focus
+        entryYear
+        graduationYear
+      }
+    }
+  }
+`;
+
+export const GET_INCOMING_NODS = gql`
+  query GetIncomingNods($id: ID!) {
+    getIncomingNods(id: $id) {
+      user {
         id
         sex
         firstname
@@ -60,10 +92,10 @@ query GetUsers {
         age
         profileImageUrl
         workExperience {
-            organizationName
-            title
-            startYear
-            endYear
+          organizationName
+          title
+          startYear
+          endYear
         }
         education {
           name
@@ -71,46 +103,14 @@ query GetUsers {
           focus
           entryYear
           graduationYear
+        }
+      }
+      nod {
+        message
+        seen
+        latitude
+        longitude
       }
     }
-}
-`;
-
-export const GET_INCOMING_NODS = gql`
-query GetIncomingNods($id: ID!) {
-    getIncomingNods(id: $id) {
-        user {
-          id
-          sex
-          firstname
-          lastname
-          email
-          bio
-          whatAmIDoing
-          isVisible
-          phoneNumber
-          age
-          profileImageUrl
-          workExperience {
-              organizationName
-              title
-              startYear
-              endYear
-          }
-          education {
-            name
-            degree
-            focus
-            entryYear
-            graduationYear
-          }
-        }
-        nod {
-          message
-          seen
-          latitude
-          longitude
-        }
-    }
-}
+  }
 `;

@@ -1,191 +1,202 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_USER = gql`
-mutation CreateUser($input: CreateUserInput!) {
+  mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
-        id
+      id
+      sex
+      firstname
+      lastname
+      phoneNumber
+      email
+      bio
+      whatAmIDoing
+      isVisible
+      age
+      isVisible
+      profileImageUrl
+      showMeCriteria {
         sex
-        firstname
-        lastname
-        phoneNumber
-        email
-        bio
-        whatAmIDoing
-        isVisible
         age
-        isVisible
-        profileImageUrl
-        showMeCriteria {
-            sex
-            age
-        }
-        inbound {
-            id
-        }
-        outbound {
-            id
-        }
-        mutual {
-            id
-        }
-        workExperience {
-            organizationName
-            title
-            startYear
-            endYear
-        }
-        education {
-            name
-            degree
-            focus
-            entryYear
-            graduationYear
+      }
+      inbound {
+        id
+      }
+      outbound {
+        id
+      }
+      mutual {
+        id
+      }
+      workExperience {
+        organizationName
+        title
+        startYear
+        endYear
+      }
+      education {
+        name
+        degree
+        focus
+        entryYear
+        graduationYear
       }
     }
-}`
+  }
+`;
 
 export const UPDATE_USER = gql`
-mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input ) {
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      id
+      sex
+      firstname
+      lastname
+      email
+      bio
+      whatAmIDoing
+      isVisible
+      phoneNumber
+      age
+      profileImageUrl
+      inbound {
         id
-        sex
-        firstname
-        lastname
-        email
-        bio
-        whatAmIDoing
-        isVisible
-        phoneNumber
-        age
-        profileImageUrl
-        inbound {
-            id
-        }
-        outbound {
-            id
-        }
-        mutual {
-            id
-        }
-        showMeCriteria {
-            sex
-            age
-        }
-        workExperience {
-            organizationName
-            title
-            startYear
-            endYear
-        }
-        education {
-            name
-            entryYear
-            graduationYear
-            focus
-            degree
-        }
-    }
-}`
-
-export const SEND_NOD = gql`
-mutation SendNod($input: SendNodInput!) {
-    sendNod(input: $input ) {
-        from
-        to
-        latitude
-        longitude
-        message
-    }
-}`
-
-export const RETURN_NOD = gql`
-mutation ReturnNod($input: SendNodInput!) {
-    returnNod(input: $input ) {
-        from
-        to
-        latitude
-        longitude
-        message
-    }
-}`
-
-export const NOD_SEEN = gql`
-mutation NOD_SEEN($input: NodSeenInput!) {
-    nodSeen(input: $input ) {
-        recipient
-        sender
-    }
-}`
-
-export const REPORT = gql`
-mutation ReportUser($input: ReportInput!) {
-    report(input: $input) {
-        from
-        to
-        reason
-        message
-    }
-}`
-
-export const UNMATCH = gql`
-mutation UnmatchUser($input: UnmatchInput!) {
-    unmatch(input: $input) {
-        from
-        to
-        reason
-        message
-    }
-}`
-
-export const BECOME_INVISIBLE_TO = gql`
-mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
-    becomeInvisibleTo(input: $input) {
-        from
-        to
-    }
-}`
-
-export const BECOME_VISIBLE_TO = gql`
-mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
-    becomeVisibleTo(input: $input) {
-        from
-        to
-    }
-}`
-
-export const UPDATE_SHOWME_CRITERIA = gql`
-mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
-    updateShowMeCriteria(input: $input) {
-        sex
-        age
-    }
-}`
-
-export const UPDATE_LOCATION_AND_GET_USERS = gql`
-mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
-    updateLocationGetUsers(input: $input) {
+      }
+      outbound {
         id
+      }
+      mutual {
+        id
+      }
+      showMeCriteria {
         sex
-        firstname
-        lastname
-        bio
-        whatAmIDoing
-        isVisible
-        phoneNumber
         age
-        profileImageUrl
-        workExperience {
-            organizationName
-            title
-            startYear
-            endYear
-        }
-        education {
-            name
-            degree
-            focus
-            entryYear
-            graduationYear
+      }
+      workExperience {
+        organizationName
+        title
+        startYear
+        endYear
+      }
+      education {
+        name
+        entryYear
+        graduationYear
+        focus
+        degree
       }
     }
-}`;
+  }
+`;
+
+export const SEND_NOD = gql`
+  mutation SendNod($input: SendNodInput!) {
+    sendNod(input: $input) {
+      from
+      to
+      latitude
+      longitude
+      message
+    }
+  }
+`;
+
+export const RETURN_NOD = gql`
+  mutation ReturnNod($input: SendNodInput!) {
+    returnNod(input: $input) {
+      from
+      to
+      latitude
+      longitude
+      message
+    }
+  }
+`;
+
+export const NOD_SEEN = gql`
+  mutation NOD_SEEN($input: NodSeenInput!) {
+    nodSeen(input: $input) {
+      recipient
+      sender
+    }
+  }
+`;
+
+export const REPORT = gql`
+  mutation ReportUser($input: ReportInput!) {
+    report(input: $input) {
+      from
+      to
+      reason
+      message
+    }
+  }
+`;
+
+export const UNMATCH = gql`
+  mutation UnmatchUser($input: UnmatchInput!) {
+    unmatch(input: $input) {
+      from
+      to
+      reason
+      message
+    }
+  }
+`;
+
+export const BECOME_INVISIBLE_TO = gql`
+  mutation BecomeInvisibleTo($input: BecomeInvisibleToInput!) {
+    becomeInvisibleTo(input: $input) {
+      from
+      to
+    }
+  }
+`;
+
+export const BECOME_VISIBLE_TO = gql`
+  mutation BecomeInvisibleTo($input: BecomeVisibleToInput!) {
+    becomeVisibleTo(input: $input) {
+      from
+      to
+    }
+  }
+`;
+
+export const UPDATE_SHOWME_CRITERIA = gql`
+  mutation UpdateShowMeCriteria($input: UpdateShowMeCriteriaInput!) {
+    updateShowMeCriteria(input: $input) {
+      sex
+      age
+    }
+  }
+`;
+
+export const UPDATE_LOCATION_AND_GET_USERS = gql`
+  mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
+    updateLocationGetUsers(input: $input) {
+      id
+      sex
+      firstname
+      lastname
+      bio
+      whatAmIDoing
+      isVisible
+      phoneNumber
+      age
+      profileImageUrl
+      workExperience {
+        organizationName
+        title
+        startYear
+        endYear
+      }
+      education {
+        name
+        degree
+        focus
+        entryYear
+        graduationYear
+      }
+    }
+  }
+`;

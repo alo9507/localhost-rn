@@ -1,5 +1,5 @@
 interface MediaUploadService {
-    upload(uri: string): Promise<string>
+  upload(uri: string): Promise<string>;
 }
 
 export default MediaUploadService;

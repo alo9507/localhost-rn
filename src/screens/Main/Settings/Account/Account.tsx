@@ -3,10 +3,10 @@ import { Text, Button } from "react-native"
 import StoreContext from "../../../../store/StoreContext";
 
 const Account = (props) => {
-    const [appState, setAppState] = React.useContext(StoreContext);
-    console.log(props)
-    async function signOut() {
-        let authResult = await appState.authManager.signOut(appState.authManager.authSession.accessToken)
+    const [appState, _] = React.useContext(StoreContext);
+
+    const signOut = async () => {
+        let _ = await appState.authManager.signOut(appState.authManager.authSession.accessToken)
         appState.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 
