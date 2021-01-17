@@ -33,7 +33,6 @@ const EducationForm = (props) => {
     }
 
     const addEducationInputGroup = () => {
-        console.log("education", education)
         let updatedEducation = []
         const newEduation = new Education("", "", "highschool", 2012, 2012)
 

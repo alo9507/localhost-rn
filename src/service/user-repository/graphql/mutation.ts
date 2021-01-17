@@ -77,6 +77,13 @@ mutation UpdateUser($input: UpdateUserInput!) {
             startYear
             endYear
         }
+        education {
+            name
+            entryYear
+            graduationYear
+            focus
+            degree
+        }
     }
 }`
 

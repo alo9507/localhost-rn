@@ -6,6 +6,7 @@ const useCurrentUser = () => {
     const currentUser = appState.user
 
     const updateCurrentUser = (patch) => {
+        console.log("current user updated", patch)
         setAppState({ type: "UPDATE_USER", payload: patch })
     }
 

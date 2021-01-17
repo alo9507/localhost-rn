@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import WorkInputGroup from "./WorkInputGroup";
 import HeaderBackButton from "../components/HeaderBackButton"
 import WorkContext from "./store/WorkContext"
+import WorkExperience from "../../../../../models/WorkExperience";
 
 const Work = (props) => {
     const { updateEditProfileState } = props.route.params
@@ -15,8 +16,6 @@ const Work = (props) => {
         });
     }, [props.navigation]);
 
-    console.log("workExperience on render in Work", workExperience)
-
     const onGoBack = () => {
         props.navigation.pop()
     }
@@ -27,20 +26,31 @@ const Work = (props) => {
 
     const renderWorkExperiences = () => {
         return workExperience?.map((workExperienceObject, index) => {
-            console.log(workExperienceObject)
             return (
                 <WorkInputGroup workExperienceObject={workExperienceObject} index={index} key={index} />
             )
         })
     }
 
-    console.log("work re-rendered")
+    const addWorkInputGroup = () => {
+        let updatedWorkExperience = []
+        const newWorkExperience = new WorkExperience("", "", 1000, 2000)
+
+        if (workExperience === null) {
+            updatedWorkExperience = []
+        } else {
+            updatedWorkExperience = [...workExperience, newWorkExperience]
+        }
+
+        setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
+    }
 
     return (
         <>
             <Text>Work</Text>
             <View>
                 {renderWorkExperiences()}
+                <Button title={"Add Work Experience"} onPress={addWorkInputGroup} />
             </View>
         </>
     );

@@ -14,6 +14,7 @@ const useEditProfileState = () => {
     }
 
     const submit = async () => {
+        console.log("editProfileState", editProfileState)
         const result = await appState.userRepository.updateUser(editProfileState)
         updateCurrentUser(result)
     }

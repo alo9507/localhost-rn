@@ -1,5 +1,5 @@
 import { parse } from "@babel/core";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import EducationInput from "./EducationInput";
@@ -31,10 +31,12 @@ const EducationInputGroup = ({ index, educationObject }) => {
     let updatedEducation = [...education]
     console.log(index)
     updatedEducation.splice(index, 1)
-    console.log("in remove")
-    console.log(updatedEducation)
     setEducation({ type: "UPDATE_EDUCATION", payload: updatedEducation })
   }
+
+  useEffect(() => {
+    setFormState(educationObject)
+  }, [educationObject])
 
   return (
     <>

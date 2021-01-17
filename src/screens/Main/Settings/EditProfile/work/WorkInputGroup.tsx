@@ -1,5 +1,5 @@
 import { parse } from "@babel/core";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import WorkInput from "./WorkInput";
@@ -31,12 +31,13 @@ const WorkInputGroup = (props) => {
 
   const removeWorkExperience = () => {
     let updatedWorkExperience = [...workExperience]
-    console.log(index)
     updatedWorkExperience.splice(index, 1)
-    console.log("in remove")
-    console.log(updatedWorkExperience)
     setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
   }
+
+  useEffect(() => {
+    setFormState(workExperienceObject)
+  }, [workExperienceObject])
 
   return (
     <>
