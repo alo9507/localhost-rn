@@ -1,3 +1,4 @@
+import { parse } from "@babel/core";
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
@@ -23,13 +24,19 @@ const WorkInputGroup = (props) => {
 
   console.log("allWorkExperience on render", allWorkExperience)
 
+  const parseNumber = (value) => {
+    if (value !== "") {
+      return parseInt(value)
+    }
+  }
+
   return (
     <>
       <br /><br />
       <WorkInput setInput={(value) => setInput("organizationName", value)} value={formState["organizationName"]} onBlur={onBlur} />
       <WorkInput setInput={(value) => setInput("title", value)} value={formState["title"]} onBlur={onBlur} />
-      <WorkInput setInput={(value) => setInput("startYear", value)} value={formState["startYear"]} onBlur={onBlur} />
-      <WorkInput setInput={(value) => setInput("endYear", value)} value={formState["endYear"]} onBlur={onBlur} />
+      <WorkInput setInput={(value) => setInput("startYear", parseNumber(value))} value={formState["startYear"]} onBlur={onBlur} />
+      <WorkInput setInput={(value) => setInput("endYear", parseNumber(value))} value={formState["endYear"]} onBlur={onBlur} />
       <br /><br /><br /><br />
     </>
   )
