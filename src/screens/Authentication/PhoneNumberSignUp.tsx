@@ -5,10 +5,12 @@ import styled from "styled-components/native";
 
 import StoreContext from "../../store/StoreContext";
 import OnboardingForm from "../Onboarding/OnboardingForm"
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const PhoneNumber = ({ item, goToNext, slideNumber, isSignIn, navigation, route }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ phoneNumber: "" });
+    const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const [submissionError, setSubmissionError] = useState(null);
 
@@ -28,7 +30,7 @@ const PhoneNumber = ({ item, goToNext, slideNumber, isSignIn, navigation, route 
                 const { session } = await appState.authManager.signIn(formState.phoneNumber, "Abc123!!")
                 const createdUser = await appState.userRepository.createUser(userId, formState.phoneNumber)
                 const user = await appState.userRepository.getUser(userId)
-                setAppState({ type: "UPDATE_USER", payload: user })
+                updateCurrentUser(user)
                 setAppState({ type: "SET_MFA_SESSION", payload: { session, phoneNumber: formState.phoneNumber } })
                 goToNext(slideNumber)
             } catch (e) {

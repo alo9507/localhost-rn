@@ -15,7 +15,6 @@ interface AuthManager {
   forgotPassword(username: string): Promise<boolean>;
   forgotPasswordSubmit(username: string, code: string, newPassword: string): Promise<boolean>;
   checkForAuthSession(): Promise<AuthSession | null>;
-  deleteAccount(): 
 }
 
 export default AuthManager;

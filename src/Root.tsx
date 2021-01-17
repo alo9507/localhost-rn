@@ -18,8 +18,11 @@ import LandingStackNavigator from "./screens/Landing/LandingStackNavigator"
 import SplashStackScreens from "./screens/Splash/SplashStack"
 import OnboardingNavigator from "./screens/Onboarding/OnboardingNavigator"
 
+import useCurrentUser from "./hooks/useCurrentUser"
+
 const Root = () => {
     const [appState, setAppState] = useContext(StoreContext)
+    const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {
@@ -108,7 +111,7 @@ const Root = () => {
             console.log(`An error occured while determining first authentication: ${e}`);
         }
 
-        setAppState({ type: "UPDATE_USER", payload: user })
+        updateCurrentUser(user)
 
         if (isAuthenticated) {
             dispatch({ type: "IS_AUTHENTICATED" })

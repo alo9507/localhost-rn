@@ -6,9 +6,12 @@ import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext";
 import OnboardingForm from "../Onboarding/OnboardingForm"
 
+import useCurrentUser from "../../hooks/useCurrentUser"
+
 const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ code: "" });
+    const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const [submissionError, setSubmissionError] = useState(null);
 
@@ -17,7 +20,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) =>
             console.log("appState.session", appState.session)
             const authSession = await appState.authManager.respondToAuthChallenge(appState.phoneNumber, formState.code, appState.session)
             const user = await appState.userRepository.getUser(authSession.userId)
-            setAppState({ type: "UPDATE_USER", payload: user })
+            updateCurrentUser(user)
             if (route?.params?.isSignIn) {
                 appState.dispatch({ type: "IS_AUTHENTICATED" })
             } else {

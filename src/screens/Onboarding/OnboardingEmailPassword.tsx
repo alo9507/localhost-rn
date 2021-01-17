@@ -5,16 +5,18 @@ import styled from "styled-components/native";
 
 import StoreContext from "../../store/StoreContext";
 import OnboardingForm from "./OnboardingForm"
+import useCurrentUser from "../../hooks/useCurrentUser"
 
 const OnboardingEmailPassword = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ email: "", password: "" });
+    const [currentUser, setCurrentUser] = useCurrentUser()
 
     async function submitAndGoToNext() {
         try {
             const authSession = await appState.authManager.signUp(formState.email, formState.password)
             const user = await appState.userRepository.createUser(authSession.userId, formState.email)
-            setAppState({ type: "UPDATE_USER", payload: user })
+            setCurrentUser(user)
             goToNext(slideNumber)
         } catch (e) {
             console.log(e)

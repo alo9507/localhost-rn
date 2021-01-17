@@ -5,9 +5,11 @@ import SegmentedControl from '@react-native-community/segmented-control';
 import YouAreInvisible from "./YouAreInvisible"
 import NoUsers from "./NoUsers"
 import styled from "styled-components/native"; "../../../Authentication/Landing/node_modules/styled-components/native";
+import useCurrentUser from "../../../../hooks/useCurrentUser"
 
 const Explore = (props) => {
-  const [appState, setAppState] = useContext(StoreContext);
+  const [appState, _] = useContext(StoreContext);
+  const [currentUser, updateCurrentUser] = useCurrentUser()
 
   const [state, dispatch] = useReducer(
     (prevState, action) => {
@@ -51,13 +53,13 @@ const Explore = (props) => {
       error: null,
       noUsers: false,
       users: [],
-      isVisible: appState.user.isVisible,
+      isVisible: currentUser.isVisible,
     }
   );
 
   const selectedSex = () => {
-    console.log(appState.user)
-    const sexcriteria = appState.user.showMeCriteria.sex
+    console.log(currentUser)
+    const sexcriteria = currentUser.showMeCriteria.sex
     let selected = 0
     if (sexcriteria.includes("male") && sexcriteria.includes("female")) {
       selected = 0
@@ -71,7 +73,7 @@ const Explore = (props) => {
 
   const [location, setLocation] = useState({ latitude: 24.223008280105784, longitude: 23.135728247934946 });
   const [sex, setSex] = useState(selectedSex())
-  const [formState, setFormState] = useState({ whatAmIDoing: appState.user.whatAmIDoing });
+  const [formState, setFormState] = useState({ whatAmIDoing: currentUser.whatAmIDoing });
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -123,7 +125,7 @@ const Explore = (props) => {
     }
     await appState.userRepository.updateShowMeCriteria({ id: appState.user.id, sex: sexArray })
     setSex(selectedIndex)
-    setAppState({ type: "UPDATE_USER", payload: { showMeCriteria: { sex: sexArray } } })
+    updateCurrentUser({ showMeCriteria: { sex: sexArray } })
   }
 
   useEffect(() => {
@@ -132,7 +134,7 @@ const Explore = (props) => {
 
   async function submitWhatAmIDoing() {
     await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
-    setAppState({ type: "UPDATE_USER", payload: { ...formState } })
+    updateCurrentUser({ ...formState })
   }
 
   if (state.loading) return <Text>"Loading..."</Text>

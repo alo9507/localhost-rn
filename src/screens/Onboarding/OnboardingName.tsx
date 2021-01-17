@@ -4,15 +4,17 @@ import styles from "./OnboardingStyle"
 import styled from "styled-components/native";
 import StoreContext from "../../store/StoreContext"
 import OnboardingForm from "./OnboardingForm"
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const OnboardingName = ({ item, goToNext, slideNumber }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ firstname: "", lastname: "" });
+    const [currentUser, setCurrentUser] = useCurrentUser()
 
     async function submitAndGoToNext() {
         try {
-            const user = await ({ id: appState.user.id, ...formState })
-            setAppState({ type: "UPDATE_USER", payload: user })
+            const user = await ({ id: currentUser.id, ...formState })
+            setCurrentUser(user)
             goToNext(slideNumber)
         } catch (e) {
             console.log(e)

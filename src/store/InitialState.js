@@ -16,8 +16,6 @@ import MockFirstLaunchService from "../service/first-launch-service/MockFirstLau
 import AsyncStorageFirstLaunchService from "../service/first-launch-service/AsyncStorageFirstLaunchService";
 import MainMediaUploadService from "../service/media-upload/MainMediaUploadService";
 import ExpoLocationManager from "../service/location/ExpoLocationManager";
-import LocalhostEventConsumer from "../service/event-consumer/LocalhostEventConsumer";
-import MockEventConsumer from "../service/event-consumer/MockEventConsumer";
 
 import AppState from "../models/AppState";
 
@@ -55,7 +53,6 @@ switch (env.environment) {
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
             locationManager: new ExpoLocationManager(),
-            eventConsumer: new LocalhostEventConsumer(),
             user: null,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
@@ -68,7 +65,6 @@ switch (env.environment) {
             firstLaunchService: new AsyncStorageFirstLaunchService(),
             mediaUploadService: new MainMediaUploadService(),
             locationManager: new ExpoLocationManager(),
-            eventConsumer: new LocalhostEventConsumer(),
             user: null,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
@@ -81,7 +77,6 @@ switch (env.environment) {
             firstLaunchService: new MockFirstLaunchService(env.alwaysFirstLaunch),
             mediaUploadService: new MainMediaUploadService(),
             locationManager: new ExpoLocationManager(),
-            eventConsumer: new MockEventConsumer(),
             user: user,
             goToMain: env.goToMain,
             goToOnboarding: env.goToOnboarding
