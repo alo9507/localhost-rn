@@ -61,6 +61,33 @@ const UserProfile = (props) => {
         })
     }
 
+    const renderWorkExperience = () => {
+        return user.workExperience?.map((workExperience) => {
+            return (
+                <>
+                    <Text>{workExperience.ogranizationName}</Text>
+                    <Text>{workExperience.title}</Text>
+                    <Text>{workExperience.startYear}</Text>
+                    <Text>{workExperience.endYear}</Text>
+                </>
+            )
+        })
+    }
+
+    const renderEducation = () => {
+        return user.education?.map((education) => {
+            return (
+                <>
+                    <Text>{education.name}</Text>
+                    <Text>{education.degree}</Text>
+                    <Text>{education.focus}</Text>
+                    <Text>{education.entryYear}</Text>
+                    <Text>{education.graduationYear}</Text>
+                </>
+            )
+        })
+    }
+
     return (
         <View style={styles.user}>
             <View style={styles.profileImgContainer}>
@@ -77,9 +104,9 @@ const UserProfile = (props) => {
             <Text>email: {user.email}</Text>
             <Text>latitude: {user.latitude}</Text>
             <Text>longitude: {user.longitude}</Text>
-            <Text>work: {user.workExperience}</Text>
-            <Text>schools: {user.schools}</Text>
             <Text>hometown: {user.hometown}</Text>
+            <Text>work: {renderWorkExperience()}</Text>
+            <Text>schools: {renderEducation()}</Text>
             <Button title="Send Nod" onPress={sendNod} />
             <Button title="Report" onPress={report} />
             <Button title="Become Invisible To" onPress={becomeInvisibleTo} />

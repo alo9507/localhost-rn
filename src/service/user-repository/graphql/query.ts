@@ -21,8 +21,12 @@ query GetUser($id: ID!) {
         startYear
         endYear
       }
-      schools {
+      education {
         name
+        degree
+        focus
+        entryYear
+        graduationYear
       }
       inbound {
         id
@@ -61,6 +65,13 @@ query GetUsers {
             startYear
             endYear
         }
+        education {
+          name
+          degree
+          focus
+          entryYear
+          graduationYear
+      }
     }
 }
 `;
@@ -85,6 +96,13 @@ query GetIncomingNods($id: ID!) {
               title
               startYear
               endYear
+          }
+          education {
+            name
+            degree
+            focus
+            entryYear
+            graduationYear
           }
         }
         nod {

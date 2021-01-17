@@ -34,6 +34,13 @@ mutation CreateUser($input: CreateUserInput!) {
             startYear
             endYear
         }
+        education {
+            name
+            degree
+            focus
+            entryYear
+            graduationYear
+      }
     }
 }`
 
@@ -166,5 +173,12 @@ mutation UpdateLocationAndGetUsers($input: UpdateLocationInput!) {
             startYear
             endYear
         }
+        education {
+            name
+            degree
+            focus
+            entryYear
+            graduationYear
+      }
     }
 }`;

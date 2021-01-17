@@ -9,7 +9,7 @@ class User {
     public age: number,
     public email: string,
     public phoneNumber: string,
-    public schools: [School],
+    public education: [Education],
     public workExperience: [WorkExperience],
     public hometown: String,
     public profileImageUrl: string,
@@ -21,7 +21,7 @@ class User {
   ) { }
 }
 
-type School = {
+type Education = {
   name: string,
   entryYear: number,
   graduationYear: number,

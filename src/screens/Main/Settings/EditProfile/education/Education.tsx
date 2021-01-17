@@ -1,16 +1,16 @@
 import React, { useState, useLayoutEffect, useContext } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
-import WorkInputGroup from "./WorkInputGroup";
+import EducationInputGroup from "./EducationInputGroup";
 import HeaderBackButton from "../components/HeaderBackButton"
-import WorkContext from "./store/WorkContext"
+import EducationContext from "./store/EducationContext"
 
-const Work = (props) => {
+const Education = (props) => {
     const { updateEditProfileState, keyName, editProfileState } = props.route.params
-    const [workExperience, setWorkExperience] = useContext(WorkContext)
+    const [education, setEducation] = useContext(EducationContext)
 
     console.log("userid", editProfileState.id)
-    console.log("workExperience", workExperience)
+    console.log("education", education)
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -20,23 +20,24 @@ const Work = (props) => {
 
     const onGoBack = () => {
         props.navigation.pop()
-        console.log("workExperience in Work on go back", workExperience)
-        updateEditProfileState({ workExperience })
+        console.log("education in Education on go back", education)
+        updateEditProfileState({ education })
     }
 
-    const renderWorkExperiences = () => {
-        return workExperience?.map((workExperienceObject, index) => {
+    const renderEducation = () => {
+        console.log("education in education comp", education)
+        return education?.map((educationObject, index) => {
             return (
-                <WorkInputGroup allWorkExperience={workExperience} workExperience={workExperienceObject} setWorkExperience={setWorkExperience} index={index} key={index} />
+                <EducationInputGroup allEducation={education} education={educationObject} setEducation={setEducation} index={index} key={index} />
             )
         })
     }
 
     return (
         <>
-            <Text>Work</Text>
+            <Text>Education</Text>
             <View>
-                {renderWorkExperiences()}
+                {renderEducation()}
             </View>
         </>
     );
@@ -55,4 +56,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default Work;
+export default Education;
