@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Button, StyleSheet } from "react-native";
 import useEditProfileState from "./hooks/useEditProfileState"
 import useCurrentUser from "../../../../hooks/useCurrentUser"
+import WorkContext from "./work/store/WorkContext"
 
 const EditProfile = (props) => {
     const [editProfileState, updateEditProfileState, submit] = useEditProfileState()
     const [currentUser, updateCurrentUser] = useCurrentUser()
+    const [workExperience, setWorkExperience] = useContext(WorkContext)
 
     const cancel = () => {
         props.navigation.pop()
     }
+
+    useEffect(() => {
+        setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: editProfileState["workExperience"] })
+    }, [])
 
     const view = () => {
         props.navigation.navigate("UserProfile", { user: { ...currentUser, ...editProfileState } })

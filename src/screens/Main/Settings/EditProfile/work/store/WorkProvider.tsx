@@ -1,7 +1,9 @@
 import React, { useReducer } from "react";
 import WorkContext from "./WorkContext";
 
-const WorkProvider = ({ children, initialState }) => {
+const WorkProvider = ({ children }) => {
+
+    const initialState: any = []
 
     const [state, dispatch] = useReducer(
         (prevState, action) => {

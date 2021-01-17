@@ -1,12 +1,13 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useContext } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import WorkInputGroup from "./WorkInputGroup";
 import HeaderBackButton from "./HeaderBackButton"
+import WorkContext from "./store/WorkContext"
 
 const Work = (props) => {
     const { updateEditProfileState, keyName, editProfileState } = props.route.params
-    const [workExperience, setWorkExperience] = useState(editProfileState[keyName])
+    const [workExperience, setWorkExperience] = useContext(WorkContext)
 
     console.log("userid", editProfileState.id)
 
