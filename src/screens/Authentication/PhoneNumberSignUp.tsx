@@ -13,7 +13,7 @@ const PhoneNumber = ({ item, goToNext, slideNumber, isSignIn, navigation, route 
     const [submissionError, setSubmissionError] = useState(null);
 
     async function submitAndGoToNext() {
-        if (route.params.isSignIn) {
+        if (route?.params?.isSignIn) {
             try {
                 const { session } = await appState.authManager.signIn(formState.phoneNumber, "Abc123!!")
                 setAppState({ type: "SET_MFA_SESSION", payload: { session, phoneNumber: formState.phoneNumber } })
