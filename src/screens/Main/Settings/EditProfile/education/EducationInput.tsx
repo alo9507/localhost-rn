@@ -1,14 +1,18 @@
 import React from "react";
+import { Text } from "react-native"
 import styled from "styled-components/native";
 
-const EducationInput = ({ setInput, value, onBlur }) => {
+const EducationInput = ({ setInput, value, onBlur, label }) => {
 
   return (
-    <Input
-      value={value}
-      onChangeText={(value) => setInput(value)}
-      onBlur={() => onBlur()}
-    />
+    <>
+      <Text>{label}</Text>
+      <Input
+        value={value}
+        onChangeText={(value) => setInput(value)}
+        onBlur={() => onBlur()}
+      />
+    </>
   )
 };
 

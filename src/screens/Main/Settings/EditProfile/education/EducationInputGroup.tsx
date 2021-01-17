@@ -1,28 +1,25 @@
 import { parse } from "@babel/core";
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import EducationInput from "./EducationInput";
+import EducationContext from "./store/EducationContext";
 
-const WorkInputGroup = (props) => {
+const EducationInputGroup = ({ index, educationObject }) => {
+  const [education, setEducation] = useContext(EducationContext)
 
-  const { allEducation, education, setEducation, index, key } = props
-
-  const [formState, setFormState] = useState(education);
+  const [formState, setFormState] = useState(educationObject);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   const onBlur = () => {
-    let updatedEducation = [...allEducation]
+    let updatedEducation = [...education]
     updatedEducation[index] = formState
-    console.log("updatedEducation", updatedEducation)
+    console.log(updatedEducation)
     setEducation({ type: "UPDATE_EDUCATION", payload: updatedEducation })
-    console.log("allEducation", allEducation)
   }
-
-  console.log("allEducation on render", allEducation)
 
   const parseNumber = (value) => {
     if (value !== "") {
@@ -30,14 +27,24 @@ const WorkInputGroup = (props) => {
     }
   }
 
+  const removeEducationExperience = () => {
+    let updatedEducation = [...education]
+    console.log(index)
+    updatedEducation.splice(index, 1)
+    console.log("in remove")
+    console.log(updatedEducation)
+    setEducation({ type: "UPDATE_EDUCATION", payload: updatedEducation })
+  }
+
   return (
     <>
       <br /><br />
-      <EducationInput setInput={(value) => setInput("name", value)} value={formState["name"]} onBlur={onBlur} />
-      <EducationInput setInput={(value) => setInput("entryYear", parseNumber(value))} value={formState["entryYear"]} onBlur={onBlur} />
-      <EducationInput setInput={(value) => setInput("graduationYear", parseNumber(value))} value={formState["graduationYear"]} onBlur={onBlur} />
-      <EducationInput setInput={(value) => setInput("focus", value)} value={formState["focus"]} onBlur={onBlur} />
-      <EducationInput setInput={(value) => setInput("degree", value)} value={formState["degree"]} onBlur={onBlur} />
+      <Button title="Remove" onPress={() => removeEducationExperience()} />
+      <EducationInput label={"School Name"} setInput={(value) => setInput("name", value)} value={formState["name"]} onBlur={onBlur} />
+      <EducationInput label={"Focus"} setInput={(value) => setInput("focus", value)} value={formState["focus"]} onBlur={onBlur} />
+      <EducationInput label={"Degree"} setInput={(value) => setInput("degree", value)} value={formState["degree"]} onBlur={onBlur} />
+      <EducationInput label={"Entry Year"} setInput={(value) => setInput("entryYear", parseNumber(value))} value={formState["entryYear"]} onBlur={onBlur} />
+      <EducationInput label={"Graduation Year"} setInput={(value) => setInput("graduationYear", parseNumber(value))} value={formState["graduationYear"]} onBlur={onBlur} />
       <br /><br /><br /><br />
     </>
   )
@@ -56,4 +63,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default WorkInputGroup;
+export default EducationInputGroup;

@@ -76,15 +76,15 @@ const UserProfile = (props) => {
     }
 
     const renderEducation = () => {
-        return user.education?.map((education) => {
+        return user.education?.map((education, index) => {
             return (
-                <>
+                <View key={index} >
                     <Text>{education.name}</Text>
                     <Text>{education.degree}</Text>
                     <Text>{education.focus}</Text>
                     <Text>{education.entryYear}</Text>
                     <Text>{education.graduationYear}</Text>
-                </>
+                </View>
             )
         })
     }

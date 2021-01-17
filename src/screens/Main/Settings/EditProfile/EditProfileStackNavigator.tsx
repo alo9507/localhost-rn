@@ -4,7 +4,7 @@ import EditProfile from "./EditProfile"
 import Gender from "./Gender"
 import Hometown from "./Hometown"
 import Name from "./Name"
-import Education from "./education/Education"
+import EducationForm from "./education/EducationForm"
 import Work from "./work/Work"
 import Age from "./Age"
 import UserProfile from "../../Explore/UserProfile"
@@ -56,7 +56,7 @@ function EditProfileStackNavigator() {
                         />
                         <EditProfileStack.Screen
                             name="Education"
-                            component={Education}
+                            component={EducationForm}
                             options={{ title: "Education" }}
                         />
                     </EditProfileStack.Navigator>

@@ -1,16 +1,14 @@
-import React, { useState, useLayoutEffect, useContext } from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
+import { View, Text, Button } from "react-native";
 import styled from "styled-components/native";
 import EducationInputGroup from "./EducationInputGroup";
 import HeaderBackButton from "../components/HeaderBackButton"
 import EducationContext from "./store/EducationContext"
+import Education from "../../../../../models/Education"
 
-const Education = (props) => {
-    const { updateEditProfileState, keyName, editProfileState } = props.route.params
+const EducationForm = (props) => {
+    const { updateEditProfileState } = props.route.params
     const [education, setEducation] = useContext(EducationContext)
-
-    console.log("userid", editProfileState.id)
-    console.log("education", education)
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -20,17 +18,32 @@ const Education = (props) => {
 
     const onGoBack = () => {
         props.navigation.pop()
-        console.log("education in Education on go back", education)
-        updateEditProfileState({ education })
     }
 
+    useEffect(() => {
+        updateEditProfileState({ education })
+    }, [education])
+
     const renderEducation = () => {
-        console.log("education in education comp", education)
         return education?.map((educationObject, index) => {
             return (
-                <EducationInputGroup allEducation={education} education={educationObject} setEducation={setEducation} index={index} key={index} />
+                <EducationInputGroup educationObject={educationObject} index={index} key={index} />
             )
         })
+    }
+
+    const addEducationInputGroup = () => {
+        console.log("education", education)
+        let updatedEducation = []
+        const newEduation = new Education("", "", "highschool", 2012, 2012)
+
+        if (education === null) {
+            updatedEducation = []
+        } else {
+            updatedEducation = [...education, newEduation]
+        }
+
+        setEducation({ type: "UPDATE_EDUCATION", payload: updatedEducation })
     }
 
     return (
@@ -38,6 +51,7 @@ const Education = (props) => {
             <Text>Education</Text>
             <View>
                 {renderEducation()}
+                <Button title={"Add Education"} onPress={addEducationInputGroup} />
             </View>
         </>
     );
@@ -56,4 +70,4 @@ const Container = styled.View`
   padding: 20px;
 `;
 
-export default Education;
+export default EducationForm;

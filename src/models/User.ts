@@ -21,27 +21,4 @@ class User {
   ) { }
 }
 
-type Education = {
-  name: string,
-  entryYear: number,
-  graduationYear: number,
-  focus: string,
-  degree: Degree
-}
-
-enum Degree {
-  highschool,
-  ms,
-  ma,
-  md,
-  phd,
-}
-
-type WorkExperience = {
-  organizationName: string,
-  startYear: number,
-  endYear: number,
-  title: string
-}
-
 export default User
