@@ -13,7 +13,7 @@ const Settings = (props) => {
                 </View>
                 <Button title="Edit Profile" onPress={() => props.navigation.navigate("EditProfile")} />
                 <Button title="Visibility Preferences" onPress={() => props.navigation.navigate("VisibilityPreferences")} />
-                <Button title="Account" onPress={() => props.navigation.navigate("Account", { dispatch: props.route.params.dispatch })} />
+                <Button title="Account" onPress={() => props.navigation.navigate("Account")} />
             </View>
         </>
     );

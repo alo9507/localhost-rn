@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import PhoneNumber from "../Authentication/PhoneNumberSignUp";
-import OnboardingConfirmPhoneNumber from "../Authentication/ConfirmPhoneNumber";
+import ConfirmPhoneNumber from "../Authentication/ConfirmPhoneNumber";
 import OnboardingLocation from "./OnboardingLocation";
 import OnboardingName from "./OnboardingName";
+import StoreContext from "../../store/StoreContext"
 
 const slides = [
     {
@@ -58,23 +59,25 @@ const styles = StyleSheet.create({
 });
 
 const Onboarding = (props) => {
+    const [appState, setAppState] = useContext(StoreContext)
+
     const renderItem = ({ item }) => {
         switch (item.onboardingStep) {
             case "phonenumber":
                 return <PhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "confirmPhonenumber":
-                return <OnboardingConfirmPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+                return <ConfirmPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
                 return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "location":
-                return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} startHosting={() => props.route.params.dispatch({ type: "IS_AUTHENTICATED" })} />
+                return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} startHosting={() => appState.dispatch({ type: "IS_AUTHENTICATED" })} />
             default:
                 throw Error("No onboarding screen")
         }
     };
 
     const onDone = () => {
-        props.route.params.dispatch({ type: "IS_AUTHENTICATED" });
+        appState.dispatch({ type: "IS_AUTHENTICATED" });
     };
 
     const keyExtractor = (item) => item.title;

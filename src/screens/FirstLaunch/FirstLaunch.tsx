@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { Text, View, SafeAreaView, Image, StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import FirstLaunchScreen from "./FirstLaunchScreen"
+import StoreContext from "../../store/StoreContext"
 
 const slides = [
     {
@@ -35,6 +36,8 @@ const slides = [
 ];
 
 const FirstLaunch = (props) => {
+    const [appState, setAppState] = useContext(StoreContext)
+
     const renderItem = ({ item }) => {
         switch (item.key) {
             case "one":
@@ -44,14 +47,14 @@ const FirstLaunch = (props) => {
             case "three":
                 return <FirstLaunchScreen item={item} startHosting={false} />
             case "four":
-                return <FirstLaunchScreen item={item} startHosting={true} dispatch={props.route.params.dispatch} />
+                return <FirstLaunchScreen item={item} startHosting={true} />
             default:
                 throw Error("No first launch screen")
         }
     };
 
     const onDone = () => {
-        props.route.params.dispatch({ type: "IS_ONBOARDING" });
+        appState.dispatch({ type: "IS_ONBOARDING" });
     };
 
     const keyExtractor = (item) => item.title;

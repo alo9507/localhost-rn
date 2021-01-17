@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
+import StoreContext from "../../store/StoreContext"
 
 const FirstLaunchScreen = (props) => {
+    const [appState, setAppState] = useContext(StoreContext)
     const { item, startHosting } = props
     const bgStyle = { backgroundColor: item.backgroundColor }
 

@@ -18,7 +18,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) =>
             const authSession = await appState.authManager.respondToAuthChallenge(appState.phoneNumber, formState.code, appState.session)
             const user = await appState.userRepository.getUser(authSession.userId)
             setAppState({ type: "UPDATE_USER", payload: user })
-            route.params.dispatch({ type: "IS_AUTHENTICATED" })
+            appState.dispatch({ type: "IS_AUTHENTICATED" })
         } catch (e) {
             console.log(e)
             setSubmissionError(e)

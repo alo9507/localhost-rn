@@ -13,7 +13,7 @@ const Landing = (props) => {
     <>
       <Container>
         <Logo>localhost</Logo>
-        <CreateAccountButton title="Sign Up" onPress={() => props.route.params.dispatch({ type: "IS_ONBOARDING" })} />
+        <CreateAccountButton title="Sign Up" onPress={() => appState.dispatch({ type: "IS_ONBOARDING" })} />
         <SignInButton title="Sign In" onPress={signIn} />
       </Container>
     </>
