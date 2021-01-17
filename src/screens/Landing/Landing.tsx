@@ -6,7 +6,7 @@ const Landing = (props) => {
   const [appState, setAppState] = React.useContext(StoreContext);
 
   async function signIn() {
-    props.navigation.navigate("SignIn")
+    props.navigation.navigate("PhoneNumber", { isSignIn: true })
   }
 
   return (

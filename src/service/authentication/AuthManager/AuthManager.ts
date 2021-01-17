@@ -8,6 +8,7 @@ interface AuthManager {
     signUp(email: string, password: string): Promise<AuthSession>
     confirmSignUp(username: string, code: string): Promise<AuthSession>
     resendConfirmationCode(username: string): Promise<boolean>
+    respondToAuthChallenge(username: string, code: string, session: string): Promise<AuthSession>
     signIn(email: string, password: string): Promise<AuthSession>
     signOut(accessToken: string): Promise<boolean>
     changePassword(oldPassword: string, newPassword: string): Promise<boolean>

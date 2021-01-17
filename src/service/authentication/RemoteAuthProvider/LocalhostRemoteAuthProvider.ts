@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http"
 
-import { SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER, CONFIRM_SIGN_UP, RESEND_CONFIRMATION_CODE } from "./mutations"
+import { RESPOND_TO_AUTH_CHALLENGE, SIGN_IN_USER, SIGN_OUT_USER, SIGN_UP_USER, CONFIRM_SIGN_UP, RESEND_CONFIRMATION_CODE } from "./mutations"
 
 const env = require("../../../../env.json")
 
@@ -39,13 +39,29 @@ class LocalhostRemoteAuthProvider implements RemoteAuthProvider {
   signIn(phoneNumber: string, password: string): Promise<AuthSession> {
     let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
       try {
-        console.log(this.authApiUrl)
         const result = await this.client.mutate({
           mutation: SIGN_IN_USER,
           variables: { input: { username: phoneNumber, password: password } },
         });
 
-        const authSession = result.data.signIn
+        resolve(result.data.signIn);
+      } catch (e) {
+        reject(determineErrorType(e))
+      }
+    })
+    return promise
+  }
+
+  respondToAuthChallenge(username: string, code: string, session: string): Promise<AuthSession> {
+    let promise: Promise<AuthSession> = new Promise(async (resolve, reject) => {
+      try {
+        console.log(this.authApiUrl)
+        const result = await this.client.mutate({
+          mutation: RESPOND_TO_AUTH_CHALLENGE,
+          variables: { input: { username, code, session } },
+        });
+
+        const authSession = result.data.respondToAuthChallenge
 
         resolve(new AuthSession(authSession.userId, authSession.accessToken, authSession.userVerified));
       } catch (e) {

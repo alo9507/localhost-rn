@@ -16,6 +16,11 @@ const StoreProvider = ({ children }) => {
             ...prevState, user: { ...prevState.user, ...action.payload }
           };
           return newState;
+        case 'SET_MFA_SESSION':
+          const mfaState = {
+            ...prevState, session: action.payload.session, phoneNumber: action.payload.phoneNumber
+          };
+          return mfaState;
         default:
           throw new Error('Unsupported action type: ', action.type);
       }

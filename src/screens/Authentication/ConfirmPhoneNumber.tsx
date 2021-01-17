@@ -1,12 +1,12 @@
 import React, { useContext, useState, useReducer } from "react"
 import { Button, View } from "react-native";
-import styles from "./OnboardingStyle"
+import styles from "../Onboarding/OnboardingStyle"
 import styled from "styled-components/native";
 
 import StoreContext from "../../store/StoreContext";
-import OnboardingForm from "./OnboardingForm"
+import OnboardingForm from "../Onboarding/OnboardingForm"
 
-const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
+const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) => {
     const [appState, setAppState] = useContext(StoreContext);
     const [formState, setFormState] = useState({ code: "" });
 
@@ -14,9 +14,11 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
 
     async function submitAndGoToNext() {
         try {
-            const authSession = await appState.authManager.confirmSignUp(appState.user.phoneNumber, formState.code)
-            setAppState({ type: "UPDATE_USER", payload: { id: authSession.userId } })
-            goToNext(slideNumber)
+            console.log("appState.session", appState.session)
+            const authSession = await appState.authManager.respondToAuthChallenge(appState.phoneNumber, formState.code, appState.session)
+            const user = await appState.userRepository.getUser(authSession.userId)
+            setAppState({ type: "UPDATE_USER", payload: user })
+            route.params.dispatch({ type: "IS_AUTHENTICATED" })
         } catch (e) {
             console.log(e)
             setSubmissionError(e)
@@ -37,7 +39,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber }) => {
         }
     ]
 
-    const bgStyle = { backgroundColor: item.backgroundColor }
+    const bgStyle = { backgroundColor: item?.backgroundColor }
 
     const resendConfirmationCode = async () => {
         const success = await appState.authManager.resendConfirmationCode(appState.user.phoneNumber)

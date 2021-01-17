@@ -32,6 +32,7 @@ function SettingsStackNavigator({ dispatch }) {
                 name="Account"
                 component={AccountStackNavigator}
                 options={{ animationEnabled: true, headerShown: false }}
+                initialParams={{ dispatch }}
             />
         </SettingsStack.Navigator>
     )

@@ -2,7 +2,7 @@ import AuthError from "../AuthError"
 
 export const determineErrorType = (error) => {
     let errorMessage = error.message.match(/"([^']+)"/)[1];
-
+    console.log(error)
     let parsedError;
     if (errorMessage.indexOf(':') !== -1) {
         parsedError = errorMessage.split(':')[0];

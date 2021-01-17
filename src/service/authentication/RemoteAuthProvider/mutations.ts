@@ -12,6 +12,14 @@ mutation SignUpUser($input: SignUpInput!) {
 export const SIGN_IN_USER = gql`
 mutation SignInUser($input: SignInInput!) {
     signIn(input: $input) {
+        session
+        success
+    }
+}`
+
+export const RESPOND_TO_AUTH_CHALLENGE = gql`
+mutation RespondToAuthChallenge($input: RespondToAuthChallengeInput!) {
+    respondToAuthChallenge(input: $input) {
         userId
         accessToken
         userVerified

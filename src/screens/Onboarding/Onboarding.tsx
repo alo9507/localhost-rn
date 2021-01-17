@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { StyleSheet } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
-import OnboardingPhoneNumber from "./OnboardingPhoneNumber";
-import OnboardingConfirmPhoneNumber from "./OnboardingConfirmPhoneNumber";
+import PhoneNumber from "../Authentication/PhoneNumberSignUp";
+import OnboardingConfirmPhoneNumber from "../Authentication/ConfirmPhoneNumber";
 import OnboardingLocation from "./OnboardingLocation";
 import OnboardingName from "./OnboardingName";
 
@@ -61,7 +61,7 @@ const Onboarding = (props) => {
     const renderItem = ({ item }) => {
         switch (item.onboardingStep) {
             case "phonenumber":
-                return <OnboardingPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+                return <PhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "confirmPhonenumber":
                 return <OnboardingConfirmPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
