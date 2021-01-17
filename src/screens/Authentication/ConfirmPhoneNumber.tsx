@@ -42,7 +42,7 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) =>
     const bgStyle = { backgroundColor: item?.backgroundColor }
 
     const resendConfirmationCode = async () => {
-        const success = await appState.authManager.resendConfirmationCode(appState.user.phoneNumber)
+        const success = await appState.authManager.resendConfirmationCode(appState.phoneNumber)
         console.log(success)
     }
 
