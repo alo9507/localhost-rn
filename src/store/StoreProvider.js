@@ -21,6 +21,11 @@ const StoreProvider = ({ children }) => {
             ...prevState, session: action.payload.session, phoneNumber: action.payload.phoneNumber
           };
           return mfaState;
+        case 'GLOBAL_DISPATCH':
+          const dispatchState = {
+            ...prevState, dispatch: action.payload
+          };
+          return dispatchState;
         default:
           throw new Error('Unsupported action type: ', action.type);
       }

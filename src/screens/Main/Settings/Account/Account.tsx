@@ -7,7 +7,7 @@ const Account = (props) => {
     console.log(props)
     async function signOut() {
         let authResult = await appState.authManager.signOut(appState.authManager.authSession.accessToken)
-        props.route.params.dispatch({ type: "IS_NOT_AUTHENTICATED" })
+        appState.dispatch({ type: "IS_NOT_AUTHENTICATED" })
     }
 
     return (

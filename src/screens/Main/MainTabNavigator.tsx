@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ChatStackNavigator from "./Chat/ChatStackNavigator";
 import ExploreStack from "./Explore/ExploreStack"
-import SettingsStackNavigator from "./Settings/SettingsStack"
+import SettingsStackNavigator from "./Settings/SettingsStackNavigator"
 import NodsStackNavigator from "./Nods/NodsStackNavigator";
 
 const BottomTabNavigator = createBottomTabNavigator();

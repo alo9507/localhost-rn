@@ -63,6 +63,10 @@ const Root = () => {
         }
     );
 
+    useEffect(() => {
+        setAppState({ type: "GLOBAL_DISPATCH", payload: dispatch })
+    }, [])
+
     const determineFirstLaunch = async () => {
         const isFirstLaunch = await appState.firstLaunchService.isFirstLaunch()
         return isFirstLaunch
