@@ -10,6 +10,7 @@ const Work = (props) => {
     const [workExperience, setWorkExperience] = useContext(WorkContext)
 
     console.log("userid", editProfileState.id)
+    console.log("workExperience", workExperience)
 
     useLayoutEffect(() => {
         props.navigation.setOptions({

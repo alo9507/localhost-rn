@@ -17,7 +17,7 @@ const WorkInputGroup = (props) => {
     let updatedWorkExperience = [...allWorkExperience]
     updatedWorkExperience[index] = formState
     console.log("updatedWorkExperience", updatedWorkExperience)
-    setWorkExperience(updatedWorkExperience)
+    setWorkExperience({ type: "UPDATE_WORK_EXPERIENCE", payload: updatedWorkExperience })
     console.log("allWorkExperience", allWorkExperience)
   }
 
