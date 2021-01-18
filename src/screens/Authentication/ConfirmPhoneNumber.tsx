@@ -17,7 +17,6 @@ const OnboardingConfirmPhoneNumber = ({ item, goToNext, slideNumber, route }) =>
 
     async function submitAndGoToNext() {
         try {
-            console.log("appState.session", appState.session)
             const authSession = await appState.authManager.respondToAuthChallenge(appState.phoneNumber, formState.code, appState.session)
             const user = await appState.userRepository.getUser(authSession.userId)
             updateCurrentUser(user)

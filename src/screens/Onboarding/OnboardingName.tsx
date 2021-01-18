@@ -13,7 +13,7 @@ const OnboardingName = ({ item, goToNext, slideNumber }) => {
 
     async function submitAndGoToNext() {
         try {
-            const user = await ({ id: currentUser.id, ...formState })
+            const user = await appState.userRepository.updateUser({ id: currentUser.id, ...formState })
             setCurrentUser(user)
             goToNext(slideNumber)
         } catch (e) {

@@ -71,7 +71,7 @@ const Explore = (props) => {
     return selected
   }
 
-  const [location, setLocation] = useState({ latitude: 24.223008280105784, longitude: 23.135728247934946 });
+  const [location, setLocation] = useState({ latitude: 24.22244098031902, longitude: 23.125367053780863 });
   const [sex, setSex] = useState(selectedSex())
   const [formState, setFormState] = useState({ whatAmIDoing: currentUser.whatAmIDoing });
 
