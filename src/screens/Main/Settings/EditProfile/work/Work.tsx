@@ -38,6 +38,7 @@ const Work = (props) => {
 
         if (workExperience === null) {
             updatedWorkExperience = []
+            updatedWorkExperience = [newWorkExperience]
         } else {
             updatedWorkExperience = [...workExperience, newWorkExperience]
         }

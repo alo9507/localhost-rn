@@ -6,6 +6,7 @@ import YouAreInvisible from "./YouAreInvisible"
 import NoUsers from "./NoUsers"
 import styled from "styled-components/native"; "../../../Authentication/Landing/node_modules/styled-components/native";
 import useCurrentUser from "../../../../hooks/useCurrentUser"
+import ExploreUsers from "../Animation/ExploreUsers"
 
 const Explore = (props) => {
   const [appState, _] = useContext(StoreContext);
@@ -58,7 +59,6 @@ const Explore = (props) => {
   );
 
   const selectedSex = () => {
-    console.log(currentUser)
     const sexcriteria = currentUser.showMeCriteria.sex
     let selected = 0
     if (sexcriteria.includes("male") && sexcriteria.includes("female")) {
@@ -123,9 +123,10 @@ const Explore = (props) => {
         sexArray = ['female']
         break;
     }
+
     await appState.userRepository.updateShowMeCriteria({ id: currentUser.id, sex: sexArray })
     setSex(selectedIndex)
-    updateCurrentUser({ showMeCriteria: { sex: sexArray } })
+    updateCurrentUser({ id: currentUser.id, showMeCriteria: { sex: sexArray, age: currentUser.showMeCriteria.age } })
   }
 
   useEffect(() => {
@@ -136,6 +137,8 @@ const Explore = (props) => {
     await appState.userRepository.updateUser({ id: currentUser.id, ...formState })
     updateCurrentUser({ ...formState })
   }
+
+  if (true) return <ExploreUsers />
 
   if (state.loading) return <Text>"Loading..."</Text>
   if (state.error) return `Error! ${state.error}`;
@@ -166,9 +169,11 @@ const Explore = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <View style={styles.profileImgContainer}>
-          <Image source={{ uri: currentUser.profileImageUrl }} style={styles.profileImg} />
-        </View>
+        <TouchableHighlight onPress={(e) => props.navigation.navigate("UserProfile", { user: currentUser })}>
+          <View style={styles.profileImgContainer}>
+            <Image source={{ uri: currentUser.profileImageUrl }} style={styles.profileImg} />
+          </View>
+        </TouchableHighlight>
         <>
           <Text>{formState.whatAmIDoing}</Text>
           <Container>
@@ -199,7 +204,7 @@ const Explore = (props) => {
         <Text>{JSON.stringify(currentUser.showMeCriteria)}</Text>
       </View>
       {state.noUsers && <NoUsers />}
-      <FlatList
+      <LocalUsers
         data={state.users}
         renderItem={renderItem}
         keyExtractor={item => item.id}
@@ -236,5 +241,10 @@ const Container = styled.View`
   justify-content: center;
   padding: 20px;
 `;
+
+const LocalUsers = styled.FlatList`
+  margin: auto;
+  margin-top: 190px;
+`
 
 export default Explore;

@@ -176,6 +176,7 @@ class GraphQLUserRepository implements UserRepository {
           mutation: UPDATE_USER,
           variables: { input }
         });
+        console.log("in resolver", result.data.updateUser)
         resolve(result.data.updateUser);
       } catch (e) {
         reject(e);

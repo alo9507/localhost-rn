@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Image, Button, StyleSheet } from "react-native";
+import useCurrentUser from "../../../hooks/useCurrentUser";
 import StoreContext from "../../../store/StoreContext";
 
 const UserProfile = (props) => {
@@ -8,11 +9,12 @@ const UserProfile = (props) => {
     const isNod = props.route.params.isNod
 
     const [appState, setAppState] = React.useContext(StoreContext);
+    const [currentUser, updateCurrentUser] = useCurrentUser()
 
     const sendNod = async () => {
         if (isNod) {
             appState.userRepository.returnNod({
-                from: appState.user.id,
+                from: currentUser.id,
                 to: user.id,
                 message: "nice ass bitch",
                 latitude: 21.3,
@@ -20,7 +22,7 @@ const UserProfile = (props) => {
             })
         } else {
             appState.userRepository.sendNod({
-                from: appState.user.id,
+                from: currentUser.id,
                 to: user.id,
                 message: "nice ass bitch",
                 latitude: 21.3,
@@ -31,7 +33,7 @@ const UserProfile = (props) => {
 
     const report = async () => {
         appState.userRepository.report({
-            from: appState.user.id,
+            from: currentUser.id,
             to: user.id,
             message: "nice ass bitch",
             reason: "Compton",
@@ -40,7 +42,7 @@ const UserProfile = (props) => {
 
     const unmatch = async () => {
         appState.userRepository.unmatch({
-            from: appState.user.id,
+            from: currentUser.id,
             to: user.id,
             message: "nice ass bitch",
             reason: "Compton"
@@ -49,21 +51,20 @@ const UserProfile = (props) => {
 
     const becomeInvisibleTo = async () => {
         appState.userRepository.becomeInvisibleTo({
-            from: appState.user.id,
+            from: currentUser.id,
             to: user.id
         })
     }
 
     const becomeVisibleTo = async () => {
         appState.userRepository.becomeVisibleTo({
-            from: appState.user.id,
+            from: currentUser.id,
             to: user.id
         })
     }
 
     const renderWorkExperience = () => {
         return user.workExperience?.map((workExperience, index) => {
-            console.log(workExperience)
             return (
                 <View key={index} >
                     <Text>ogranizationName: {workExperience.organizationName}</Text>

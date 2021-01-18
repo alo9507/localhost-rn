@@ -33,10 +33,8 @@ const Nods = (props) => {
                         ...prevState, error: action.payload, loading: false
                     };
                 case 'NOD_SEEN':
-                    console.log(prevState.userWithNods)
                     let usersWithNodsClone = [...prevState.userWithNods]
                     const index = usersWithNodsClone.findIndex(element => element.user.id === action.payload.user.id);
-                    console.log(usersWithNodsClone[index].nod)
                     usersWithNodsClone[index] = { user: usersWithNodsClone[index].user, nod: { ...usersWithNodsClone[index].nod, seen: true } }
                     return {
                         ...prevState, userWithNods: usersWithNodsClone

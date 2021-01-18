@@ -38,9 +38,11 @@ const EducationForm = (props) => {
 
         if (education === null) {
             updatedEducation = []
+            updatedEducation = [newEduation]
         } else {
             updatedEducation = [...education, newEduation]
         }
+        console.log(updatedEducation)
 
         setEducation({ type: "UPDATE_EDUCATION", payload: updatedEducation })
     }
