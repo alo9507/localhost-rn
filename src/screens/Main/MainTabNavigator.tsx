@@ -9,7 +9,7 @@ import NodsStackNavigator from "./Nods/NodsStackNavigator";
 const BottomTabNavigator = createBottomTabNavigator();
 function MainTabNavigator({ dispatch }) {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Settings">
+        <BottomTabNavigator.Navigator initialRouteName="Explore">
             <BottomTabNavigator.Screen name="Explore" component={ExploreStack} />
             <BottomTabNavigator.Screen name="Nods" component={NodsStackNavigator} />
             <BottomTabNavigator.Screen name="Chat" component={ChatStackNavigator} />

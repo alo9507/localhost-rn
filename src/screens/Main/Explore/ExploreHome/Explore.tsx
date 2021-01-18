@@ -80,7 +80,7 @@ const Explore = (props) => {
   }
 
   const toggleSwitch = async () => {
-    const user = await appState.userRepository.updateUser({ id: appState.user.id, isVisible: !state.isVisible })
+    const user = await appState.userRepository.updateUser({ id: currentUser.id, isVisible: !state.isVisible })
     dispatch({ type: "CHANGE_VISIBILITY", payload: user.isVisible })
   }
 
@@ -95,7 +95,7 @@ const Explore = (props) => {
     async function getUsers() {
       if (!state.isVisible) { return }
       try {
-        const users = await appState.userRepository.updateLocationGetUsers({ id: appState.user.id, ...location })
+        const users = await appState.userRepository.updateLocationGetUsers({ id: currentUser.id, ...location })
 
         if (users.length === 0) {
           dispatch({ type: "NO_LOCAL_USERS" })
@@ -123,17 +123,17 @@ const Explore = (props) => {
         sexArray = ['female']
         break;
     }
-    await appState.userRepository.updateShowMeCriteria({ id: appState.user.id, sex: sexArray })
+    await appState.userRepository.updateShowMeCriteria({ id: currentUser.id, sex: sexArray })
     setSex(selectedIndex)
     updateCurrentUser({ showMeCriteria: { sex: sexArray } })
   }
 
   useEffect(() => {
-    props.navigation.setOptions({ title: appState.user?.name ? appState.user.firstname : "No Name" });
+    props.navigation.setOptions({ title: currentUser?.name ? currentUser.firstname : "No Name" });
   }, [])
 
   async function submitWhatAmIDoing() {
-    await appState.userRepository.updateUser({ id: appState.user.id, ...formState })
+    await appState.userRepository.updateUser({ id: currentUser.id, ...formState })
     updateCurrentUser({ ...formState })
   }
 
@@ -167,7 +167,7 @@ const Explore = (props) => {
     <View style={styles.container}>
       <View style={styles.container}>
         <View style={styles.profileImgContainer}>
-          <Image source={{ uri: appState.user.profileImageUrl }} style={styles.profileImg} />
+          <Image source={{ uri: currentUser.profileImageUrl }} style={styles.profileImg} />
         </View>
         <>
           <Text>{formState.whatAmIDoing}</Text>
@@ -195,8 +195,8 @@ const Explore = (props) => {
           onValueChange={toggleSwitch}
           value={state.isVisible}
         />
-        <Text>VISIBILITY CONTROLS: AGE: {appState.user.showMeCriteria.age[0]} / {appState.user.showMeCriteria.age[1]} SEX: {appState.user.showMeCriteria.sex}</Text>
-        <Text>{JSON.stringify(appState.user.showMeCriteria)}</Text>
+        <Text>VISIBILITY CONTROLS: AGE: {currentUser.showMeCriteria.age[0]} / {currentUser.showMeCriteria.age[1]} SEX: {currentUser.showMeCriteria.sex}</Text>
+        <Text>{JSON.stringify(currentUser.showMeCriteria)}</Text>
       </View>
       {state.noUsers && <NoUsers />}
       <FlatList
@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
   userName: { fontSize: 18 },
   profileImgContainer: {
     margin: "auto",
+    marginTop: "100px"
   },
   profileImg: {
     height: 80,

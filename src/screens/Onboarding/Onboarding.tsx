@@ -6,16 +6,18 @@ import ConfirmPhoneNumber from "../Authentication/ConfirmPhoneNumber";
 import OnboardingLocation from "./OnboardingLocation";
 import OnboardingName from "./OnboardingName";
 import StoreContext from "../../store/StoreContext"
+import OnboardingSex from "./OnboardingSex";
+import OnboardingAge from "./OnboardingAge"
 
 const slides = [
     {
-        key: 'one',
+        key: 'zero',
         slideNumber: 0,
         onboardingStep: "phonenumber",
         backgroundColor: '#FFFACC',
     },
     {
-        key: 'key',
+        key: 'one',
         slideNumber: 1,
         onboardingStep: "confirmPhonenumber",
         backgroundColor: '#FFFACC',
@@ -29,6 +31,18 @@ const slides = [
     {
         key: 'three',
         slideNumber: 3,
+        onboardingStep: "sex",
+        backgroundColor: '#FFFACC',
+    },
+    {
+        key: 'foure',
+        slideNumber: 4,
+        onboardingStep: "age",
+        backgroundColor: '#FFFACC',
+    },
+    {
+        key: 'five',
+        slideNumber: 5,
         onboardingStep: "location",
         backgroundColor: '#FFFACC',
     }
@@ -69,6 +83,10 @@ const Onboarding = (props) => {
                 return <ConfirmPhoneNumber item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "name":
                 return <OnboardingName item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+            case "sex":
+                return <OnboardingSex item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
+            case "age":
+                return <OnboardingAge item={item} goToNext={goToNext} slideNumber={item.slideNumber} />
             case "location":
                 return <OnboardingLocation item={item} goToNext={goToNext} slideNumber={item.slideNumber} startHosting={() => appState.dispatch({ type: "IS_AUTHENTICATED" })} />
             default:
